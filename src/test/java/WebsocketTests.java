@@ -3,6 +3,7 @@ import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.OrderbookListener;
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.PingListener;
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.TickerListener;
 import dev.alphaserpentis.web3.aevo4j.data.request.WebSocketOperations;
+import dev.alphaserpentis.web3.aevo4j.data.response.common.Orderbook;
 import dev.alphaserpentis.web3.aevo4j.handler.AevoHandler;
 import okhttp3.WebSocket;
 
@@ -27,6 +28,7 @@ public class WebsocketTests {
             WebsocketTests::test_PublishPing,
             WebsocketTests::test_SubscribedOrderbook,
             WebsocketTests::test_SubscribedOrderbookFiltered,
+            WebsocketTests::test_SubscribedOrderbookChecksum,
             WebsocketTests::test_SubscribedTicker,
             WebsocketTests::test_SubscribedIndex,
             WebsocketTests::test_SubscribedTrades,
@@ -116,6 +118,34 @@ public class WebsocketTests {
 
         listener.responseFlowable().subscribe(
                 System.out::println,
+                error -> System.out.println("Error: " + error.getMessage()),
+                () -> System.out.println("onComplete() called")
+        );
+
+        return ws;
+    }
+
+    public static WebSocket test_SubscribedOrderbookChecksum() {
+        OrderbookListener listener = new OrderbookListener();
+        WebSocket ws = AevoHandler.getWebsocketWithRequests(
+                WebSocketOperations.SUBSCRIBE,
+                new String[]{"orderbook:ETH-PERP", "orderbook:BTC-PERP", "orderbook:BNB-PERP"},
+                listener
+        );
+
+        listener.responseFlowable().subscribe(
+                orderbookData -> {
+                    String genChecksum = Orderbook.generateChecksum(
+                            orderbookData.getData().getBids(),
+                            orderbookData.getData().getAsks()
+                    );
+                    String apiChecksum = orderbookData.getData().getChecksum();
+
+                    System.out.printf(
+                            "Generated checksum: %s\nAPI checksum: %s\nMatched: %s\n\n",
+                            genChecksum, apiChecksum, genChecksum.equals(apiChecksum)
+                    );
+                },
                 error -> System.out.println("Error: " + error.getMessage()),
                 () -> System.out.println("onComplete() called")
         );

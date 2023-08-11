@@ -1,14 +1,14 @@
 # Aevo4J
 
------------------
-
 ## What is Aevo4J?
-Aevo4J is an unofficial implementation of Aevo's REST APIs and WebSockets in Java.
+Aevo4J is an unofficial implementation of [Aevo's](https://aevo.xyz) REST APIs and WebSockets in Java.
 
 ## What is Supported?
 REST APIs and WebSockets are currently supported, but private operations may be incomplete at the moment.
 
 ## How Do I Use Aevo4J?
+**Note**: Aevo4J requires Java 17 or higher!
+
 Currently, you don't need an API key to use the Public Operations. Private Operations will require an API key to utilize.
 
 ### Importing from Maven or Gradle (not actually available yet)
@@ -61,3 +61,10 @@ To obtain the needed websockets, refer to this table below:
 
 #### Subscribing to a Websocket
 
+## Dependencies
+- [Gson](https://github.com/google/gson)
+- [RxJava3](https://github.com/ReactiveX/RxJava)
+- [OkHttp3](https://github.com/square/okhttp)
+- [Retrofit](https://github.com/square/retrofit)
+  - Retrofit Adapter RxJava3
+  - Retrofit Converter Gson

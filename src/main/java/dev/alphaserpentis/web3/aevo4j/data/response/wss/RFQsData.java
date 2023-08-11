@@ -4,6 +4,12 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Arrays;
 
+/**
+ * Data returned from the RFQs channel
+ *
+ * @see dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.RFQsListener
+ * @see <a href="https://docs.aevo.xyz/reference/subscribe-rfqs">Aevo - SUBSCRIBE RFQs</a>
+ */
 public class RFQsData extends Response<RFQsData.Data> {
 
     public static class Data {

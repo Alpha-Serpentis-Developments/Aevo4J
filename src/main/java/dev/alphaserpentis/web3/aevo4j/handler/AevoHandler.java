@@ -25,7 +25,9 @@ import java.util.Objects;
  */
 public class AevoHandler {
     public static final String REST_API_URL = "https://api.aevo.xyz/";
+    public static final String REST_API_URL_TESTNET = "https://api-testnet.aevo.xyz/";
     public static final String WS_API_URL = "wss://ws.aevo.xyz/";
+    public static final String WS_API_URL_TESTNET = "wss://ws-testnet.aevo.xyz/";
 
     /**
      * Get the default {@link Retrofit} instance using RxJava3 and Gson.

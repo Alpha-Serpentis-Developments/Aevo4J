@@ -27,6 +27,12 @@
         </developer>
     </developers>
 
+    <scm>
+        <connection>scm:git:git://github.com/Alpha-Serpentis-Developments/Aevo4J</connection>
+        <developerConnection>scm:git:ssh:git@github.com:Alpha-Serpentis-Developments/Aevo4J</developerConnection>
+        <url>https://github.com/Alpha-Serpentis-Developments/Aevo4J/tree/main</url>
+    </scm>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>

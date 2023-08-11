@@ -2,6 +2,12 @@ package dev.alphaserpentis.web3.aevo4j.data.response.wss;
 
 import dev.alphaserpentis.web3.aevo4j.data.response.common.Trade;
 
+/**
+ * Data returned from the trades channel
+ *
+ * @see dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.TradesListener
+ * @see <a href="https://docs.aevo.xyz/reference/subcribe-trades">Aevo - SUBSCRIBE Trades</a>
+ */
 public class TradesData extends Response<Trade> {
 
     @Override

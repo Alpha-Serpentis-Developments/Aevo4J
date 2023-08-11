@@ -2,6 +2,9 @@ package dev.alphaserpentis.web3.aevo4j.data.response.rest;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * @see <a href="https://docs.aevo.xyz/reference/rate-limits-1#rate-limits-on-rest-api">Aevo - Rate Limits on REST API</a>
+ */
 public class AevoRestAPIError {
     @SerializedName("error")
     private String error;

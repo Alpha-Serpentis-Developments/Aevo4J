@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Base class for all responses from the websocket
- * @param <T>
+ * @param <T> The type of data returned by the response
  */
 public abstract class Response<T> {
     @SerializedName("id")
@@ -17,6 +17,7 @@ public abstract class Response<T> {
     public String getId() {
         return id;
     }
+
     public String getChannel() {
         return channel;
     }

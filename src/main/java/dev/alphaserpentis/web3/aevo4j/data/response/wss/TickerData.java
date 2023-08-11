@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Arrays;
 
 /**
- * Subscribe to the ticker channel.
- *
+ * Data returned from the ticker channel
+ * @see dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.TickerListener
  * @see <a href="https://docs.aevo.xyz/reference/sub-ticker">Aevo - SUBSCRIBE Ticker</a>
  */
 public class TickerData extends Response<TickerData.Data> {
