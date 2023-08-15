@@ -3,12 +3,8 @@ package dev.alphaserpentis.web3.aevo4j.handler;
 import com.google.gson.GsonBuilder;
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.rest.PublicEndpoints;
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.AevoListener;
-import dev.alphaserpentis.web3.aevo4j.data.request.ChannelName;
-import dev.alphaserpentis.web3.aevo4j.data.request.WebSocketOperations;
-import dev.alphaserpentis.web3.aevo4j.data.request.WebSocketRequest;
 import dev.alphaserpentis.web3.aevo4j.services.PublicService;
 import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.annotations.Nullable;
 import okhttp3.OkHttpClient;
 import okhttp3.WebSocket;
 import retrofit2.CallAdapter;
@@ -16,9 +12,6 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * Static class containing methods to utilize Aevo's REST API or Websockets.
@@ -33,9 +26,9 @@ public class AevoHandler {
      * Get the default {@link Retrofit} instance using RxJava3 and Gson.
      * @return {@link Retrofit}
      */
-    public static Retrofit defaultRetrofit() {
+    public static Retrofit defaultRetrofit(boolean isTestnet) {
         return getCustomRetrofit(
-                getDefaultRetrofitBuilder(),
+                getDefaultRetrofitBuilder(isTestnet),
                 RxJava3CallAdapterFactory.create(),
                 GsonConverterFactory.create(
                         new GsonBuilder()
@@ -62,70 +55,25 @@ public class AevoHandler {
                 .build();
     }
 
-    public static Retrofit.Builder getDefaultRetrofitBuilder() {
+    public static Retrofit.Builder getDefaultRetrofitBuilder(boolean isTestnet) {
         return new Retrofit.Builder()
-                .baseUrl(REST_API_URL);
+                .baseUrl(isTestnet ? REST_API_URL_TESTNET : REST_API_URL);
     }
 
     /**
      * Get a new {@link WebSocket} instance using the given {@link AevoListener}.
+     * <p>
+     * You might be looking for {@link AevoListener#openWebSocket(boolean)}
      * @param listener {@link AevoListener}
      * @return {@link WebSocket}
      */
-    public static WebSocket getWebsocket(@NonNull AevoListener<?> listener) {
+    public static WebSocket createNewWebSocket(@NonNull AevoListener<?> listener, boolean isTestnet) {
         return new OkHttpClient().newWebSocket(
                 new okhttp3.Request.Builder()
-                        .url(WS_API_URL)
+                        .url(isTestnet ? WS_API_URL_TESTNET : WS_API_URL)
                         .build(),
                 listener
         );
-    }
-
-    /**
-     * Get a new {@link WebSocket} instance using the given {@link AevoListener} and channel names, and send a request to it.
-     * @param channels An array of {@link String} to subscribe to
-     * @param listener {@link AevoListener}
-     * @return {@link WebSocket}
-     */
-    public static WebSocket getWebsocketWithRequests(
-            @NonNull WebSocketOperations operation,
-            @Nullable String[] channels,
-            @NonNull AevoListener<?> listener
-    ) {
-        WebSocket ws = getWebsocket(listener);
-        ChannelName[] channelNames = Arrays.stream(channels).filter(Objects::nonNull)
-                .map(ChannelName::parseStringIntoChannelName)
-                .toArray(ChannelName[]::new);
-        WebSocketRequest request = new WebSocketRequest(
-                operation,
-                channelNames
-        );
-
-        ws.send(request.toString());
-
-        return ws;
-    }
-
-    /**
-     * Get a new {@link WebSocket} instance using the given {@link AevoListener} and channel names, and send a request to it.
-     * @param channels An array of {@link ChannelName} to subscribe to
-     * @param listener {@link AevoListener}
-     * @return {@link WebSocket}
-     */
-    public static WebSocket getWebsocketWithRequests(
-            @NonNull WebSocketOperations operation,
-            @Nullable ChannelName[] channels,
-            @NonNull AevoListener<?> listener
-    ) {
-        WebSocket ws = getWebsocket(listener);
-        WebSocketRequest request = new WebSocketRequest(
-                operation,
-                channels
-        );
-
-        ws.send(request.toString());
-
-        return ws;
     }
 
     public static PublicService getPublicService(@NonNull Retrofit retrofit) {

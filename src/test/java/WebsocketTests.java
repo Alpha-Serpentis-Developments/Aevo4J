@@ -1,10 +1,12 @@
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.ChannelsListener;
+import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.IndexListener;
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.OrderbookListener;
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.PingListener;
+import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.RFQsListener;
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.TickerListener;
+import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.TradesListener;
 import dev.alphaserpentis.web3.aevo4j.data.request.WebSocketOperations;
 import dev.alphaserpentis.web3.aevo4j.data.response.common.Orderbook;
-import dev.alphaserpentis.web3.aevo4j.handler.AevoHandler;
 import okhttp3.WebSocket;
 
 import java.text.NumberFormat;
@@ -58,11 +60,9 @@ public class WebsocketTests {
     }
 
     public static WebSocket test_PublishChannels() {
-        ChannelsListener listener = new ChannelsListener();
-        WebSocket ws = AevoHandler.getWebsocketWithRequests(
+        ChannelsListener listener = new ChannelsListener(
                 WebSocketOperations.CHANNELS,
-                new String[]{},
-                listener
+                false
         );
 
         listener.responseFlowable().subscribe(
@@ -71,15 +71,12 @@ public class WebsocketTests {
                 () -> System.out.println("onComplete() called")
         );
 
-        return ws;
+        return listener.getWebSocket();
     }
 
     public static WebSocket test_PublishPing() {
-        PingListener listener = new PingListener();
-        WebSocket ws = AevoHandler.getWebsocketWithRequests(
-                WebSocketOperations.PING,
-                new String[]{},
-                listener
+        PingListener listener = new PingListener(
+                false
         );
 
         listener.responseFlowable().subscribe(
@@ -88,15 +85,15 @@ public class WebsocketTests {
                 () -> System.out.println("onComplete() called")
         );
 
-        return ws;
+        return listener.getWebSocket();
     }
 
     public static WebSocket test_SubscribedOrderbook() {
-        OrderbookListener listener = new OrderbookListener(OrderbookListener.Filter.NONE);
-        WebSocket ws = AevoHandler.getWebsocketWithRequests(
+        OrderbookListener listener = new OrderbookListener(
+                OrderbookListener.Filter.NONE,
                 WebSocketOperations.SUBSCRIBE,
-                new String[]{"orderbook:ETH-PERP"},
-                listener
+                false,
+                "orderbook:ETH-PERP"
         );
 
         listener.responseFlowable().subscribe(
@@ -105,15 +102,15 @@ public class WebsocketTests {
                 () -> System.out.println("onComplete() called")
         );
 
-        return ws;
+        return listener.getWebSocket();
     }
 
     public static WebSocket test_SubscribedOrderbookFiltered() {
-        OrderbookListener listener = new OrderbookListener(OrderbookListener.Filter.UPDATE);
-        WebSocket ws = AevoHandler.getWebsocketWithRequests(
+        OrderbookListener listener = new OrderbookListener(
+                OrderbookListener.Filter.UPDATE,
                 WebSocketOperations.SUBSCRIBE,
-                new String[]{"orderbook:ETH-PERP"},
-                listener
+                false,
+                "orderbook:ETH-PERP"
         );
 
         listener.responseFlowable().subscribe(
@@ -122,15 +119,15 @@ public class WebsocketTests {
                 () -> System.out.println("onComplete() called")
         );
 
-        return ws;
+        return listener.getWebSocket();
     }
 
     public static WebSocket test_SubscribedOrderbookChecksum() {
-        OrderbookListener listener = new OrderbookListener();
-        WebSocket ws = AevoHandler.getWebsocketWithRequests(
+        OrderbookListener listener = new OrderbookListener(
+                OrderbookListener.Filter.NONE,
                 WebSocketOperations.SUBSCRIBE,
-                new String[]{"orderbook:ETH-PERP", "orderbook:BTC-PERP", "orderbook:BNB-PERP"},
-                listener
+                false,
+                "orderbook:ETH-PERP", "orderbook:BTC-PERP", "orderbook:BNB-PERP"
         );
 
         listener.responseFlowable().subscribe(
@@ -150,18 +147,16 @@ public class WebsocketTests {
                 () -> System.out.println("onComplete() called")
         );
 
-        return ws;
+        return listener.getWebSocket();
     }
 
     public static WebSocket test_SubscribedTicker() {
-        TickerListener listener = new TickerListener();
-        WebSocket ws = AevoHandler.getWebsocketWithRequests(
-                WebSocketOperations.SUBSCRIBE,
-                new String[]{"ticker:SEI:PERPETUAL"},
-                listener
-        );
-
         final NumberFormat numberFormat = NumberFormat.getInstance();
+        TickerListener listener = new TickerListener(
+                WebSocketOperations.SUBSCRIBE,
+                false,
+                "ticker:SEI:PERPETUAL"
+        );
 
         listener.responseFlowable().subscribe(
                 tickerData -> Arrays.stream(tickerData.getData().getTickers()).forEach(
@@ -184,7 +179,7 @@ public class WebsocketTests {
                                     Name: %s
                                     Mark: $%s
                                     Spread: $%s
-                                    
+
                                     """,
                                     ticker.getInstrumentName(),
                                     ticker.getMark().getPrice(),
@@ -194,22 +189,54 @@ public class WebsocketTests {
                 )
         );
 
-        return ws;
+        return listener.getWebSocket();
     }
 
     public static WebSocket test_SubscribedIndex() {
-        // Your test code here
-        return null; // return WebSocket
+        IndexListener listener = new IndexListener(
+                WebSocketOperations.SUBSCRIBE,
+                false,
+                "index:ETH"
+        );
+
+        listener.responseFlowable().subscribe(
+                System.out::println,
+                error -> System.out.println("Error: " + error.getMessage()),
+                () -> System.out.println("onComplete() called")
+        );
+
+        return listener.getWebSocket();
     }
 
     public static WebSocket test_SubscribedTrades() {
-        // Your test code here
-        return null; // return WebSocket
+        TradesListener listener = new TradesListener(
+                WebSocketOperations.SUBSCRIBE,
+                false,
+                "trades:ETH"
+        );
+
+        listener.responseFlowable().subscribe(
+                System.out::println,
+                error -> System.out.println("Error: " + error.getMessage()),
+                () -> System.out.println("onComplete() called")
+        );
+
+        return listener.getWebSocket();
     }
 
     public static WebSocket test_SubscribedRFQs() {
-        // Your test code here
-        return null; // return WebSocket
+        RFQsListener listener = new RFQsListener(
+                WebSocketOperations.SUBSCRIBE,
+                false
+        );
+
+        listener.responseFlowable().subscribe(
+                System.out::println,
+                error -> System.out.println("Error: " + error.getMessage()),
+                () -> System.out.println("onComplete() called")
+        );
+
+        return listener.getWebSocket();
     }
 }
 

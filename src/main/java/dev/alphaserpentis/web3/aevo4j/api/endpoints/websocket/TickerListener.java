@@ -1,6 +1,9 @@
 package dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket;
 
+import dev.alphaserpentis.web3.aevo4j.data.request.ChannelName;
+import dev.alphaserpentis.web3.aevo4j.data.request.WebSocketOperations;
 import dev.alphaserpentis.web3.aevo4j.data.response.wss.TickerData;
+import io.reactivex.rxjava3.annotations.NonNull;
 
 /**
  * Get the ticker information when the top of the book changes
@@ -9,6 +12,22 @@ import dev.alphaserpentis.web3.aevo4j.data.response.wss.TickerData;
  */
 public class TickerListener extends AevoListener<TickerData> {
     public TickerListener() {
-        super(TickerData.class);
+        super(TickerData.class, ChannelName.Channels.TICKER);
+    }
+
+    public TickerListener(
+            @NonNull WebSocketOperations operations,
+            boolean isTestnet,
+            @NonNull String... channels
+    ) {
+        super(TickerData.class, ChannelName.Channels.TICKER, operations, isTestnet, channels);
+    }
+
+    public TickerListener(
+            @NonNull WebSocketOperations operations,
+            boolean isTestnet,
+            @NonNull ChannelName... channels
+    ) {
+        super(TickerData.class, ChannelName.Channels.TICKER, operations, isTestnet, channels);
     }
 }

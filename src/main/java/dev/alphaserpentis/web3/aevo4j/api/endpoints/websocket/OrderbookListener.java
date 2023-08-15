@@ -1,7 +1,10 @@
 package dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket;
 
+import dev.alphaserpentis.web3.aevo4j.data.request.ChannelName;
+import dev.alphaserpentis.web3.aevo4j.data.request.WebSocketOperations;
 import dev.alphaserpentis.web3.aevo4j.data.response.wss.OrderbookData;
 import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.annotations.Nullable;
 import okhttp3.WebSocket;
 
 /**
@@ -36,14 +39,36 @@ public class OrderbookListener extends AevoListener<OrderbookData> {
         }
     }
 
+    public OrderbookListener() {
+        this(Filter.NONE);
+    }
+
     public OrderbookListener(@NonNull Filter filter) {
-        super(OrderbookData.class);
+        super(OrderbookData.class, ChannelName.Channels.ORDERBOOK);
 
         this.filter = filter;
     }
 
-    public OrderbookListener() {
-        this(Filter.NONE);
+    public OrderbookListener(
+            @Nullable Filter filter,
+            @NonNull WebSocketOperations operations,
+            boolean isTestnet,
+            @NonNull String... channels
+    ) {
+        super(OrderbookData.class, ChannelName.Channels.ORDERBOOK, operations, isTestnet, channels);
+
+        this.filter = filter;
+    }
+
+    public OrderbookListener(
+            @Nullable Filter filter,
+            @NonNull WebSocketOperations operations,
+            boolean isTestnet,
+            @NonNull ChannelName... channels
+    ) {
+        super(OrderbookData.class, ChannelName.Channels.ORDERBOOK, operations, isTestnet, channels);
+
+        this.filter = filter;
     }
 
     @NonNull

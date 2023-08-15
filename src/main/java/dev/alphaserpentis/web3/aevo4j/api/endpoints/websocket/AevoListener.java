@@ -2,17 +2,24 @@ package dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import dev.alphaserpentis.web3.aevo4j.data.response.wss.AevoWebSocketError;
+import dev.alphaserpentis.web3.aevo4j.data.request.ChannelName;
+import dev.alphaserpentis.web3.aevo4j.data.request.WebSocketOperations;
+import dev.alphaserpentis.web3.aevo4j.data.request.WebSocketRequest;
 import dev.alphaserpentis.web3.aevo4j.data.response.wss.Ack;
+import dev.alphaserpentis.web3.aevo4j.data.response.wss.AevoWebSocketError;
 import dev.alphaserpentis.web3.aevo4j.data.response.wss.Response;
 import dev.alphaserpentis.web3.aevo4j.exception.AevoWebSocketException;
+import dev.alphaserpentis.web3.aevo4j.handler.AevoHandler;
 import io.reactivex.rxjava3.annotations.CheckReturnValue;
 import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.annotations.Nullable;
 import io.reactivex.rxjava3.core.BackpressureStrategy;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
+
+import java.util.Arrays;
 
 /**
  * Base class for all Aevo WebSocket listeners
@@ -29,9 +36,73 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
      * {@link PublishSubject} to emit the parsed responses to
      */
     protected final PublishSubject<T> subject = PublishSubject.create();
+    /**
+     * {@link ChannelName.Channels} allowed for this listener
+     */
+    protected final ChannelName.Channels channelAllowed;
+    /**
+     * {@link WebSocket} this listener is attached to
+     */
+    protected WebSocket webSocket = null;
 
-    public AevoListener(@NonNull Class<T> clazz) {
+    /**
+     * Creates a new {@link AevoListener} with the given response class
+     * @param clazz Class of the response to deserialize the incoming JSON responses into
+     * @param channelAllowed {@link ChannelName.Channels} allowed for this listener
+     */
+    public AevoListener(
+            @NonNull Class<T> clazz,
+            @Nullable ChannelName.Channels channelAllowed
+    ) {
         this.clazz = clazz;
+        this.channelAllowed = channelAllowed;
+    }
+
+    /**
+     * Creates a new {@link AevoListener} with the given parameters and opens a new {@link WebSocket}
+     * @param clazz Class of the response to deserialize the incoming JSON responses into
+     * @param channelAllowed {@link ChannelName.Channels} allowed for this listener
+     * @param operations {@link WebSocketOperations} to use
+     * @param isTestnet Whether to use the testnet or not
+     * @param channels Channels (in string format) to subscribe to
+     */
+    public AevoListener(
+            @NonNull Class<T> clazz,
+            @Nullable ChannelName.Channels channelAllowed,
+            @NonNull WebSocketOperations operations,
+            boolean isTestnet,
+            @NonNull String... channels
+    ) {
+        ChannelName[] arrayOfChannels = Arrays.stream(channels)
+                .map(ChannelName::parseStringIntoChannelName)
+                .toArray(ChannelName[]::new);
+        this.clazz = clazz;
+        this.channelAllowed = channelAllowed;
+        webSocket = AevoHandler.createNewWebSocket(this, isTestnet);
+
+        webSocket.send(new WebSocketRequest(operations, arrayOfChannels).toString());
+    }
+
+    /**
+     * Creates a new {@link AevoListener} with the given parameters and opens a new {@link WebSocket}
+     * @param clazz Class of the response to deserialize the incoming JSON responses into
+     * @param channelAllowed {@link ChannelName.Channels} allowed for this listener
+     * @param operations {@link WebSocketOperations} to use
+     * @param isTestnet Whether to use the testnet or not
+     * @param channels {@link ChannelName} to subscribe to
+     */
+    public AevoListener(
+            @NonNull Class<T> clazz,
+            @Nullable ChannelName.Channels channelAllowed,
+            @NonNull WebSocketOperations operations,
+            boolean isTestnet,
+            @NonNull ChannelName... channels
+    ) {
+        this.clazz = clazz;
+        this.channelAllowed = channelAllowed;
+        webSocket = AevoHandler.createNewWebSocket(this, isTestnet);
+
+        webSocket.send(new WebSocketRequest(operations, channels).toString());
     }
 
     /**
@@ -51,6 +122,46 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
     @NonNull
     public Flowable<T> responseFlowable(@NonNull BackpressureStrategy strategy) {
         return subject.toFlowable(strategy);
+    }
+
+    @NonNull
+    public ChannelName.Channels getChannelAllowed() {
+        return channelAllowed;
+    }
+
+    /**
+     * Returns the {@link WebSocket} this listener is attached to
+     * @return {@link WebSocket}
+     */
+    @Nullable
+    public WebSocket getWebSocket() {
+        return webSocket;
+    }
+
+    /**
+     * Opens a new {@link WebSocket} if it is not already open
+     * @param isTestnet Whether to use the testnet or not
+     * @return {@link WebSocket}
+     */
+    public WebSocket openWebSocket(boolean isTestnet) {
+        if(webSocket == null) {
+            webSocket = AevoHandler.createNewWebSocket(this, isTestnet);
+        }
+
+        return webSocket;
+    }
+
+    public void sendWebSocketRequest(@NonNull String text) {
+        if(webSocket == null) {
+            throw new IllegalStateException("WebSocket is not open");
+        }
+
+        webSocket.send(text);
+    }
+
+    @Override
+    public void onOpen(@NonNull WebSocket webSocket, @NonNull okhttp3.Response response) {
+        this.webSocket = webSocket;
     }
 
     @Override
