@@ -1,10 +1,15 @@
 package dev.alphaserpentis.web3.aevo4j.data.response.rest;
 
 import com.google.gson.annotations.SerializedName;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.annotations.Nullable;
 
 import java.util.Arrays;
 
-public class GetApiKey {
+/**
+ * Response after getting the API key or creating a new one. This is shared between {@code GET /api-key} and {@code POST /api-key}.
+ */
+public class ApiKeyData {
     @SerializedName("name")
     private String name;
     @SerializedName("api_key")
@@ -18,18 +23,22 @@ public class GetApiKey {
     @SerializedName("created_timestamp")
     private String createdTimestamp;
 
+    @NonNull
     public String getName() {
         return name;
     }
 
+    @NonNull
     public String getApiKey() {
         return apiKey;
     }
 
+    @NonNull
     public String getApiSecret() {
         return apiSecret;
     }
 
+    @NonNull
     public String[] getIpAddresses() {
         return ipAddresses;
     }
@@ -38,13 +47,14 @@ public class GetApiKey {
         return readOnly;
     }
 
+    @Nullable
     public String getCreatedTimestamp() {
         return createdTimestamp;
     }
 
     @Override
     public String toString() {
-        return "GetApiKey{" +
+        return "ApiKeyData{" +
                 "name='" + name + '\'' +
                 ", apiKey=OMITTED" +
                 ", apiSecret=OMITTED" +

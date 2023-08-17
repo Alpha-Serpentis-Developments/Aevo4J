@@ -2,9 +2,9 @@ package dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import dev.alphaserpentis.web3.aevo4j.data.request.ChannelName;
-import dev.alphaserpentis.web3.aevo4j.data.request.WebSocketOperations;
-import dev.alphaserpentis.web3.aevo4j.data.request.WebSocketRequest;
+import dev.alphaserpentis.web3.aevo4j.data.request.wss.ChannelName;
+import dev.alphaserpentis.web3.aevo4j.data.request.wss.WebSocketOperations;
+import dev.alphaserpentis.web3.aevo4j.data.request.wss.WebSocketRequest;
 import dev.alphaserpentis.web3.aevo4j.data.response.wss.Ack;
 import dev.alphaserpentis.web3.aevo4j.data.response.wss.AevoWebSocketError;
 import dev.alphaserpentis.web3.aevo4j.data.response.wss.Response;

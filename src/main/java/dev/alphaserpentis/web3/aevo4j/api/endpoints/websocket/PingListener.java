@@ -1,6 +1,6 @@
 package dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket;
 
-import dev.alphaserpentis.web3.aevo4j.data.request.WebSocketOperations;
+import dev.alphaserpentis.web3.aevo4j.data.request.wss.WebSocketOperations;
 import dev.alphaserpentis.web3.aevo4j.data.response.wss.Ping;
 
 /**

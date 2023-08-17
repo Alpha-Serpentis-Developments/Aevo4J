@@ -1,7 +1,7 @@
 package dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket;
 
-import dev.alphaserpentis.web3.aevo4j.data.request.ChannelName;
-import dev.alphaserpentis.web3.aevo4j.data.request.WebSocketOperations;
+import dev.alphaserpentis.web3.aevo4j.data.request.wss.ChannelName;
+import dev.alphaserpentis.web3.aevo4j.data.request.wss.WebSocketOperations;
 import dev.alphaserpentis.web3.aevo4j.data.response.wss.IndexData;
 import io.reactivex.rxjava3.annotations.NonNull;
 

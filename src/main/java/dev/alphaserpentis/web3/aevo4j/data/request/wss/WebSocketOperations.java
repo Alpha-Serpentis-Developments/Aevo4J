@@ -1,4 +1,4 @@
-package dev.alphaserpentis.web3.aevo4j.data.request;
+package dev.alphaserpentis.web3.aevo4j.data.request.wss;
 
 /**
  * Enums storing the websocket op codes

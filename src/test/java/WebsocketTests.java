@@ -5,7 +5,7 @@ import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.PingListener;
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.RFQsListener;
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.TickerListener;
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.TradesListener;
-import dev.alphaserpentis.web3.aevo4j.data.request.WebSocketOperations;
+import dev.alphaserpentis.web3.aevo4j.data.request.wss.WebSocketOperations;
 import dev.alphaserpentis.web3.aevo4j.data.response.common.Orderbook;
 import okhttp3.WebSocket;
 

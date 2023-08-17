@@ -1,4 +1,4 @@
-package dev.alphaserpentis.web3.aevo4j.data.request;
+package dev.alphaserpentis.web3.aevo4j.data.request.wss;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.annotations.Nullable;
