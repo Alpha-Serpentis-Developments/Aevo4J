@@ -17,6 +17,12 @@ public class RFQsListener extends AevoListener<RFQsData> {
             @NonNull WebSocketOperations operations,
             boolean isTestnet
     ) {
-        super(RFQsData.class, ChannelName.Channels.RFQS, operations, isTestnet, "rfqs");
+        super(
+                RFQsData.class,
+                ChannelName.Channels.RFQS,
+                operations,
+                isTestnet,
+                new ChannelName(ChannelName.Channels.RFQS)
+        );
     }
 }

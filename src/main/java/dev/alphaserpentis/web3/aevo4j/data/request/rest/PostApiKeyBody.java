@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.annotations.Nullable;
 
+import java.util.Arrays;
+
 public class PostApiKeyBody {
     @SerializedName("name")
     private final String name;
@@ -15,10 +17,19 @@ public class PostApiKeyBody {
     public PostApiKeyBody(
             @NonNull String name,
             @Nullable String[] ipAddresses,
-            @NonNull Boolean readOnly
+            @Nullable Boolean readOnly
     ) {
         this.name = name;
         this.ipAddresses = ipAddresses;
         this.readOnly = readOnly;
+    }
+
+    @Override
+    public String toString() {
+        return "{\"PostApiKeyBody\":{"
+                + "\"name\":\"" + name + "\""
+                + ", \"ipAddresses\":" + Arrays.toString(ipAddresses)
+                + ", \"readOnly\":" + readOnly
+                + "}}";
     }
 }

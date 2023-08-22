@@ -10,4 +10,9 @@ public class DeleteApiKeyBody {
     public DeleteApiKeyBody(@NonNull String apiKey) {
         this.apiKey = apiKey;
     }
+
+    @Override
+    public String toString() {
+        return "{\"api_key\":\"" + apiKey + "\"}";
+    }
 }

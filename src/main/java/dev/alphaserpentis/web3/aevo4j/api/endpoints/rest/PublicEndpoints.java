@@ -1,6 +1,6 @@
 package dev.alphaserpentis.web3.aevo4j.api.endpoints.rest;
 
-import dev.alphaserpentis.web3.aevo4j.data.request.rest.PostAccountBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.AccountBody;
 import dev.alphaserpentis.web3.aevo4j.data.response.common.Orderbook;
 import dev.alphaserpentis.web3.aevo4j.data.response.common.Index;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.*;
@@ -15,6 +15,9 @@ import retrofit2.http.Query;
 
 import java.util.List;
 
+/**
+ * @see dev.alphaserpentis.web3.aevo4j.services.PublicService
+ */
 public interface PublicEndpoints {
 
     @Headers("Content-Type: application/json")
@@ -120,12 +123,12 @@ public interface PublicEndpoints {
     @Headers("Content-Type: application/json")
     @POST("account/unsubscribe")
     Single<Success> postAccountUnsubscribe(
-            @Body PostAccountBody body
+            @Body AccountBody body
     );
 
     @Headers("Content-Type: application/json")
     @GET("options-history")
-    Single<List<Options>> getOptionsHistory(
+    Single<List<Option>> getOptionsHistory(
             @Query("asset") String account,
             @Query("start_time") Integer startTime,
             @Query("end_time") Integer endTime,
@@ -137,6 +140,6 @@ public interface PublicEndpoints {
     @Headers("Content-Type: application/json")
     @POST("account/email-verified")
     Single<Success> postEmailVerified(
-        @Body PostAccountBody body
+        @Body AccountBody body
     );
 }

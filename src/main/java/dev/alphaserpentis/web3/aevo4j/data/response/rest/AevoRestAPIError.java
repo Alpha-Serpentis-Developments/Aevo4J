@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * @see <a href="https://docs.aevo.xyz/reference/rate-limits-1#rate-limits-on-rest-api">Aevo - Rate Limits on REST API</a>
  */
+@SuppressWarnings("unused")
 public class AevoRestAPIError {
     @SerializedName("error")
     private String error;
@@ -21,8 +22,6 @@ public class AevoRestAPIError {
 
     @Override
     public String toString() {
-        return "Error{" +
-                "error='" + error + '\'' +
-                '}';
+        return "{\"error\":\"" + error + "\"" + ", \"retryAfter\":" + retryAfter + "}";
     }
 }

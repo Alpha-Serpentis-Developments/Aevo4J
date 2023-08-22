@@ -37,4 +37,16 @@ public class RegisterBody {
         this.signingKeySignature = signingKeySignature;
         this.referralCode = referralCode;
     }
+
+    @Override
+    public String toString() {
+        return "{\n" +
+                "  \"account\": \"" + account + "\",\n" +
+                "  \"signing_key\": \"" + signingKey + "\",\n" +
+                "  \"expiry\": \"" + expiry + "\",\n" +
+                "  \"account_signature\": \"" + accountSignature + "\",\n" +
+                "  \"signing_key_signature\": \"" + signingKeySignature + "\",\n" +
+                "  \"referral_code\": \"" + referralCode + "\"\n" +
+                "}";
+    }
 }

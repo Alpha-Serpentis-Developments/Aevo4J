@@ -1,8 +1,10 @@
 package dev.alphaserpentis.web3.aevo4j.handler;
 
 import com.google.gson.GsonBuilder;
+import dev.alphaserpentis.web3.aevo4j.api.endpoints.rest.PrivateEndpoints;
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.rest.PublicEndpoints;
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.AevoListener;
+import dev.alphaserpentis.web3.aevo4j.services.PrivateService;
 import dev.alphaserpentis.web3.aevo4j.services.PublicService;
 import io.reactivex.rxjava3.annotations.NonNull;
 import okhttp3.OkHttpClient;
@@ -79,6 +81,40 @@ public class AevoHandler {
     public static PublicService getPublicService(@NonNull Retrofit retrofit) {
         return new PublicService(
                 retrofit.create(PublicEndpoints.class)
+        );
+    }
+
+    /**
+     * Get a new {@link PrivateService} instance using the given {@link Retrofit} instance. You will need to supply your
+     * API Key and API Secret and whether you want to use signatures.
+     * @param retrofit {@link Retrofit}
+     * @return {@link PrivateService}
+     */
+    public static PrivateService getPrivateService(@NonNull Retrofit retrofit) {
+        return new PrivateService(
+                retrofit.create(PrivateEndpoints.class)
+        );
+    }
+
+    /**
+     * Get a new {@link PrivateService} instance using the given {@link Retrofit} instance
+     * @param retrofit {@link Retrofit}
+     * @param apiKey Aevo API Key
+     * @param apiSecret Aevo API Secret
+     * @param useSignature Whether to use signatures
+     * @return {@link PrivateService}
+     */
+    public static PrivateService getPrivateService(
+            @NonNull Retrofit retrofit,
+            @NonNull String apiKey,
+            @NonNull String apiSecret,
+            boolean useSignature
+    ) {
+        return new PrivateService(
+                retrofit.create(PrivateEndpoints.class),
+                apiKey,
+                apiSecret,
+                useSignature
         );
     }
 }

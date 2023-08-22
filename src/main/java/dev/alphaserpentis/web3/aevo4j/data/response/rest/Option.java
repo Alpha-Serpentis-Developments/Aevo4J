@@ -2,7 +2,8 @@ package dev.alphaserpentis.web3.aevo4j.data.response.rest;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Options {
+@SuppressWarnings("unused")
+public class Option {
     @SerializedName("instrument_name")
     private String instrumentName;
     @SerializedName("option_type")

@@ -4,7 +4,7 @@
 Aevo4J is an unofficial implementation of [Aevo's](https://aevo.xyz) REST APIs and WebSockets in Java.
 
 ## What is Supported?
-REST APIs and WebSockets are currently supported, but private operations may be incomplete at the moment.
+REST APIs and WebSockets are currently supported.
 
 ## How Do I Use Aevo4J?
 **Note**: Aevo4J requires Java 17 or higher!

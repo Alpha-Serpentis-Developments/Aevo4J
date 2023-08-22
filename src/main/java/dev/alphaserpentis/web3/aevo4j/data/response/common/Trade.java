@@ -2,6 +2,7 @@ package dev.alphaserpentis.web3.aevo4j.data.response.common;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("unused")
 public class Trade {
     @SerializedName("trade_id")
     private String tradeId;

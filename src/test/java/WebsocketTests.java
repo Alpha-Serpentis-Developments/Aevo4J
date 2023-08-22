@@ -155,7 +155,7 @@ public class WebsocketTests {
         TickerListener listener = new TickerListener(
                 WebSocketOperations.SUBSCRIBE,
                 false,
-                "ticker:SEI:PERPETUAL"
+                "ticker:ETH:PERPETUAL"
         );
 
         listener.responseFlowable().subscribe(

@@ -2,6 +2,7 @@ package dev.alphaserpentis.web3.aevo4j.data.response.rest;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("unused")
 public class InstrumentInfo {
 
     @SerializedName("asset")
@@ -57,57 +58,6 @@ public class InstrumentInfo {
                     ", totalVolume='" + totalVolume + '\'' +
                     ", totalVolumeContracts='" + totalVolumeContracts + '\'' +
                     ", totalOi='" + totalOi + '\'' +
-                    '}';
-        }
-    }
-
-    public static class Greeks {
-        @SerializedName("delta")
-        private String delta;
-        @SerializedName("gamma")
-        private String gamma;
-        @SerializedName("rho")
-        private String rho;
-        @SerializedName("theta")
-        private String theta;
-        @SerializedName("vega")
-        private String vega;
-        @SerializedName("iv")
-        private String iv;
-
-        public String getDelta() {
-            return delta;
-        }
-
-        public String getGamma() {
-            return gamma;
-        }
-
-        public String getRho() {
-            return rho;
-        }
-
-        public String getTheta() {
-            return theta;
-        }
-
-        public String getVega() {
-            return vega;
-        }
-
-        public String getIv() {
-            return iv;
-        }
-
-        @Override
-        public String toString() {
-            return "Greeks{" +
-                    "delta='" + delta + '\'' +
-                    ", gamma='" + gamma + '\'' +
-                    ", rho='" + rho + '\'' +
-                    ", theta='" + theta + '\'' +
-                    ", vega='" + vega + '\'' +
-                    ", iv='" + iv + '\'' +
                     '}';
         }
     }

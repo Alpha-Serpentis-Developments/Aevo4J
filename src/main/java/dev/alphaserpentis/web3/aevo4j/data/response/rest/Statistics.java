@@ -2,6 +2,7 @@ package dev.alphaserpentis.web3.aevo4j.data.response.rest;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("unused")
 public class Statistics {
     @SerializedName("asset")
     private String asset;

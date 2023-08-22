@@ -1,6 +1,7 @@
 package dev.alphaserpentis.web3.aevo4j.data.response.wss;
 
 import com.google.gson.annotations.SerializedName;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Greeks;
 
 import java.util.Arrays;
 
@@ -9,6 +10,7 @@ import java.util.Arrays;
  * @see dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.TickerListener
  * @see <a href="https://docs.aevo.xyz/reference/sub-ticker">Aevo - SUBSCRIBE Ticker</a>
  */
+@SuppressWarnings("unused")
 public class TickerData extends Response<TickerData.Data> {
 
     public static class Data {
@@ -31,50 +33,14 @@ public class TickerData extends Response<TickerData.Data> {
             @SerializedName("ask")
             private Price ask;
 
-            public static class Price {
+            public static class Price extends Greeks {
                 @SerializedName("price")
                 private String price;
-                @SerializedName("delta")
-                private String delta;
-                @SerializedName("theta")
-                private String theta;
-                @SerializedName("gamma")
-                private String gamma;
-                @SerializedName("rho")
-                private String rho;
-                @SerializedName("vega")
-                private String vega;
-                @SerializedName("iv")
-                private String iv;
                 @SerializedName("amount")
                 private String amount;
 
                 public String getPrice() {
                     return price;
-                }
-
-                public String getDelta() {
-                    return delta;
-                }
-
-                public String getTheta() {
-                    return theta;
-                }
-
-                public String getGamma() {
-                    return gamma;
-                }
-
-                public String getRho() {
-                    return rho;
-                }
-
-                public String getVega() {
-                    return vega;
-                }
-
-                public String getIv() {
-                    return iv;
                 }
 
                 public String getAmount() {
@@ -85,12 +51,12 @@ public class TickerData extends Response<TickerData.Data> {
                 public String toString() {
                     return "Price{" +
                             "price='" + price + '\'' +
-                            ", delta='" + delta + '\'' +
-                            ", theta='" + theta + '\'' +
-                            ", gamma='" + gamma + '\'' +
-                            ", rho='" + rho + '\'' +
-                            ", vega='" + vega + '\'' +
-                            ", iv='" + iv + '\'' +
+                            ", delta='" + getDelta() + '\'' +
+                            ", theta='" + getTheta() + '\'' +
+                            ", gamma='" + getGamma() + '\'' +
+                            ", rho='" + getRho() + '\'' +
+                            ", vega='" + getVega() + '\'' +
+                            ", iv='" + getIv() + '\'' +
                             ", amount='" + amount + '\'' +
                             '}';
                 }

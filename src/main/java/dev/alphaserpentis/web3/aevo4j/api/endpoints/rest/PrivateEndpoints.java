@@ -1,11 +1,37 @@
 package dev.alphaserpentis.web3.aevo4j.api.endpoints.rest;
 
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.DeleteApiKeyBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.EmailAddressBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.EmailPreferenceBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.EnabledBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.MmpBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.OrdersAllBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.OrdersBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.PostApiKeyBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.RegisterBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.ResetMmpBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.SigningKeyBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.TransferBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.WithdrawBody;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Account;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ApiKeyData;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.CancelledOrders;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.EmailAddress;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.EmailPreferences;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.EmailVerified;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Enabled;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Mmp;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Order;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.OrderHistory;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.OrderId;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Portfolio;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.PostRegister;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralHistory;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralRewardsHistory;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralStatistics;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Success;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.TradeHistory;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.TransactionHistory;
 import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -15,6 +41,8 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+
+import java.util.List;
 
 /**
  * @see <a href="https://docs.aevo.xyz/reference/rest-authentication">Aevo - REST Authentication</a>
@@ -69,12 +97,13 @@ public interface PrivateEndpoints {
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
-            @Header("AEVO-SECRET") String aevoSecret
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body SigningKeyBody body
     );
 
     @Headers("Content-Type: application/json")
     @GET("account")
-    Single<?> getAccount(
+    Single<Account> getAccount(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
@@ -83,7 +112,7 @@ public interface PrivateEndpoints {
 
     @Headers("Content-Type: application/json")
     @GET("account/cancel-on-disconnect")
-    Single<?> getCancelOnDisconnect(
+    Single<Enabled> getCancelOnDisconnect(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
@@ -92,11 +121,12 @@ public interface PrivateEndpoints {
 
     @Headers("Content-Type: application/json")
     @POST("account/cancel-disconnect")
-    Single<Success> postCancelDisconnect(
+    Single<Success> postCancelOnDisconnect(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
-            @Header("AEVO-SECRET") String aevoSecret
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body EnabledBody body
     );
 
     @Headers("Content-Type: application/json")
@@ -105,12 +135,13 @@ public interface PrivateEndpoints {
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
-            @Header("AEVO-SECRET") String aevoSecret
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body EnabledBody body
     );
 
     @Headers("Content-Type: application/json")
     @GET("account/email-address")
-    Single<?> getEmailAddress(
+    Single<EmailAddress> getEmailAddress(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
@@ -123,12 +154,13 @@ public interface PrivateEndpoints {
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
-            @Header("AEVO-SECRET") String aevoSecret
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body EmailAddressBody body
     );
 
     @Headers("Content-Type: application/json")
     @GET("account/email-preference")
-    Single<?> getEmailPreference(
+    Single<EmailPreferences> getEmailPreference(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
@@ -141,12 +173,22 @@ public interface PrivateEndpoints {
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body EmailPreferenceBody body
+    );
+
+    @Headers("Content-Type: application/json")
+    @GET("account/email-verified")
+    Single<EmailVerified> getEmailVerified(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
             @Header("AEVO-SECRET") String aevoSecret
     );
 
     @Headers("Content-Type: application/json")
     @GET("portfolio")
-    Single<?> getPortfolio(
+    Single<Portfolio> getPortfolio(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
@@ -159,7 +201,8 @@ public interface PrivateEndpoints {
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
-            @Header("AEVO-SECRET") String aevoSecret
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body WithdrawBody body
     );
 
     @Headers("Content-Type: application/json")
@@ -168,12 +211,13 @@ public interface PrivateEndpoints {
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
-            @Header("AEVO-SECRET") String aevoSecret
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body TransferBody body
     );
 
     @Headers("Content-Type: application/json")
     @GET("orders")
-    Single<?> getOrders(
+    Single<List<Order>> getOrders(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
@@ -182,65 +226,68 @@ public interface PrivateEndpoints {
 
     @Headers("Content-Type: application/json")
     @POST("orders")
-    Single<?> postOrders(
+    Single<Order> postOrders(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
-            @Header("AEVO-SECRET") String aevoSecret
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body OrdersBody body
     );
 
     @Headers("Content-Type: application/json")
     @DELETE("orders/{order_id}")
-    Single<?> deleteOrders(
+    Single<OrderId> deleteOrder(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
-            @Header("AEVO-KEY") String aevoKey,
+            @Header("AEVO-KEY")  String aevoKey,
             @Header("AEVO-SECRET") String aevoSecret,
             @Path("order_id") String orderId
     );
 
     @Headers("Content-Type: application/json")
     @POST("orders/{order_id}")
-    Single<?> postOrders(
+    Single<Order> postEditOrder(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
             @Header("AEVO-SECRET") String aevoSecret,
-            @Path("order_id") String orderId
+            @Path("order_id") String orderId,
+            @Body OrdersBody body
     );
 
     @Headers("Content-Type: application/json")
     @DELETE("orders-all")
-    Single<?> deleteOrdersAll(
-            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
-            @Header("AEVO-SIGNATURE") String aevoSignature,
-            @Header("AEVO-KEY") String aevoKey,
-            @Header("AEVO-SECRET") String aevoSecret
-    );
-
-    @Headers("Content-Type: application/json")
-    @GET("order-history")
-    Single<?> getOrderHistory(
+    Single<CancelledOrders> deleteOrdersAll(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
             @Header("AEVO-SECRET") String aevoSecret,
-            @Query("start_time") Integer startTime,
-            @Query("end_time") Integer endTime,
+            @Body OrdersAllBody body
+    );
+
+    @Headers("Content-Type: application/json")
+    @GET("order-history")
+    Single<OrderHistory> getOrderHistory(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY") String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Query("start_time") Long startTime,
+            @Query("end_time") Long endTime,
             @Query("limit") Integer limit,
             @Query("offset") Integer offset
     );
 
     @Headers("Content-Type: application/json")
     @GET("trade-history")
-    Single<?> getTradeHistory(
+    Single<TradeHistory> getTradeHistory(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
             @Header("AEVO-SECRET") String aevoSecret,
-            @Query("start_time") Integer startTime,
+            @Query("start_time") Long startTime,
             @Query("asset") String asset,
-            @Query("end_time") Integer endTime,
+            @Query("end_time") Long endTime,
             @Query("trade_types") String[] tradeTypes,
             @Query("instrument_type") String instrumentType,
             @Query("option_type") String optionType,
@@ -250,13 +297,13 @@ public interface PrivateEndpoints {
 
     @Headers("Content-Type: application/json")
     @GET("tranaction-history")
-    Single<?> getTransactionHistory(
+    Single<TransactionHistory> getTransactionHistory(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
             @Header("AEVO-SECRET") String aevoSecret,
-            @Query("start_time") Integer startTime,
-            @Query("end_time") Integer endTime,
+            @Query("start_time") Long startTime,
+            @Query("end_time") Long endTime,
             @Query("tx_type") String txType,
             @Query("tx_status") String txStatus,
             @Query("limit") Integer limit,
@@ -265,7 +312,7 @@ public interface PrivateEndpoints {
 
     @Headers("Content-Type: application/json")
     @GET("referral-rewards-history")
-    Single<?> getReferralRewardsHistory(
+    Single<ReferralRewardsHistory> getReferralRewardsHistory(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
@@ -276,7 +323,7 @@ public interface PrivateEndpoints {
 
     @Headers("Content-Type: application/json")
     @GET("referral-history")
-    Single<?> getReferralHistory(
+    Single<ReferralHistory> getReferralHistory(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
@@ -287,7 +334,7 @@ public interface PrivateEndpoints {
 
     @Headers("Content-Type: application/json")
     @GET("referral-statistics")
-    Single<?> getReferralStatistics(
+    Single<ReferralStatistics> getReferralStatistics(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
@@ -305,7 +352,7 @@ public interface PrivateEndpoints {
 
     @Headers("Content-Type: application/json")
     @GET("mmp")
-    Single<?> getMmp(
+    Single<Mmp> getMmp(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
@@ -319,7 +366,8 @@ public interface PrivateEndpoints {
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
-            @Header("AEVO-SECRET") String aevoSecret
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body MmpBody body
     );
 
     @Headers("Content-Type: application/json")
@@ -328,6 +376,7 @@ public interface PrivateEndpoints {
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
-            @Header("AEVO-SECRET") String aevoSecret
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body ResetMmpBody body
     );
 }

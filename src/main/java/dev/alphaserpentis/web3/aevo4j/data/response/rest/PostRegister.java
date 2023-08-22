@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Arrays;
 
+@SuppressWarnings("unused")
 public class PostRegister {
     @SerializedName("success")
     private boolean success;
