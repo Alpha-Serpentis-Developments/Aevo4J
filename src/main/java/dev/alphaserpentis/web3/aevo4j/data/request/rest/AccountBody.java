@@ -2,6 +2,7 @@ package dev.alphaserpentis.web3.aevo4j.data.request.rest;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("unused")
 public class AccountBody {
     @SerializedName("account")
     private final String account;
@@ -11,13 +12,5 @@ public class AccountBody {
     public AccountBody(String account, String emailAuthToken) {
         this.account = account;
         this.emailAuthToken = emailAuthToken;
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-            " account='" + account + "'" +
-            ", emailAuthToken='" + emailAuthToken + "'" +
-            "}";
     }
 }

@@ -9,8 +9,6 @@ REST APIs and WebSockets are currently supported.
 ## How Do I Use Aevo4J?
 **Note**: Aevo4J requires Java 17 or higher!
 
-Currently, you don't need an API key to use the Public Operations. Private Operations will require an API key to utilize.
-
 ### Importing from Maven or Gradle (not actually available yet)
 #### Maven
 ```xml
@@ -26,13 +24,27 @@ Currently, you don't need an API key to use the Public Operations. Private Opera
 implementation 'dev.alphaserpentis.web3:aevo4j:1.0.0'
 ```
 
+- - -
+
 ### REST APIs
 You can get the `PublicService` class via `AevoHandler.getPublicService(Retrofit)` and access the API methods from there.
 For Retrofit, you can either obtain a default `Retrofit` instance via `AevoHandler.defaultRetrofit()` and pass it inside the service.
 Alternatively, if you need to customize Retrofit for your needs, you can call the `AevoHandler.getCustomRetrofit` method and pass in your needed arguments.
 
+#### Private Operations
+##### REST APIs
+To authenticate a request, you have two methods:
+
+1. Use API Key + API Secret
+2. Use API Key + Signature + Timestamp (recommended)
+
+If you are using the second method, you can use `PrivateService.generateSignature(...)` to generate the signature for you,
+as well as `PrivateService.getTimestamp()` to get the String representation of the current timestamp needed to generate the signature.
+
 #### Customizing Retrofit
 The `AevoHandler` class has a method `getCustomRetrofit` available to pass in a custom call adapter factory and converter factory. However, you're not required to call this method if you need more customization.
+
+- - -
 
 ### WebSockets
 
@@ -68,3 +80,4 @@ To obtain the needed websockets, refer to this table below:
 - [Retrofit](https://github.com/square/retrofit)
   - Retrofit Adapter RxJava3
   - Retrofit Converter Gson
+- [web3j](https://github.com/web3j/web3j)

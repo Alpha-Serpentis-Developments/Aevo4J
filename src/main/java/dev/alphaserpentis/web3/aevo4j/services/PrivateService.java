@@ -1,5 +1,6 @@
 package dev.alphaserpentis.web3.aevo4j.services;
 
+import com.google.gson.Gson;
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.rest.PrivateEndpoints;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.DeleteApiKeyBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.EmailAddressBody;
@@ -34,17 +35,16 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.Success;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.TradeHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.TransactionHistory;
 import dev.alphaserpentis.web3.aevo4j.exception.AevoRestException;
+import dev.alphaserpentis.web3.aevo4j.handler.AevoHandler;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.annotations.Nullable;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class PrivateService extends AbstractService<PrivateEndpoints> {
+    protected Gson gson = new Gson();
     private String apiKey = null;
     private String apiSecret = null;
     private boolean useSignatures = false;
@@ -105,14 +105,14 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 signingKeySignature,
                 referralCode
         );
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
                 "POST",
                 "/register",
-                body.toString()
+                gson.toJson(body)
         ) : null;
 
         return execute(
@@ -165,14 +165,14 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
         DeleteApiKeyBody body = new DeleteApiKeyBody(
                 apiKeyToDelete
         );
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
                 "DELETE",
                 "/api-key",
-                body.toString()
+                gson.toJson(body)
         ) : null;
 
         return execute(
@@ -199,8 +199,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
             @NonNull String queryTimestamp,
             @NonNull String querySignature
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
@@ -240,14 +240,14 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 ipAddresses,
                 readOnly
         );
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
                 "POST",
                 "/api-key",
-                body.toString()
+                gson.toJson(body)
         ) : null;
 
         return execute(
@@ -289,14 +289,14 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
         SigningKeyBody body = new SigningKeyBody(
                 signingKeyToDelete
         );
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
                 "POST",
                 "/api-key",
-                body.toString()
+                gson.toJson(body)
         ) : null;
 
         return execute(
@@ -316,8 +316,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      * @see <a href="https://api-docs.aevo.xyz/reference/getaccount">Aevo - GET Account</a>
      */
     public Account getAccount() throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
@@ -342,8 +342,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      * @see <a href="https://api-docs.aevo.xyz/reference/getaccountcancelondisconnect">Aevo - GET Account Cancel on Disconnect</a>
      */
     public Enabled getCancelOnDisconnect() throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
@@ -374,14 +374,14 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
         EnabledBody body = new EnabledBody(
                 enabled
         );
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
                 "POST",
                 "/account/cancel-on-disconnect",
-                body.toString()
+                gson.toJson(body)
         ) : null;
 
         return execute(
@@ -404,8 +404,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
     public Success postPortfolioMargin(
             boolean enabled
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
@@ -433,8 +433,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      * @see <a href="https://api-docs.aevo.xyz/reference/getaccountemailaddress">Aevo - GET Account Email Address</a>
      */
     public EmailAddress getEmailAddress() throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
@@ -465,14 +465,14 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
         EmailAddressBody body = new EmailAddressBody(
                 emailAddress
         );
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
                 "POST",
                 "/account/email-address",
-                body.toString()
+                gson.toJson(body)
         ) : null;
 
         return execute(
@@ -501,14 +501,14 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 emailType,
                 enabled
         );
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
             Long.parseLong(timestamp),
             apiKey,
             apiSecret,
             "POST",
             "/account/email-preference",
-            body.toString()
+            gson.toJson(body)
         ) : null;
 
         return execute(
@@ -529,8 +529,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      */
     public EmailPreferences getEmailPreference()
             throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
             Long.parseLong(timestamp),
             apiKey,
             apiSecret,
@@ -555,8 +555,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      * @see <a href="https://api-docs.aevo.xyz/reference/getaccountemailverified">Aevo - GET Account Email Verified</a>
      */
     public EmailVerified getEmailVerified() throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
             Long.parseLong(timestamp),
             apiKey,
             apiSecret,
@@ -581,8 +581,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      * @see <a href="https://api-docs.aevo.xyz/reference/getportfolio">Aevo - GET Portfolio</a>
      */
     public Portfolio getPortfolio() throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
@@ -640,14 +640,14 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 socketMsgGasLimit,
                 socketConnector
         );
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature2 = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
                 "POST",
                 "/withdraw",
-                body.toString()
+                gson.toJson(body)
         ) : null;
 
         return execute(
@@ -695,6 +695,36 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
     }
 
     /**
+     * Withdraws from the exchange to L1 Ethereum
+     * @param body {@link WithdrawBody}
+     * @return {@link Success}
+     * @see <a href="https://api-docs.aevo.xyz/reference/postwithdraw">Aevo - POST Withdraw</a>
+     */
+    public Success postWithdraw(
+            @NonNull WithdrawBody body
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "POST",
+                "/withdraw",
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postWithdraw(
+                        timestamp,
+                        signature2,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                )
+        );
+    }
+
+    /**
      * Transfers assets between accounts
      * @param account Ethereum address of the account
      * @param collateral Ethereum address of the collateral asset
@@ -721,14 +751,14 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 salt,
                 signature
         );
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature2 = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
                 "POST",
                 "/transfer",
-                body.toString()
+                gson.toJson(body)
         ) : null;
 
         return execute(
@@ -748,8 +778,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      * @see <a href="https://api-docs.aevo.xyz/reference/getorders">Aevo - GET Orders</a>
      */
     public List<Order> getOrders() throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
             Long.parseLong(timestamp),
             apiKey,
             apiSecret,
@@ -769,8 +799,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
     }
 
     /**
-     * Gets the account's orders for a specific instrument
-     * @param instrument Instrument to get orders for
+     * Creates a new order
+     * @param instrument Instrument ID number
      * @param maker Account's Ethereum address
      * @param isBuy Whether to get buy orders or sell orders
      * @param amount Amount to get orders for
@@ -788,14 +818,14 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      * @see <a href="https://api-docs.aevo.xyz/reference/postorders">Aevo - POST Orders</a>
      */
     public Order postOrders(
-            @NonNull String instrument,
+            @NonNull Integer instrument,
             @NonNull String maker,
             boolean isBuy,
             @NonNull String amount,
             @NonNull String limitPrice,
             @NonNull String salt,
             @NonNull String signature,
-            @Nullable String timestamp,
+            @NonNull String timestamp,
             @Nullable Boolean postOnly,
             @Nullable Boolean reduceOnly,
             @Nullable String timeInForce,
@@ -812,21 +842,21 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 salt,
                 signature,
                 timestamp,
-                postOnly != null && postOnly,
-                reduceOnly != null && reduceOnly,
+                postOnly,
+                reduceOnly,
                 timeInForce,
-                mmp != null && mmp,
+                mmp,
                 stop,
                 trigger
         );
-        String timestamp2 = useSignatures ? getTimestamp() : null;
-        String signature2 = useSignatures ? generateSignature(
+        String timestamp2 = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp2),
                 apiKey,
                 apiSecret,
                 "POST",
                 "/orders",
-                body.toString()
+                gson.toJson(body)
         ) : null;
 
         return execute(
@@ -841,8 +871,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
     }
 
     /**
-     * Gets the account's orders for a specific instrument
-     * @param instrument Instrument to get orders for
+     * Creates a new order
+     * @param instrument Instrument ID number
      * @param maker Account's Ethereum address
      * @param isBuy Whether to get buy orders or sell orders
      * @param amount Amount to get orders for
@@ -853,13 +883,14 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      * @see <a href="https://api-docs.aevo.xyz/reference/postorders">Aevo - POST Orders</a>
      */
     public Order postOrders(
-            @NonNull String instrument,
+            @NonNull Integer instrument,
             @NonNull String maker,
             boolean isBuy,
             @NonNull String amount,
             @NonNull String limitPrice,
             @NonNull String salt,
-            @NonNull String signature
+            @NonNull String signature,
+            @NonNull String timestamp
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
         return postOrders(
                 instrument,
@@ -869,13 +900,43 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 limitPrice,
                 salt,
                 signature,
-                null,
+                timestamp,
                 null,
                 null,
                 null,
                 null,
                 null,
                 null
+        );
+    }
+
+    /**
+     * Creates a new order
+     * @param body {@link OrdersBody} to create the order with
+     * @return {@link Order}
+     * @see <a href="https://api-docs.aevo.xyz/reference/postorders">Aevo - POST Orders</a>
+     */
+    public Order postOrders(
+            @NonNull OrdersBody body
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
+            Long.parseLong(timestamp),
+            apiKey,
+            apiSecret,
+            "POST",
+            "/orders",
+            gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postOrders(
+                        timestamp,
+                        signature,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                )
         );
     }
 
@@ -888,8 +949,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
     public OrderId deleteOrder(
             @NonNull String orderId
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
             Long.parseLong(timestamp),
             apiKey,
             apiSecret,
@@ -931,14 +992,14 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      */
     public Order postEditOrder(
             @NonNull String orderId,
-            @NonNull String instrument,
+            @NonNull Integer instrument,
             @NonNull String maker,
             boolean isBuy,
             @NonNull String amount,
             @NonNull String limitPrice,
             @NonNull String salt,
             @NonNull String signature,
-            @Nullable String timestamp,
+            @NonNull String timestamp,
             @Nullable Boolean postOnly,
             @Nullable Boolean reduceOnly,
             @Nullable String timeInForce,
@@ -962,14 +1023,14 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 stop,
                 trigger
         );
-        String timestamp2 = useSignatures ? getTimestamp() : null;
-        String signature2 = useSignatures ? generateSignature(
+        String timestamp2 = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp2),
                 apiKey,
                 apiSecret,
                 "POST",
                 "/orders/" + orderId,
-                body.toString()
+                gson.toJson(body)
         ) : null;
 
         return execute(
@@ -999,13 +1060,14 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      */
     public Order postEditOrder(
             @NonNull String orderId,
-            @NonNull String instrument,
+            @NonNull Integer instrument,
             @NonNull String maker,
             boolean isBuy,
             @NonNull String amount,
             @NonNull String limitPrice,
             @NonNull String salt,
-            @NonNull String signature
+            @NonNull String signature,
+            @NonNull String timestamp
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
         return postEditOrder(
                 orderId,
@@ -1016,13 +1078,46 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 limitPrice,
                 salt,
                 signature,
-                null,
+                timestamp,
                 null,
                 null,
                 null,
                 null,
                 null,
                 null
+        );
+    }
+
+    /**
+     * Edits an existing order
+     * @param orderId Order ID to edit
+     * @param body {@link OrdersBody} to edit the order with
+     * @return {@link Order}
+     * @see <a href="https://api-docs.aevo.xyz/reference/postordersorderid">Aevo - POST Orders/{Order ID}</a>
+     */
+    public Order postEditOrder(
+            @NonNull String orderId,
+            @NonNull OrdersBody body
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "POST",
+                "/orders/" + orderId,
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postEditOrder(
+                        timestamp,
+                        signature2,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        orderId,
+                        body
+                )
         );
     }
 
@@ -1041,8 +1136,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 assetName,
                 instrumentType
         );
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
             Long.parseLong(timestamp),
             apiKey,
             apiSecret,
@@ -1086,8 +1181,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
             @NonNull Integer limit,
             @Nullable Integer offset
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
             Long.parseLong(timestamp),
             apiKey,
             apiSecret,
@@ -1149,8 +1244,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
             @Nullable Integer limit,
             @Nullable Integer offset
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
             Long.parseLong(timestamp),
             apiKey,
             apiSecret,
@@ -1217,8 +1312,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
             @Nullable Integer limit,
             @Nullable Integer offset
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
             Long.parseLong(timestamp),
             apiKey,
             apiSecret,
@@ -1271,8 +1366,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
             @Nullable Integer limit,
             @Nullable Integer offset
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
             Long.parseLong(timestamp),
             apiKey,
             apiSecret,
@@ -1317,8 +1412,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
             @Nullable Integer limit,
             @Nullable Integer offset
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
             Long.parseLong(timestamp),
             apiKey,
             apiSecret,
@@ -1359,8 +1454,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      */
     public ReferralStatistics getReferralStatistics()
             throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
@@ -1386,8 +1481,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      */
     public Success postClaimReferralRewards()
             throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
@@ -1415,8 +1510,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
     public Mmp getMmp(
             @NonNull String asset
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
@@ -1460,14 +1555,14 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 deltaLimit,
                 asset
         );
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
                 "POST",
                 "/mmp",
-                body.toString()
+                gson.toJson(body)
         ) : null;
 
         return execute(
@@ -1517,14 +1612,14 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
         ResetMmpBody body = new ResetMmpBody(
                 asset
         );
-        String timestamp = useSignatures ? getTimestamp() : null;
-        String signature = useSignatures ? generateSignature(
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
                 apiKey,
                 apiSecret,
                 "POST",
                 "/reset-mmp",
-                body.toString()
+                gson.toJson(body)
         ) : null;
 
         return execute(
@@ -1536,51 +1631,5 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         body
                 )
         );
-    }
-
-    /**
-     * Generates a signature for the REST API
-     * @param timestamp Timestamp in nanoseconds
-     * @param apiKey Aevo API key
-     * @param apiSecret Aevo API secret
-     * @param method HTTP method (GET, POST, etc.)
-     * @param path Path of the request
-     * @param body Body of the request (if any)
-     * @return Hexadecimal signature
-     * @throws NoSuchAlgorithmException Algorithm not available on the system
-     * @throws InvalidKeyException Invalid key
-     */
-    public static String generateSignature(
-            long timestamp,
-            @NonNull String apiKey,
-            @NonNull String apiSecret,
-            @NonNull String method,
-            @NonNull String path,
-            @NonNull String body
-    ) throws NoSuchAlgorithmException, InvalidKeyException {
-        Mac sha256HMAC = Mac.getInstance("HmacSHA256");
-        SecretKeySpec secretKeySpec;
-        StringBuilder sb = new StringBuilder();
-        final String message = apiKey + "," + timestamp + "," + method + "," + path + "," + body;
-        byte[] hashBytes;
-
-        secretKeySpec = new SecretKeySpec(apiSecret.getBytes(), message);
-        sha256HMAC.init(secretKeySpec);
-
-        hashBytes = sha256HMAC.doFinal(message.getBytes(StandardCharsets.UTF_8));
-
-        for(byte b: hashBytes) {
-            sb.append(String.format("%02x", b));
-        }
-
-        return sb.toString();
-    }
-
-    /**
-     * Gets the current timestamp in nanoseconds
-     * @return {@link String} timestamp
-     */
-    public static String getTimestamp() {
-        return String.valueOf(System.currentTimeMillis() * 1000000);
     }
 }

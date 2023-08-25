@@ -15,6 +15,12 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
 /**
  * Static class containing methods to utilize Aevo's REST API or Websockets.
  */
@@ -78,6 +84,11 @@ public class AevoHandler {
         );
     }
 
+    /**
+     * Get a new {@link PublicService} instance using the given {@link Retrofit} instance.
+     * @param retrofit {@link Retrofit}
+     * @return {@link PublicService}
+     */
     public static PublicService getPublicService(@NonNull Retrofit retrofit) {
         return new PublicService(
                 retrofit.create(PublicEndpoints.class)
@@ -86,7 +97,7 @@ public class AevoHandler {
 
     /**
      * Get a new {@link PrivateService} instance using the given {@link Retrofit} instance. You will need to supply your
-     * API Key and API Secret and whether you want to use signatures.
+     * API Key and API Secret and whether you want to use signatures later on.
      * @param retrofit {@link Retrofit}
      * @return {@link PrivateService}
      */
@@ -116,5 +127,51 @@ public class AevoHandler {
                 apiSecret,
                 useSignature
         );
+    }
+
+    /**
+     * Generates a signature for authentication
+     * @param timestamp Timestamp in nanoseconds
+     * @param apiKey Aevo API key
+     * @param apiSecret Aevo API secret
+     * @param method Method (GET, POST, etc.). If using websockets, use "ws" lowercase
+     * @param path Path of the request
+     * @param body Body of the request (if any). If using websockets, use the data you're sending
+     * @return Hexadecimal signature
+     * @throws NoSuchAlgorithmException Algorithm not available on the system
+     * @throws InvalidKeyException Invalid key
+     */
+    public static String generateAuthSignature(
+            long timestamp,
+            @NonNull String apiKey,
+            @NonNull String apiSecret,
+            @NonNull String method,
+            @NonNull String path,
+            @NonNull String body
+    ) throws NoSuchAlgorithmException, InvalidKeyException {
+        Mac sha256HMAC = Mac.getInstance("HmacSHA256");
+        SecretKeySpec secretKeySpec;
+        StringBuilder sb = new StringBuilder();
+        final String message = apiKey + "," + timestamp + "," + method + "," + path + "," + body;
+        byte[] hashBytes;
+
+        secretKeySpec = new SecretKeySpec(apiSecret.getBytes(), message);
+        sha256HMAC.init(secretKeySpec);
+
+        hashBytes = sha256HMAC.doFinal(message.getBytes(StandardCharsets.UTF_8));
+
+        for(byte b: hashBytes) {
+            sb.append(String.format("%02x", b));
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Gets the current timestamp in nanoseconds
+     * @return {@link String} timestamp
+     */
+    public static String getTimestamp() {
+        return String.valueOf(System.currentTimeMillis() * 1000000);
     }
 }

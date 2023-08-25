@@ -27,6 +27,70 @@ public class WithdrawBody {
     @SerializedName("socket_connector")
     private final String socketConnector;
 
+    public static class Builder {
+        private final String account;
+        private final String collateral;
+        private final String to;
+        private final String amount;
+        private final String salt;
+        private final String signature;
+        private String recipient;
+        private String socketFees;
+        private String socketMsgGasLimit;
+        private String socketConnector;
+
+        public Builder(
+                @NonNull String account,
+                @NonNull String collateral,
+                @NonNull String to,
+                @NonNull String amount,
+                @NonNull String salt,
+                @NonNull String signature
+        ) {
+            this.account = account;
+            this.collateral = collateral;
+            this.to = to;
+            this.amount = amount;
+            this.salt = salt;
+            this.signature = signature;
+        }
+
+        public Builder recipient(String recipient) {
+            this.recipient = recipient;
+            return this;
+        }
+
+        public Builder socketFees(String socketFees) {
+            this.socketFees = socketFees;
+            return this;
+        }
+
+        public Builder socketMsgGasLimit(String socketMsgGasLimit) {
+            this.socketMsgGasLimit = socketMsgGasLimit;
+            return this;
+        }
+
+        public Builder socketConnector(String socketConnector) {
+            this.socketConnector = socketConnector;
+            return this;
+        }
+
+        public WithdrawBody build() {
+            return new WithdrawBody(
+                    account,
+                    collateral,
+                    to,
+                    amount,
+                    salt,
+                    signature,
+                    recipient,
+                    socketFees,
+                    socketMsgGasLimit,
+                    socketConnector
+            );
+        }
+    }
+
     public WithdrawBody(
             @NonNull String account,
             @NonNull String collateral,
@@ -71,14 +135,5 @@ public class WithdrawBody {
         this.socketFees = socketFees;
         this.socketMsgGasLimit = socketMsgGasLimit;
         this.socketConnector = socketConnector;
-    }
-
-    @Override
-    public String toString() {
-        return "{\"account\": \"" + account + "\", \"collateral\": \"" + collateral + "\", \"to\": \"" + to
-                + "\", \"amount\": \"" + amount + "\", \"salt\": \"" + salt + "\", \"signature\": \""
-                + signature + "\", \"recipient\": \"" + recipient + "\", \"socket_fees\": \"" + socketFees
-                + "\", \"socket_msg_gas_limit\": \"" + socketMsgGasLimit + "\", \"socket_connector\": \""
-                + socketConnector + "\"}";
     }
 }

@@ -15,7 +15,8 @@ public enum WebSocketOperations {
     CANCEL_ALL_ORDERS("cancel_all_orders"),
     CREATE_RFQ("create_rfq"),
     CANCEL_RFQ("cancel_rfq"),
-    CREATE_QUOTE_RFQ("quote_rfq");
+    CREATE_QUOTE_RFQ("quote_rfq"),
+    AUTH("auth");
 
     private final String operation;
 

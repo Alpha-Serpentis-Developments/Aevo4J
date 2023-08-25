@@ -3,6 +3,7 @@ package dev.alphaserpentis.web3.aevo4j.data.request.rest;
 import com.google.gson.annotations.SerializedName;
 import io.reactivex.rxjava3.annotations.NonNull;
 
+@SuppressWarnings("unused")
 public class TransferBody {
     @SerializedName("account")
     private final String account;
@@ -31,11 +32,5 @@ public class TransferBody {
         this.amount = amount;
         this.salt = salt;
         this.signature = signature;
-    }
-
-    @Override
-    public String toString() {
-        return "{\"account\":\"" + account + "\",\"collateral\":\"" + collateral + "\",\"to\":\"" + to
-                + "\",\"amount\":\"" + amount + "\",\"salt\":\"" + salt + "\",\"signature\":\"" + signature + "\"}";
     }
 }

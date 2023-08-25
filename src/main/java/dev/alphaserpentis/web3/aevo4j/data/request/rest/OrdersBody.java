@@ -1,80 +1,144 @@
 package dev.alphaserpentis.web3.aevo4j.data.request.rest;
 
 import com.google.gson.annotations.SerializedName;
+import dev.alphaserpentis.web3.aevo4j.data.misc.UnsignedOrder;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.annotations.Nullable;
 
 @SuppressWarnings("unused")
-public class OrdersBody {
-    @SerializedName("instrument")
-    private final String instrument;
-    @SerializedName("maker")
-    private final String maker;
-    @SerializedName("is_buy")
-    private final boolean isBuy;
-    @SerializedName("amount")
-    private final String amount;
-    @SerializedName("limit_price")
-    private final String limitPrice;
-    @SerializedName("salt")
-    private final String salt;
+public class OrdersBody extends UnsignedOrder {
     @SerializedName("signature")
     private final String signature;
-    @SerializedName("timestamp")
-    private final String timestamp;
-    @SerializedName("post_only")
-    private final boolean postOnly;
-    @SerializedName("reduce_only")
-    private final boolean reduceOnly;
-    @SerializedName("time_in_force")
-    private final String timeInForce;
-    @SerializedName("mmp")
-    private final boolean mmp;
-    @SerializedName("stop")
-    private final String stop;
-    @SerializedName("trigger")
-    private final String trigger;
+
+    public static class Builder {
+        private final String signature;
+        private final Integer instrument;
+        private final String maker;
+        private final boolean isBuy;
+        private final String amount;
+        private final String limitPrice;
+        private final String salt;
+        private final String timestamp;
+        private Boolean postOnly;
+        private Boolean reduceOnly;
+        private String timeInForce;
+        private Boolean mmp;
+        private String stop;
+        private String trigger;
+
+        public Builder(
+                @NonNull Integer instrument,
+                @NonNull String maker,
+                boolean isBuy,
+                @NonNull String amount,
+                @NonNull String limitPrice,
+                @NonNull String salt,
+                @NonNull String timestamp,
+                @NonNull String signature
+        ) {
+            this.instrument = instrument;
+            this.maker = maker;
+            this.isBuy = isBuy;
+            this.amount = amount;
+            this.limitPrice = limitPrice;
+            this.salt = salt;
+            this.timestamp = timestamp;
+            this.signature = signature;
+        }
+
+        public Builder postOnly(@Nullable Boolean postOnly) {
+            this.postOnly = postOnly;
+            return this;
+        }
+
+        public Builder reduceOnly(@Nullable Boolean reduceOnly) {
+            this.reduceOnly = reduceOnly;
+            return this;
+        }
+
+        public Builder timeInForce(@Nullable String timeInForce) {
+            this.timeInForce = timeInForce;
+            return this;
+        }
+
+        public Builder mmp(@Nullable Boolean mmp) {
+            this.mmp = mmp;
+            return this;
+        }
+
+        public Builder stop(@Nullable String stop) {
+            this.stop = stop;
+            return this;
+        }
+
+        public Builder trigger(@Nullable String trigger) {
+            this.trigger = trigger;
+            return this;
+        }
+
+        public OrdersBody build() {
+            return new OrdersBody(
+                    instrument,
+                    maker,
+                    isBuy,
+                    amount,
+                    limitPrice,
+                    salt,
+                    signature,
+                    timestamp,
+                    postOnly,
+                    reduceOnly,
+                    timeInForce,
+                    mmp,
+                    stop,
+                    trigger
+            );
+        }
+    }
 
     public OrdersBody(
-            @NonNull String instrument,
+            @NonNull Integer instrument,
             @NonNull String maker,
             boolean isBuy,
             @NonNull String amount,
             @NonNull String limitPrice,
             @NonNull String salt,
             @NonNull String signature,
-            @Nullable String timestamp,
-            boolean postOnly,
-            boolean reduceOnly,
+            @NonNull String timestamp,
+            @Nullable Boolean postOnly,
+            @Nullable Boolean reduceOnly,
             @Nullable String timeInForce,
-            boolean mmp,
+            @Nullable Boolean mmp,
             @Nullable String stop,
             @Nullable String trigger
     ) {
-        this.instrument = instrument;
-        this.maker = maker;
-        this.isBuy = isBuy;
-        this.amount = amount;
-        this.limitPrice = limitPrice;
-        this.salt = salt;
+        super(
+                instrument,
+                maker,
+                isBuy,
+                amount,
+                limitPrice,
+                salt,
+                timestamp,
+                postOnly,
+                reduceOnly,
+                timeInForce,
+                mmp,
+                stop,
+                trigger
+        );
         this.signature = signature;
-        this.timestamp = timestamp;
-        this.postOnly = postOnly;
-        this.reduceOnly = reduceOnly;
-        this.timeInForce = timeInForce;
-        this.mmp = mmp;
-        this.stop = stop;
-        this.trigger = trigger;
     }
 
     public OrdersBody(
-            @NonNull String instrument,
+            @NonNull Integer instrument,
             @NonNull String maker,
             boolean isBuy,
             @NonNull String amount,
             @NonNull String limitPrice,
             @NonNull String salt,
-            @NonNull String signature
+            @NonNull String signature,
+            @NonNull String timestamp
     ) {
         this(
                 instrument,
@@ -84,22 +148,35 @@ public class OrdersBody {
                 limitPrice,
                 salt,
                 signature,
+                timestamp,
                 null,
-                false,
-                false,
                 null,
-                false,
+                null,
+                null,
                 null,
                 null
         );
     }
 
-    @Override
-    public String toString() {
-        return "{\"instrument\":\"" + instrument + "\",\"maker\":\"" + maker + "\",\"is_buy\":" + isBuy
-                + ",\"amount\":\"" + amount + "\",\"limit_price\":\"" + limitPrice + "\",\"salt\":\"" + salt
-                + "\",\"signature\":\"" + signature + "\",\"timestamp\":\"" + timestamp + "\",\"post_only\":"
-                + postOnly + ",\"reduce_only\":" + reduceOnly + ",\"time_in_force\":\"" + timeInForce + "\",\"mmp\":"
-                + mmp + ",\"stop\":\"" + stop + "\",\"trigger\":\"" + trigger + "\"}";
+    public OrdersBody(
+            @NonNull UnsignedOrder unsignedorder,
+            @NonNull String signature
+    ) {
+        this(
+                unsignedorder.getInstrument(),
+                unsignedorder.getMaker(),
+                unsignedorder.isBuy(),
+                unsignedorder.getAmount(),
+                unsignedorder.getLimitPrice(),
+                unsignedorder.getSalt(),
+                signature,
+                unsignedorder.getTimestamp(),
+                unsignedorder.getPostOnly(),
+                unsignedorder.getReduceOnly(),
+                unsignedorder.getTimeInForce(),
+                unsignedorder.getMmp(),
+                unsignedorder.getStop(),
+                unsignedorder.getTrigger()
+        );
     }
 }

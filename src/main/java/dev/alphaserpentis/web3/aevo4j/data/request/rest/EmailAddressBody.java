@@ -10,9 +10,4 @@ public class EmailAddressBody {
     public EmailAddressBody(String emailAddress) {
         this.emailAddress = emailAddress;
     }
-
-    @Override
-    public String toString() {
-        return "{\"email_address\":\"" + emailAddress + "\"}";
-    }
 }

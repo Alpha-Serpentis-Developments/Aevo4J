@@ -8,6 +8,7 @@ import io.reactivex.rxjava3.annotations.Nullable;
  * Body used for {@code POST /register} endpoint.
  * @see <a href="https://docs.aevo.xyz/reference/postregister">Aevo - POST /register</a>
  */
+@SuppressWarnings("unused")
 public class RegisterBody {
     @SerializedName("account")
     private final String account;
@@ -36,17 +37,5 @@ public class RegisterBody {
         this.accountSignature = accountSignature;
         this.signingKeySignature = signingKeySignature;
         this.referralCode = referralCode;
-    }
-
-    @Override
-    public String toString() {
-        return "{\n" +
-                "  \"account\": \"" + account + "\",\n" +
-                "  \"signing_key\": \"" + signingKey + "\",\n" +
-                "  \"expiry\": \"" + expiry + "\",\n" +
-                "  \"account_signature\": \"" + accountSignature + "\",\n" +
-                "  \"signing_key_signature\": \"" + signingKeySignature + "\",\n" +
-                "  \"referral_code\": \"" + referralCode + "\"\n" +
-                "}";
     }
 }
