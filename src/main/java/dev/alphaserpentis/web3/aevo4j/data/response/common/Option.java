@@ -1,4 +1,4 @@
-package dev.alphaserpentis.web3.aevo4j.data.response.rest;
+package dev.alphaserpentis.web3.aevo4j.data.response.common;
 
 import com.google.gson.annotations.SerializedName;
 

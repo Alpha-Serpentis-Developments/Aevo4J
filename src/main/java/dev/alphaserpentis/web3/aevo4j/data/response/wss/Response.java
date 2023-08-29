@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Base class for all responses from the websocket
  * @param <T> The type of data returned by the response
  */
+@SuppressWarnings("unused")
 public abstract class Response<T> {
     @SerializedName("id")
     private String id;

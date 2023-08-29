@@ -5,6 +5,7 @@ import java.util.Arrays;
 /**
  * Acknowledgement response from the websocket (tends to be the second response after a subscribe request)
  */
+@SuppressWarnings("unused")
 public class Ack extends Response<String[]> {
 
     @Override

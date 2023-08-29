@@ -12,7 +12,7 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.IndexHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.InstrumentInfo;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.MarkHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Markets;
-import dev.alphaserpentis.web3.aevo4j.data.response.rest.Option;
+import dev.alphaserpentis.web3.aevo4j.data.response.common.Option;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.SettlementHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Statistics;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Success;

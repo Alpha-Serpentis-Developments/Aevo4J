@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.zip.CRC32;
 
+@SuppressWarnings("unused")
 public class Orderbook {
     @SerializedName("type")
     private String type;

@@ -1,6 +1,7 @@
 package dev.alphaserpentis.web3.aevo4j.data.response.rest;
 
 import com.google.gson.annotations.SerializedName;
+import dev.alphaserpentis.web3.aevo4j.data.response.common.Order;
 
 @SuppressWarnings("unused")
 public class OrderHistory {

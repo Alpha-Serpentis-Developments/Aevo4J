@@ -1,12 +1,11 @@
-package dev.alphaserpentis.web3.aevo4j.data.request.rest;
+package dev.alphaserpentis.web3.aevo4j.data.misc;
 
 import com.google.gson.annotations.SerializedName;
-import dev.alphaserpentis.web3.aevo4j.data.misc.UnsignedOrder;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.annotations.Nullable;
 
 @SuppressWarnings("unused")
-public class OrdersBody extends UnsignedOrder {
+public class SignedOrder extends UnsignedOrder {
     @SerializedName("signature")
     private final String signature;
 
@@ -76,8 +75,8 @@ public class OrdersBody extends UnsignedOrder {
             return this;
         }
 
-        public OrdersBody build() {
-            return new OrdersBody(
+        public SignedOrder build() {
+            return new SignedOrder(
                     instrument,
                     maker,
                     isBuy,
@@ -96,7 +95,10 @@ public class OrdersBody extends UnsignedOrder {
         }
     }
 
-    public OrdersBody(
+    /**
+     * @see Builder
+     */
+    public SignedOrder(
             @NonNull Integer instrument,
             @NonNull String maker,
             boolean isBuy,
@@ -130,7 +132,10 @@ public class OrdersBody extends UnsignedOrder {
         this.signature = signature;
     }
 
-    public OrdersBody(
+    /**
+     * @see Builder
+     */
+    public SignedOrder(
             @NonNull Integer instrument,
             @NonNull String maker,
             boolean isBuy,
@@ -158,7 +163,7 @@ public class OrdersBody extends UnsignedOrder {
         );
     }
 
-    public OrdersBody(
+    public SignedOrder(
             @NonNull UnsignedOrder unsignedorder,
             @NonNull String signature
     ) {

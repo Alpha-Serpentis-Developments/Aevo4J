@@ -1,5 +1,6 @@
+import dev.alphaserpentis.web3.aevo4j.data.misc.SignedOrder;
 import dev.alphaserpentis.web3.aevo4j.data.misc.UnsignedOrder;
-import dev.alphaserpentis.web3.aevo4j.data.response.rest.Order;
+import dev.alphaserpentis.web3.aevo4j.data.response.common.Order;
 import dev.alphaserpentis.web3.aevo4j.handler.AevoHandler;
 import dev.alphaserpentis.web3.aevo4j.services.PrivateService;
 import dev.alphaserpentis.web3.aevo4j.services.PublicService;
@@ -31,27 +32,41 @@ public class PlaceAnOrder {
                 args[1],
                 Boolean.parseBoolean(args[4])
         );
-        UnsignedOrder order = new UnsignedOrder.Builder(
+        SignedOrder order = new UnsignedOrder.Builder(
                 2054, // Testnet ETH-PERP
                 args[3],
                 true,
                 "1000000", // 1 Contract (1.000000)
                 bestBid(publicService) // Matches the best bid at the time of calling
-        )
-                .timeInForce("GTC")
-                .build();
+        ).buildAndSign(true, args[2]);
+
         Order orderResponse = privateService.postOrders(
-                UnsignedOrder.signOrder(order, true, args[2])
+                order
         );
 
         System.out.println(orderResponse);
     }
 
     public static String bestBid(@NonNull PublicService service) {
-        double bestBid = Double.parseDouble(service.getOrderbook("ETH-PERP").getBids()[0][0]);
+        String[][] bids = service.getOrderbook("ETH-PERP").getBids();
         DecimalFormat df = new DecimalFormat("#");
         df.setRoundingMode(RoundingMode.FLOOR); // Cleans up any decimals + stops scientific notation
 
-        return df.format(bestBid * Math.pow(10, 6));
+        if(bids.length == 0) { // No bids found
+            df = new DecimalFormat("#.##");
+
+            // Obtain the index price and go 5% below it
+            double adjustedPrice = Double.parseDouble(
+                    df.format(
+                            Double.parseDouble(service.getIndex("ETH").getPrice()) * 0.95
+                    )
+            ) * Math.pow(10, 6);
+
+            return df.format(adjustedPrice);
+        }
+
+        return df.format(
+                Double.parseDouble(bids[0][0]) * Math.pow(10, 6)
+        );
     }
 }

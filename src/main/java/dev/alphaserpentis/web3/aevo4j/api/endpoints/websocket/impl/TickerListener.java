@@ -1,4 +1,4 @@
-package dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket;
+package dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.impl;
 
 import dev.alphaserpentis.web3.aevo4j.data.request.wss.ChannelName;
 import dev.alphaserpentis.web3.aevo4j.data.request.wss.WebSocketOperations;
@@ -16,18 +16,16 @@ public class TickerListener extends AevoListener<TickerData> {
     }
 
     public TickerListener(
-            @NonNull WebSocketOperations operations,
             boolean isTestnet,
             @NonNull String... channels
     ) {
-        super(TickerData.class, ChannelName.Channels.TICKER, operations, isTestnet, channels);
+        super(TickerData.class, ChannelName.Channels.TICKER, WebSocketOperations.SUBSCRIBE, isTestnet, channels);
     }
 
     public TickerListener(
-            @NonNull WebSocketOperations operations,
             boolean isTestnet,
             @NonNull ChannelName... channels
     ) {
-        super(TickerData.class, ChannelName.Channels.TICKER, operations, isTestnet, channels);
+        super(TickerData.class, ChannelName.Channels.TICKER, WebSocketOperations.SUBSCRIBE, isTestnet, channels);
     }
 }

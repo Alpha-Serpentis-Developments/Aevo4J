@@ -1,11 +1,10 @@
-import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.ChannelsListener;
-import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.IndexListener;
-import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.OrderbookListener;
-import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.PingListener;
-import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.RFQsListener;
-import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.TickerListener;
-import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.TradesListener;
-import dev.alphaserpentis.web3.aevo4j.data.request.wss.WebSocketOperations;
+import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.impl.ChannelsListener;
+import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.impl.IndexListener;
+import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.impl.OrderbookListener;
+import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.impl.PingListener;
+import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.impl.RFQsListener;
+import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.impl.TickerListener;
+import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.impl.TradesListener;
 import dev.alphaserpentis.web3.aevo4j.data.response.common.Orderbook;
 import okhttp3.WebSocket;
 
@@ -61,7 +60,6 @@ public class WebsocketTests {
 
     public static WebSocket test_PublishChannels() {
         ChannelsListener listener = new ChannelsListener(
-                WebSocketOperations.CHANNELS,
                 false
         );
 
@@ -91,7 +89,6 @@ public class WebsocketTests {
     public static WebSocket test_SubscribedOrderbook() {
         OrderbookListener listener = new OrderbookListener(
                 OrderbookListener.Filter.NONE,
-                WebSocketOperations.SUBSCRIBE,
                 false,
                 "orderbook:ETH-PERP"
         );
@@ -108,7 +105,6 @@ public class WebsocketTests {
     public static WebSocket test_SubscribedOrderbookFiltered() {
         OrderbookListener listener = new OrderbookListener(
                 OrderbookListener.Filter.UPDATE,
-                WebSocketOperations.SUBSCRIBE,
                 false,
                 "orderbook:ETH-PERP"
         );
@@ -125,7 +121,6 @@ public class WebsocketTests {
     public static WebSocket test_SubscribedOrderbookChecksum() {
         OrderbookListener listener = new OrderbookListener(
                 OrderbookListener.Filter.NONE,
-                WebSocketOperations.SUBSCRIBE,
                 false,
                 "orderbook:ETH-PERP", "orderbook:BTC-PERP", "orderbook:BNB-PERP"
         );
@@ -153,7 +148,6 @@ public class WebsocketTests {
     public static WebSocket test_SubscribedTicker() {
         final NumberFormat numberFormat = NumberFormat.getInstance();
         TickerListener listener = new TickerListener(
-                WebSocketOperations.SUBSCRIBE,
                 false,
                 "ticker:ETH:PERPETUAL"
         );
@@ -194,7 +188,6 @@ public class WebsocketTests {
 
     public static WebSocket test_SubscribedIndex() {
         IndexListener listener = new IndexListener(
-                WebSocketOperations.SUBSCRIBE,
                 false,
                 "index:ETH"
         );
@@ -210,7 +203,6 @@ public class WebsocketTests {
 
     public static WebSocket test_SubscribedTrades() {
         TradesListener listener = new TradesListener(
-                WebSocketOperations.SUBSCRIBE,
                 false,
                 "trades:ETH"
         );
@@ -226,7 +218,6 @@ public class WebsocketTests {
 
     public static WebSocket test_SubscribedRFQs() {
         RFQsListener listener = new RFQsListener(
-                WebSocketOperations.SUBSCRIBE,
                 false
         );
 

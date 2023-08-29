@@ -1,10 +1,11 @@
-package dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket;
+package dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import dev.alphaserpentis.web3.aevo4j.data.request.wss.ChannelName;
+import dev.alphaserpentis.web3.aevo4j.data.request.wss.PublishWebSocketRequest;
 import dev.alphaserpentis.web3.aevo4j.data.request.wss.WebSocketOperations;
-import dev.alphaserpentis.web3.aevo4j.data.request.wss.WebSocketRequest;
+import dev.alphaserpentis.web3.aevo4j.data.request.wss.SubscribeWebSocketRequest;
 import dev.alphaserpentis.web3.aevo4j.data.response.wss.Ack;
 import dev.alphaserpentis.web3.aevo4j.data.response.wss.AevoWebSocketError;
 import dev.alphaserpentis.web3.aevo4j.data.response.wss.Response;
@@ -27,7 +28,7 @@ import java.util.Arrays;
  */
 public abstract class AevoListener<T extends Response<?>> extends WebSocketListener {
 
-    private final Gson GSON = new Gson();
+    protected final Gson GSON = new Gson();
     /**
      * Class of the response to deserialize the incoming JSON responses into
      */
@@ -80,7 +81,11 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
         this.channelAllowed = channelAllowed;
         webSocket = AevoHandler.createNewWebSocket(this, isTestnet);
 
-        webSocket.send(new WebSocketRequest(operations, arrayOfChannels).toString());
+        if(operations.equals(WebSocketOperations.SUBSCRIBE) || operations.equals(WebSocketOperations.UNSUBSCRIBE)) {
+            webSocket.send(new SubscribeWebSocketRequest(operations, arrayOfChannels).toString());
+        } else {
+            webSocket.send(new PublishWebSocketRequest<>(operations).toString());
+        }
     }
 
     /**
@@ -102,7 +107,11 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
         this.channelAllowed = channelAllowed;
         webSocket = AevoHandler.createNewWebSocket(this, isTestnet);
 
-        webSocket.send(new WebSocketRequest(operations, channels).toString());
+        if(operations.equals(WebSocketOperations.SUBSCRIBE) || operations.equals(WebSocketOperations.UNSUBSCRIBE)) {
+            webSocket.send(new SubscribeWebSocketRequest(operations, channels).toString());
+        } else {
+            webSocket.send(new PublishWebSocketRequest<>(operations).toString());
+        }
     }
 
     /**
@@ -151,12 +160,32 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
         return webSocket;
     }
 
-    public void sendWebSocketRequest(@NonNull String text) {
+    public void sendWebSocketRequest(@NonNull PublishWebSocketRequest<?> request) {
         if(webSocket == null) {
             throw new IllegalStateException("WebSocket is not open");
         }
 
-        webSocket.send(text);
+        webSocket.send(request.toString());
+    }
+
+    public void sendWebSocketRequest(@NonNull SubscribeWebSocketRequest request) {
+        if(webSocket == null) {
+            throw new IllegalStateException("WebSocket is not open");
+        }
+
+        webSocket.send(request.toString());
+    }
+
+    /**
+     * Clean way to unsubscribe from the given channels
+     * @param channels {@link ChannelName} to unsubscribe from
+     */
+    public void unsubscribe(@NonNull ChannelName... channels) {
+        if(webSocket == null) {
+            throw new IllegalStateException("WebSocket is not open");
+        }
+
+        webSocket.send(new SubscribeWebSocketRequest(WebSocketOperations.UNSUBSCRIBE, channels).toString());
     }
 
     @Override
@@ -168,6 +197,7 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
     @SuppressWarnings("unchecked")
     public void onMessage(@NonNull WebSocket webSocket, @NonNull String response) {
         try {
+            System.out.println(response);
             Response<?> parsed = parseString(response);
 
             if(!(parsed instanceof Ack)) {

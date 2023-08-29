@@ -1,13 +1,14 @@
 package dev.alphaserpentis.web3.aevo4j.data.response.wss;
 
 import com.google.gson.annotations.SerializedName;
+import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.impl.TickerListener;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Greeks;
 
 import java.util.Arrays;
 
 /**
  * Data returned from the ticker channel
- * @see dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.TickerListener
+ * @see TickerListener
  * @see <a href="https://docs.aevo.xyz/reference/sub-ticker">Aevo - SUBSCRIBE Ticker</a>
  */
 @SuppressWarnings("unused")

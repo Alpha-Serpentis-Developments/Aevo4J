@@ -2,11 +2,9 @@ package dev.alphaserpentis.web3.aevo4j.data.misc;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
-import dev.alphaserpentis.web3.aevo4j.data.request.rest.OrdersBody;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.annotations.Nullable;
 import org.web3j.crypto.Credentials;
-import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Sign;
 import org.web3j.utils.Numeric;
 
@@ -100,6 +98,9 @@ public class UnsignedOrder {
             return this;
         }
 
+        /**
+         * <b>Note:</b> This may or may not apply for the websocket request!
+         */
         public Builder reduceOnly(@Nullable Boolean reduceOnly) {
             this.reduceOnly = reduceOnly;
             return this;
@@ -115,16 +116,26 @@ public class UnsignedOrder {
             return this;
         }
 
+        /**
+         * <b>Note:</b> This may or may not apply for the websocket request!
+         */
         public Builder stop(@Nullable String stop) {
             this.stop = stop;
             return this;
         }
 
+        /**
+         * <b>Note:</b> This may or may not apply for the websocket request!
+         */
         public Builder trigger(@Nullable String trigger) {
             this.trigger = trigger;
             return this;
         }
 
+        /**
+         * Builds an {@link UnsignedOrder} from the given parameters
+         * @return {@link UnsignedOrder}
+         */
         public UnsignedOrder build() {
             return new UnsignedOrder(
                     instrument,
@@ -142,8 +153,25 @@ public class UnsignedOrder {
                     trigger
             );
         }
+
+        /**
+         * Builds and signs an {@link UnsignedOrder} using the given signing key
+         * @param isTestnet Whether to use the testnet domain
+         * @param signingKey Signing key provided by Aevo when you enabled trading
+         * @return {@link SignedOrder}
+         */
+        public SignedOrder buildAndSign(boolean isTestnet, @NonNull String signingKey) throws IOException {
+            return UnsignedOrder.signOrder(
+                    this.build(),
+                    isTestnet,
+                    signingKey
+            );
+        }
     }
 
+    /**
+     * @see Builder
+     */
     public UnsignedOrder(
             @NonNull Integer instrument,
             @NonNull String maker,
@@ -174,6 +202,9 @@ public class UnsignedOrder {
         this.trigger = trigger;
     }
 
+    /**
+     * @see Builder
+     */
     public UnsignedOrder(
             @NonNull Integer instrument,
             @NonNull String maker,
@@ -201,14 +232,14 @@ public class UnsignedOrder {
     }
 
     /**
-     * Signs an order using the given {@link ECKeyPair}
+     * Signs an order using the given signing key
      * @param order The unsigned order to sign
      * @param isTestnet Whether to use the testnet domain
      * @param signingKey Signing key provided by Aevo when you enabled trading
-     * @return {@link OrdersBody}
+     * @return {@link SignedOrder}
      * @see <a href="https://api-docs.aevo.xyz/reference/signing-orders">Aevo - Signing Orders</a>
      */
-    public static OrdersBody signOrder(
+    public static SignedOrder signOrder(
             @NonNull UnsignedOrder order,
             boolean isTestnet,
             @NonNull String signingKey
@@ -227,7 +258,7 @@ public class UnsignedOrder {
         System.arraycopy(signature.getV(), 0, retval, 64, 1);
         signatureHex = Numeric.toHexString(retval);
         
-        return new OrdersBody(
+        return new SignedOrder(
                 order.getInstrument(),
                 order.getMaker(),
                 order.isBuy(),

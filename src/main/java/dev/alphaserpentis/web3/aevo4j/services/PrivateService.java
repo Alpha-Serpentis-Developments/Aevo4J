@@ -8,7 +8,7 @@ import dev.alphaserpentis.web3.aevo4j.data.request.rest.EmailPreferenceBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.EnabledBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.MmpBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.OrdersAllBody;
-import dev.alphaserpentis.web3.aevo4j.data.request.rest.OrdersBody;
+import dev.alphaserpentis.web3.aevo4j.data.misc.SignedOrder;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.PostApiKeyBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.RegisterBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.ResetMmpBody;
@@ -23,7 +23,7 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.EmailPreferences;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.EmailVerified;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Enabled;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Mmp;
-import dev.alphaserpentis.web3.aevo4j.data.response.rest.Order;
+import dev.alphaserpentis.web3.aevo4j.data.response.common.Order;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.OrderHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.OrderId;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Portfolio;
@@ -833,7 +833,7 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
             @Nullable String stop,
             @Nullable String trigger
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        OrdersBody body = new OrdersBody(
+        SignedOrder body = new SignedOrder(
                 instrument,
                 maker,
                 isBuy,
@@ -912,12 +912,12 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
 
     /**
      * Creates a new order
-     * @param body {@link OrdersBody} to create the order with
+     * @param body {@link SignedOrder} to create the order with
      * @return {@link Order}
      * @see <a href="https://api-docs.aevo.xyz/reference/postorders">Aevo - POST Orders</a>
      */
     public Order postOrders(
-            @NonNull OrdersBody body
+            @NonNull SignedOrder body
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
         String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
         String signature = useSignatures ? AevoHandler.generateAuthSignature(
@@ -1007,7 +1007,7 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
             @Nullable String stop,
             @Nullable String trigger
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
-        OrdersBody body = new OrdersBody(
+        SignedOrder body = new SignedOrder(
                 instrument,
                 maker,
                 isBuy,
@@ -1091,13 +1091,13 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
     /**
      * Edits an existing order
      * @param orderId Order ID to edit
-     * @param body {@link OrdersBody} to edit the order with
+     * @param body {@link SignedOrder} to edit the order with
      * @return {@link Order}
      * @see <a href="https://api-docs.aevo.xyz/reference/postordersorderid">Aevo - POST Orders/{Order ID}</a>
      */
     public Order postEditOrder(
             @NonNull String orderId,
-            @NonNull OrdersBody body
+            @NonNull SignedOrder body
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
         String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
         String signature2 = useSignatures ? AevoHandler.generateAuthSignature(

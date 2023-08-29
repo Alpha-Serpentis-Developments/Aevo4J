@@ -1,15 +1,17 @@
 package dev.alphaserpentis.web3.aevo4j.data.response.wss;
 
 import com.google.gson.annotations.SerializedName;
+import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.impl.RFQsListener;
 
 import java.util.Arrays;
 
 /**
  * Data returned from the RFQs channel
  *
- * @see dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.RFQsListener
+ * @see RFQsListener
  * @see <a href="https://docs.aevo.xyz/reference/subscribe-rfqs">Aevo - SUBSCRIBE RFQs</a>
  */
+@SuppressWarnings("unused")
 public class RFQsData extends Response<RFQsData.Data> {
 
     public static class Data {

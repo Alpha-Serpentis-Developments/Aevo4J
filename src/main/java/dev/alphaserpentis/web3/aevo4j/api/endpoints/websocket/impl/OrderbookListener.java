@@ -1,4 +1,4 @@
-package dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket;
+package dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.impl;
 
 import dev.alphaserpentis.web3.aevo4j.data.request.wss.ChannelName;
 import dev.alphaserpentis.web3.aevo4j.data.request.wss.WebSocketOperations;
@@ -51,22 +51,20 @@ public class OrderbookListener extends AevoListener<OrderbookData> {
 
     public OrderbookListener(
             @Nullable Filter filter,
-            @NonNull WebSocketOperations operations,
             boolean isTestnet,
             @NonNull String... channels
     ) {
-        super(OrderbookData.class, ChannelName.Channels.ORDERBOOK, operations, isTestnet, channels);
+        super(OrderbookData.class, ChannelName.Channels.ORDERBOOK, WebSocketOperations.SUBSCRIBE, isTestnet, channels);
 
         this.filter = filter;
     }
 
     public OrderbookListener(
             @Nullable Filter filter,
-            @NonNull WebSocketOperations operations,
             boolean isTestnet,
             @NonNull ChannelName... channels
     ) {
-        super(OrderbookData.class, ChannelName.Channels.ORDERBOOK, operations, isTestnet, channels);
+        super(OrderbookData.class, ChannelName.Channels.ORDERBOOK, WebSocketOperations.SUBSCRIBE, isTestnet, channels);
 
         this.filter = filter;
     }

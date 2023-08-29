@@ -1,6 +1,7 @@
 package dev.alphaserpentis.web3.aevo4j.api.endpoints.rest;
 
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.AccountBody;
+import dev.alphaserpentis.web3.aevo4j.data.response.common.Option;
 import dev.alphaserpentis.web3.aevo4j.data.response.common.Orderbook;
 import dev.alphaserpentis.web3.aevo4j.data.response.common.Index;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.*;

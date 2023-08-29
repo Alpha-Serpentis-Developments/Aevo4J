@@ -6,7 +6,7 @@ import dev.alphaserpentis.web3.aevo4j.data.request.rest.EmailPreferenceBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.EnabledBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.MmpBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.OrdersAllBody;
-import dev.alphaserpentis.web3.aevo4j.data.request.rest.OrdersBody;
+import dev.alphaserpentis.web3.aevo4j.data.misc.SignedOrder;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.PostApiKeyBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.RegisterBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.ResetMmpBody;
@@ -21,7 +21,7 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.EmailPreferences;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.EmailVerified;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Enabled;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Mmp;
-import dev.alphaserpentis.web3.aevo4j.data.response.rest.Order;
+import dev.alphaserpentis.web3.aevo4j.data.response.common.Order;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.OrderHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.OrderId;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Portfolio;
@@ -231,7 +231,7 @@ public interface PrivateEndpoints {
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY") String aevoKey,
             @Header("AEVO-SECRET") String aevoSecret,
-            @Body OrdersBody body
+            @Body SignedOrder body
     );
 
     @Headers("Content-Type: application/json")
@@ -252,7 +252,7 @@ public interface PrivateEndpoints {
             @Header("AEVO-KEY") String aevoKey,
             @Header("AEVO-SECRET") String aevoSecret,
             @Path("order_id") String orderId,
-            @Body OrdersBody body
+            @Body SignedOrder body
     );
 
     @Headers("Content-Type: application/json")

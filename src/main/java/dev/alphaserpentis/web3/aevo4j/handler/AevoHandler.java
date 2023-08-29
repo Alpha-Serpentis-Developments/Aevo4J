@@ -3,7 +3,7 @@ package dev.alphaserpentis.web3.aevo4j.handler;
 import com.google.gson.GsonBuilder;
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.rest.PrivateEndpoints;
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.rest.PublicEndpoints;
-import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.AevoListener;
+import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.impl.AevoListener;
 import dev.alphaserpentis.web3.aevo4j.services.PrivateService;
 import dev.alphaserpentis.web3.aevo4j.services.PublicService;
 import io.reactivex.rxjava3.annotations.NonNull;

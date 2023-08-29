@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
  * @see <a href="https://docs.aevo.xyz/reference/rate-limits-1#rate-limits-on-websocket-api">Aevo - Rate Limits on WebSocket API</a>
  * @see <a href="https://docs.aevo.xyz/reference/messaging-format-1#response-format">Aevo - Response Format</a>
  */
+@SuppressWarnings("unused")
 public class AevoWebSocketError extends Response<AevoWebSocketError.Data> {
     @SerializedName("status")
     private String status;

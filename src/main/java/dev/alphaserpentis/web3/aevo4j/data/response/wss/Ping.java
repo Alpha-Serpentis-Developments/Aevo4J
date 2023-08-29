@@ -1,13 +1,15 @@
 package dev.alphaserpentis.web3.aevo4j.data.response.wss;
 
 import com.google.gson.annotations.SerializedName;
+import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.impl.PingListener;
 
 /**
  * Data returned from the server
  *
- * @see dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.PingListener
+ * @see PingListener
  * @see <a href="https://docs.aevo.xyz/reference/publish-ping">Aevo - PUBLISH Ping</a>
  */
+@SuppressWarnings("unused")
 public class Ping extends Response<Ping.Data> {
     public static class Data {
         @SerializedName("success")

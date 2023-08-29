@@ -1,4 +1,4 @@
-package dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket;
+package dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.impl;
 
 import dev.alphaserpentis.web3.aevo4j.data.request.wss.ChannelName;
 import dev.alphaserpentis.web3.aevo4j.data.request.wss.WebSocketOperations;
@@ -16,18 +16,16 @@ public class IndexListener extends AevoListener<IndexData> {
     }
 
     public IndexListener(
-            @NonNull WebSocketOperations operations,
             boolean isTestnet,
             @NonNull String... channels
     ) {
-        super(IndexData.class, ChannelName.Channels.INDEX, operations, isTestnet, channels);
+        super(IndexData.class, ChannelName.Channels.INDEX, WebSocketOperations.SUBSCRIBE, isTestnet, channels);
     }
 
     public IndexListener(
-            @NonNull WebSocketOperations operations,
             boolean isTestnet,
-            @NonNull ChannelName channels
+            @NonNull ChannelName... channels
     ) {
-        super(IndexData.class, ChannelName.Channels.INDEX, operations, isTestnet, channels);
+        super(IndexData.class, ChannelName.Channels.INDEX, WebSocketOperations.SUBSCRIBE, isTestnet, channels);
     }
 }

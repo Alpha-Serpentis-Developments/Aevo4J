@@ -1,8 +1,7 @@
-package dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket;
+package dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.impl;
 
 import dev.alphaserpentis.web3.aevo4j.data.request.wss.WebSocketOperations;
 import dev.alphaserpentis.web3.aevo4j.data.response.wss.ChannelsData;
-import io.reactivex.rxjava3.annotations.NonNull;
 
 /**
  * Get available channels to subscribe to (similar to doing a GET/POST request)
@@ -15,9 +14,8 @@ public class ChannelsListener extends AevoListener<ChannelsData> {
     }
 
     public ChannelsListener(
-            @NonNull WebSocketOperations operations,
             boolean isTestnet
     ) {
-        super(ChannelsData.class, null, operations, isTestnet, new String[0]);
+        super(ChannelsData.class, null, WebSocketOperations.CHANNELS, isTestnet, new String[0]);
     }
 }
