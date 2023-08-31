@@ -6,6 +6,7 @@ import dev.alphaserpentis.web3.aevo4j.data.response.common.Index;
 import dev.alphaserpentis.web3.aevo4j.data.response.common.Orderbook;
 import dev.alphaserpentis.web3.aevo4j.data.response.common.Trade;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.CheckReferral;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.CoinGeckoStats;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Funding;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.FundingHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.IndexHistory;
@@ -16,6 +17,7 @@ import dev.alphaserpentis.web3.aevo4j.data.response.common.Option;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.SettlementHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Statistics;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Success;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Time;
 import dev.alphaserpentis.web3.aevo4j.exception.AevoRestException;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.annotations.Nullable;
@@ -264,6 +266,17 @@ public class PublicService extends AbstractService<PublicEndpoints> {
     }
 
     /**
+     * Returns the statistics of all the assets, specifically for CoinGecko
+     * @return {@link List<CoinGeckoStats>}
+     * @see <a href="https://api-docs.aevo.xyz/reference/getcoingeckostatistics">Aevo - GET CoinGecko Statistics</a>
+     */
+    public List<CoinGeckoStats> getCoinGeckoStatistics() throws AevoRestException {
+        return execute(
+            getApi().getCoinGeckoStatistics()
+        );
+    }
+
+    /**
      * Returns the orderbook for the given instrument
      * @param instrumentName Name of the instrument
      * @return The orderbook for the given instrument
@@ -421,6 +434,17 @@ public class PublicService extends AbstractService<PublicEndpoints> {
                                 authTokenEmail
                         )
                 )
+        );
+    }
+
+    /**
+     * Returns the server time
+     * @return {@link Time}
+     * @see <a href="https://api-docs.aevo.xyz/reference/gettime">Aevo - GET Time</a>
+     */
+    public Time getTime() throws AevoRestException {
+        return execute(
+            getApi().getTime()
         );
     }
 

@@ -81,6 +81,10 @@ public interface PublicEndpoints {
     );
 
     @Headers("Content-Type: application/json")
+    @GET("coingecko-statistics")
+    Single<List<CoinGeckoStats>> getCoinGeckoStatistics();
+
+    @Headers("Content-Type: application/json")
     @GET("orderbook")
     Single<Orderbook> getOrderbook(
             @Query("instrument_name") String instrumentName
@@ -126,6 +130,10 @@ public interface PublicEndpoints {
     Single<Success> postAccountUnsubscribe(
             @Body AccountBody body
     );
+
+    @Headers("Content-Type: application/json")
+    @GET("time")
+    Single<Time> getTime();
 
     @Headers("Content-Type: application/json")
     @GET("options-history")

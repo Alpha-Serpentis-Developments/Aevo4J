@@ -2,6 +2,9 @@ package dev.alphaserpentis.web3.aevo4j.data.response.common;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Class representing an option. This is shared between {@code GET /account} and {@code GET /options-history}
+ */
 @SuppressWarnings("unused")
 public class Option {
     @SerializedName("instrument_name")
@@ -14,6 +17,14 @@ public class Option {
     private String strike;
     @SerializedName("iv")
     private String iv;
+    @SerializedName("delta")
+    private String delta;
+    @SerializedName("theta")
+    private String theta;
+    @SerializedName("vega")
+    private String vega;
+    @SerializedName("rho")
+    private String rho;
     @SerializedName("order_type")
     private String orderType;
     @SerializedName("side")
@@ -45,6 +56,22 @@ public class Option {
 
     public String getIv() {
         return iv;
+    }
+
+    public String getDelta() {
+        return delta;
+    }
+
+    public String getTheta() {
+        return theta;
+    }
+
+    public String getVega() {
+        return vega;
+    }
+
+    public String getRho() {
+        return rho;
     }
 
     public String getOrderType() {
@@ -79,6 +106,10 @@ public class Option {
                 ", expiry='" + expiry + '\'' +
                 ", strike='" + strike + '\'' +
                 ", iv='" + iv + '\'' +
+                ", delta='" + delta + '\'' +
+                ", theta='" + theta + '\'' +
+                ", vega='" + vega + '\'' +
+                ", rho='" + rho + '\'' +
                 ", orderType='" + orderType + '\'' +
                 ", side='" + side + '\'' +
                 ", avgPrice='" + avgPrice + '\'' +

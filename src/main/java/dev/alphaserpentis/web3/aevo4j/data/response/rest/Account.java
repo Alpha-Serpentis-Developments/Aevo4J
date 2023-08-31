@@ -37,6 +37,16 @@ public class Account {
     private String initialMargin;
     @SerializedName("maintenance_margin")
     private String maintenanceMargin;
+    @SerializedName("email_address")
+    private String emailAddress;
+    @SerializedName("intercom_hash")
+    private String intercomHash;
+    @SerializedName("credit")
+    private String credit;
+    @SerializedName("credited")
+    private boolean credited;
+    @SerializedName("has_been_referred")
+    private boolean hasBeenReferred;
 
     public static class SigningKey {
         @SerializedName("signing_key")
@@ -202,6 +212,26 @@ public class Account {
         return maintenanceMargin;
     }
 
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public String getIntercomHash() {
+        return intercomHash;
+    }
+
+    public String getCredit() {
+        return credit;
+    }
+
+    public boolean isCredited() {
+        return credited;
+    }
+
+    public boolean isHasBeenReferred() {
+        return hasBeenReferred;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
@@ -220,6 +250,11 @@ public class Account {
                 ", inLiquidation=" + inLiquidation +
                 ", initialMargin='" + initialMargin + '\'' +
                 ", maintenanceMargin='" + maintenanceMargin + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", intercomHash='" + intercomHash + '\'' +
+                ", credit='" + credit + '\'' +
+                ", credited=" + credited +
+                ", hasBeenReferred=" + hasBeenReferred +
                 '}';
     }
 }

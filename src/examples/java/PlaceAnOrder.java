@@ -39,7 +39,6 @@ public class PlaceAnOrder {
                 "1000000", // 1 Contract (1.000000)
                 bestBid(publicService) // Matches the best bid at the time of calling
         ).buildAndSign(true, args[2]);
-
         Order orderResponse = privateService.postOrders(
                 order
         );

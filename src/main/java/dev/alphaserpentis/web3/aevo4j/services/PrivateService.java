@@ -31,6 +31,7 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.PostRegister;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralRewardsHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralStatistics;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.SocketCapacity;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Success;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.TradeHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.TransactionHistory;
@@ -76,6 +77,32 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
 
     public void setUseSignatures(boolean useSignatures) {
         this.useSignatures = useSignatures;
+    }
+
+    /**
+     * Returns the socket's capacities
+     * @return {@link List} of {@link SocketCapacity}
+     * @see <a href="https://api-docs.aevo.xyz/reference/getsocketcapacity">Aevo - GET Socket Capacity</a>
+     */
+    public List<SocketCapacity> getSocketCapacity() throws AevoRestException, NoSuchAlgorithmException, InvalidKeyException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "GET",
+                "/socket/capacity",
+                ""
+        ) : null;
+
+        return execute(
+                getApi().getSocketCapacity(
+                        timestamp,
+                        signature,
+                        apiKey,
+                        useSignatures ? null : apiSecret
+                )
+        );
     }
 
     /**

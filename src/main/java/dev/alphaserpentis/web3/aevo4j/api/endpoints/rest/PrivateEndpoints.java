@@ -29,6 +29,7 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.PostRegister;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralRewardsHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralStatistics;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.SocketCapacity;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Success;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.TradeHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.TransactionHistory;
@@ -48,6 +49,15 @@ import java.util.List;
  * @see <a href="https://docs.aevo.xyz/reference/rest-authentication">Aevo - REST Authentication</a>
  */
 public interface PrivateEndpoints {
+
+    @Headers("Content-Type: application/json")
+    @GET("socket/capacity")
+    Single<List<SocketCapacity>> getSocketCapacity(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY") String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret
+    );
 
     @Headers("Content-Type: application/json")
     @POST("register")
