@@ -1170,7 +1170,7 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
             apiSecret,
             "DELETE",
             "/orders-all",
-            ""
+            gson.toJson(body)
         ) : null;
 
         return execute(

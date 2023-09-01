@@ -3,36 +3,38 @@ package dev.alphaserpentis.web3.aevo4j.data.response.wss;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("unused")
-public class Fills extends Response<Orders.Data> {
+public class Fills extends Response<Fills.Data> {
     public static class Data {
         @SerializedName("timestamp")
-        public String timestamp;
+        private String timestamp;
         @SerializedName("fill")
-        public Fill fill;
+        private Fill fill;
 
         public static class Fill {
             @SerializedName("trade_id")
-            public String tradeId;
+            private String tradeId;
             @SerializedName("order_id")
-            public String orderId;
+            private String orderId;
             @SerializedName("instrument_id")
-            public String instrumentId;
+            private String instrumentId;
             @SerializedName("instrument_name")
-            public String instrumentName;
+            private String instrumentName;
             @SerializedName("instrument_type")
-            public String instrumentType;
+            private String instrumentType;
             @SerializedName("price")
-            public String price;
+            private String price;
             @SerializedName("side")
-            public String side;
+            private String side;
             @SerializedName("fees")
-            public String fees;
+            private String fees;
+            @SerializedName("filled")
+            private String filled;
             @SerializedName("order_status")
-            public String orderStatus;
+            private String orderStatus;
             @SerializedName("liquidity")
-            public String liquidity;
+            private String liquidity;
             @SerializedName("created_timestamp")
-            public String createdTimestamp;
+            private String createdTimestamp;
 
             public String getTradeId() {
                 return tradeId;
@@ -66,6 +68,10 @@ public class Fills extends Response<Orders.Data> {
                 return fees;
             }
 
+            public String getFilled() {
+                return filled;
+            }
+
             public String getOrderStatus() {
                 return orderStatus;
             }
@@ -89,6 +95,7 @@ public class Fills extends Response<Orders.Data> {
                         ", price='" + price + '\'' +
                         ", side='" + side + '\'' +
                         ", fees='" + fees + '\'' +
+                        ", filled='" + filled + '\'' +
                         ", orderStatus='" + orderStatus + '\'' +
                         ", liquidity='" + liquidity + '\'' +
                         ", createdTimestamp='" + createdTimestamp + '\'' +

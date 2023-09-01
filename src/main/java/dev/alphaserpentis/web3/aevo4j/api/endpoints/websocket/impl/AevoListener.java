@@ -197,7 +197,6 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
     @SuppressWarnings("unchecked")
     public void onMessage(@NonNull WebSocket webSocket, @NonNull String response) {
         try {
-            System.out.println(response);
             Response<?> parsed = parseString(response);
 
             if(!(parsed instanceof Ack)) {

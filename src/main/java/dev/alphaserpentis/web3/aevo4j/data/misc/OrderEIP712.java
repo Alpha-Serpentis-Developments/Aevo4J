@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import io.reactivex.rxjava3.annotations.NonNull;
 import org.web3j.crypto.StructuredData;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,13 +13,13 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 public class OrderEIP712 {
-    public static List<StructuredData.Entry> DOMAIN_ENTRY = Arrays.asList(
+    public static final List<StructuredData.Entry> DOMAIN_ENTRY = List.of(
             new StructuredData.Entry("name", "string"),
             new StructuredData.Entry("version", "string"),
             new StructuredData.Entry("chainId", "uint256")
     );
 
-    public static List<StructuredData.Entry> ORDER_ENTRY = Arrays.asList(
+    public static final List<StructuredData.Entry> ORDER_ENTRY = List.of(
             new StructuredData.Entry("maker", "address"),
             new StructuredData.Entry("isBuy", "bool"),
             new StructuredData.Entry("limitPrice", "uint256"),
@@ -29,6 +28,10 @@ public class OrderEIP712 {
             new StructuredData.Entry("instrument", "uint256"),
             new StructuredData.Entry("timestamp", "uint256")
     );
+
+    public static final Domain MAINNET_DOMAIN = new Domain("Aevo Mainnet", "1", 1);
+
+    public static final Domain TESTNET_DOMAIN = new Domain("Aevo Testnet", "1", 11155111);
 
     @SerializedName("domain")
     private Domain domain;
@@ -108,14 +111,6 @@ public class OrderEIP712 {
     public OrderEIP712(@NonNull Domain domain, @NonNull Order order) {
         this.domain = domain;
         this.order = order;
-    }
-
-    public static Domain mainnetDomain() {
-        return new Domain("Aevo Mainnet", "1", 1);
-    }
-
-    public static Domain testnetDomain() {
-        return new Domain("Aevo Testnet", "1", 11155111);
     }
 
     public HashMap<String, List<StructuredData.Entry>> getTypes() {

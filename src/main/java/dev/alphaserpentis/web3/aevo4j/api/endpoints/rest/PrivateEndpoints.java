@@ -37,6 +37,7 @@ import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -70,7 +71,7 @@ public interface PrivateEndpoints {
     );
 
     @Headers("Content-Type: application/json")
-    @DELETE("api-key")
+    @HTTP(path = "api-key", method = "DELETE", hasBody = true)
     Single<Success> deleteApiKey(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
@@ -102,7 +103,7 @@ public interface PrivateEndpoints {
     );
 
     @Headers("Content-Type: application/json")
-    @DELETE("signing-key")
+    @HTTP(path = "signing-key", method = "DELETE", hasBody = true)
     Single<Success> deleteSigningKey(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
@@ -130,7 +131,7 @@ public interface PrivateEndpoints {
     );
 
     @Headers("Content-Type: application/json")
-    @POST("account/cancel-disconnect")
+    @POST("account/cancel-on-disconnect")
     Single<Success> postCancelOnDisconnect(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
@@ -266,7 +267,7 @@ public interface PrivateEndpoints {
     );
 
     @Headers("Content-Type: application/json")
-    @DELETE("orders-all")
+    @HTTP(method = "DELETE", path = "orders-all", hasBody = true)
     Single<CancelledOrders> deleteOrdersAll(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,

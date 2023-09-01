@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.annotations.Nullable;
 import org.web3j.crypto.Credentials;
+import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Sign;
 import org.web3j.utils.Numeric;
 
@@ -167,6 +168,20 @@ public class UnsignedOrder {
                     signingKey
             );
         }
+
+        /**
+         * Builds and signs an {@link UnsignedOrder} using the given signing key
+         * @param isTestnet Whether to use the testnet domain
+         * @param signingKey {@link ECKeyPair} of the signing key which was provided by Aevo when you enabled trading
+         * @return {@link SignedOrder}
+         */
+        public SignedOrder buildAndSign(boolean isTestnet, @NonNull ECKeyPair signingKey) throws IOException {
+            return UnsignedOrder.signOrder(
+                    this.build(),
+                    isTestnet,
+                    signingKey
+            );
+        }
     }
 
     /**
@@ -245,11 +260,13 @@ public class UnsignedOrder {
             @NonNull String signingKey
     ) throws IOException {
         OrderEIP712 orderEIP712 = new OrderEIP712(
-                isTestnet ? OrderEIP712.testnetDomain() : OrderEIP712.mainnetDomain(),
+                isTestnet ? OrderEIP712.TESTNET_DOMAIN : OrderEIP712.MAINNET_DOMAIN,
                 OrderEIP712.Order.fromUnsignedOrder(order)
         );
-        Credentials credentials = Credentials.create(signingKey);
-        Sign.SignatureData signature = Sign.signTypedData(orderEIP712.toString(), credentials.getEcKeyPair());
+        Sign.SignatureData signature = Sign.signTypedData(
+                orderEIP712.toString(),
+                Credentials.create(signingKey).getEcKeyPair()
+        );
         String signatureHex;
         byte[] retval = new byte[65];
 
@@ -257,7 +274,51 @@ public class UnsignedOrder {
         System.arraycopy(signature.getS(), 0, retval, 32, 32);
         System.arraycopy(signature.getV(), 0, retval, 64, 1);
         signatureHex = Numeric.toHexString(retval);
-        
+
+        return new SignedOrder(
+                order.getInstrument(),
+                order.getMaker(),
+                order.isBuy(),
+                order.getAmount(),
+                order.getLimitPrice(),
+                order.getSalt(),
+                signatureHex,
+                order.getTimestamp(),
+                order.getPostOnly(),
+                order.getReduceOnly(),
+                order.getTimeInForce(),
+                order.getMmp(),
+                order.getStop(),
+                order.getTrigger()
+        );
+    }
+
+    /**
+     * Signs an order using the given signing key
+     * @param order The unsigned order to sign
+     * @param isTestnet Whether to use the testnet domain
+     * @param signingKey {@link ECKeyPair} of the signing key which was provided by Aevo when you enabled trading
+     * @return {@link SignedOrder}
+     * @see <a href="https://api-docs.aevo.xyz/reference/signing-orders">Aevo - Signing Orders</a>
+     */
+    public static SignedOrder signOrder(
+            @NonNull UnsignedOrder order,
+            boolean isTestnet,
+            @NonNull ECKeyPair signingKey
+    ) throws IOException {
+        OrderEIP712 orderEIP712 = new OrderEIP712(
+                isTestnet ? OrderEIP712.TESTNET_DOMAIN : OrderEIP712.MAINNET_DOMAIN,
+                OrderEIP712.Order.fromUnsignedOrder(order)
+        );
+        Sign.SignatureData signature = Sign.signTypedData(orderEIP712.toString(), signingKey);
+        String signatureHex;
+        byte[] retval = new byte[65];
+
+        System.arraycopy(signature.getR(), 0, retval, 0, 32);
+        System.arraycopy(signature.getS(), 0, retval, 32, 32);
+        System.arraycopy(signature.getV(), 0, retval, 64, 1);
+        signatureHex = Numeric.toHexString(retval);
+
         return new SignedOrder(
                 order.getInstrument(),
                 order.getMaker(),
