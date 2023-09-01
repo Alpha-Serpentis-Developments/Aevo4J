@@ -7,7 +7,7 @@ import java.util.Arrays;
 @SuppressWarnings("unused")
 public class TransactionHistory {
     @SerializedName("count")
-    private String count;
+    private long count;
     @SerializedName("transaction_history")
     private HistoricalTransaction[] transactionHistory;
 
@@ -15,7 +15,7 @@ public class TransactionHistory {
         @SerializedName("account")
         private String account;
         @SerializedName("amount")
-        private String amount;
+        private double amount;
         @SerializedName("collateral")
         private String collateral;
         @SerializedName("counter_party")
@@ -23,13 +23,15 @@ public class TransactionHistory {
         @SerializedName("transfer_details")
         private TransferDetails transferDetails;
         @SerializedName("finalized_timestamp")
-        private String finalizedTimestamp;
+        private long finalizedTimestamp;
         @SerializedName("initiated_timestamp")
-        private String initiatedTimestamp;
+        private long initiatedTimestamp;
         @SerializedName("l1_tx_hash")
         private String l1TxHash;
         @SerializedName("l2_tx_hash")
         private String l2TxHash;
+        @SerializedName("chain_id")
+        private long chainId;
         @SerializedName("tx_status")
         private String txStatus;
         @SerializedName("tx_type")
@@ -64,7 +66,7 @@ public class TransactionHistory {
             return account;
         }
 
-        public String getAmount() {
+        public double getAmount() {
             return amount;
         }
 
@@ -80,11 +82,11 @@ public class TransactionHistory {
             return transferDetails;
         }
 
-        public String getFinalizedTimestamp() {
+        public long getFinalizedTimestamp() {
             return finalizedTimestamp;
         }
 
-        public String getInitiatedTimestamp() {
+        public long getInitiatedTimestamp() {
             return initiatedTimestamp;
         }
 
@@ -127,7 +129,7 @@ public class TransactionHistory {
         }
     }
 
-    public String getCount() {
+    public long getCount() {
         return count;
     }
 

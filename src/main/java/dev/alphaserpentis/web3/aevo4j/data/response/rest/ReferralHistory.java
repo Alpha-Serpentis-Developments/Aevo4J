@@ -7,7 +7,7 @@ import java.util.Arrays;
 @SuppressWarnings("unused")
 public class ReferralHistory {
     @SerializedName("count")
-    private String count;
+    private long count;
     @SerializedName("referral_history")
     private HistoricalReferral[] referralHistory;
 
@@ -17,7 +17,7 @@ public class ReferralHistory {
         @SerializedName("referee_username")
         private String refereeUsername;
         @SerializedName("rewards")
-        private String rewards;
+        private double rewards;
         @SerializedName("created_timestamp")
         private String createdTimestamp;
 
@@ -29,7 +29,7 @@ public class ReferralHistory {
             return refereeUsername;
         }
 
-        public String getRewards() {
+        public double getRewards() {
             return rewards;
         }
 
@@ -48,7 +48,7 @@ public class ReferralHistory {
         }
     }
 
-    public String getCount() {
+    public long getCount() {
         return count;
     }
 

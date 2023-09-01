@@ -1,6 +1,7 @@
 package dev.alphaserpentis.web3.aevo4j.data.response.rest;
 
 import com.google.gson.annotations.SerializedName;
+import dev.alphaserpentis.web3.aevo4j.data.response.common.Greeks;
 
 @SuppressWarnings("unused")
 public class InstrumentInfo {
@@ -8,7 +9,7 @@ public class InstrumentInfo {
     @SerializedName("asset")
     private String asset;
     @SerializedName("instrument_id")
-    private String instrumentId;
+    private long instrumentId;
     @SerializedName("instrument_name")
     private String instrumentName;
     @SerializedName("instrument_type")
@@ -20,33 +21,33 @@ public class InstrumentInfo {
 
     public static class Markets {
         @SerializedName("daily_volume")
-        private String dailyVolume;
+        private double dailyVolume;
         @SerializedName("daily_volume_contracts")
-        private String dailyVolumeContracts;
+        private double dailyVolumeContracts;
         @SerializedName("total_volume")
-        private String totalVolume;
+        private double totalVolume;
         @SerializedName("total_volume_contracts")
-        private String totalVolumeContracts;
+        private double totalVolumeContracts;
         @SerializedName("total_oi")
-        private String totalOi;
+        private double totalOi;
 
-        public String getDailyVolume() {
+        public double getDailyVolume() {
             return dailyVolume;
         }
 
-        public String getDailyVolumeContracts() {
+        public double getDailyVolumeContracts() {
             return dailyVolumeContracts;
         }
 
-        public String getTotalVolume() {
+        public double getTotalVolume() {
             return totalVolume;
         }
 
-        public String getTotalVolumeContracts() {
+        public double getTotalVolumeContracts() {
             return totalVolumeContracts;
         }
 
-        public String getTotalOi() {
+        public double getTotalOi() {
             return totalOi;
         }
 
@@ -66,7 +67,7 @@ public class InstrumentInfo {
         return asset;
     }
 
-    public String getInstrumentId() {
+    public long getInstrumentId() {
         return instrumentId;
     }
 

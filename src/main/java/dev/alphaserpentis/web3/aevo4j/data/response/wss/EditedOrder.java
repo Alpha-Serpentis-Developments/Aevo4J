@@ -10,7 +10,7 @@ public class EditedOrder extends Response<EditedOrder.Data>  {
         @SerializedName("account")
         private String account;
         @SerializedName("instrument_id")
-        private String instrumentId;
+        private long instrumentId;
         @SerializedName("instrument_name")
         private String instrumentName;
         @SerializedName("instrument_type")
@@ -18,9 +18,9 @@ public class EditedOrder extends Response<EditedOrder.Data>  {
         @SerializedName("option_type")
         private String optionType;
         @SerializedName("expiry")
-        private String expiry;
+        private long expiry;
         @SerializedName("strike")
-        private String strike;
+        private double strike;
         @SerializedName("order_type")
         private String orderType;
         @SerializedName("order_status")
@@ -28,19 +28,19 @@ public class EditedOrder extends Response<EditedOrder.Data>  {
         @SerializedName("side")
         private String side;
         @SerializedName("amount")
-        private String amount;
+        private double amount;
         @SerializedName("price")
-        private String price;
+        private double price;
         @SerializedName("filled")
-        private String filled;
+        private double filled;
         @SerializedName("initial_margin")
-        private String initialMargin;
+        private double initialMargin;
         @SerializedName("avg_price")
-        private String avgPrice;
+        private double avgPrice;
         @SerializedName("created_timestamp")
-        private String createdTimestamp;
+        private long createdTimestamp;
         @SerializedName("timestamp")
-        private String timestamp;
+        private long timestamp;
         @SerializedName("system_type")
         private String systemType;
 
@@ -52,7 +52,7 @@ public class EditedOrder extends Response<EditedOrder.Data>  {
             return account;
         }
 
-        public String getInstrumentId() {
+        public long getInstrumentId() {
             return instrumentId;
         }
 
@@ -68,11 +68,11 @@ public class EditedOrder extends Response<EditedOrder.Data>  {
             return optionType;
         }
 
-        public String getExpiry() {
+        public long getExpiry() {
             return expiry;
         }
 
-        public String getStrike() {
+        public double getStrike() {
             return strike;
         }
 
@@ -88,31 +88,31 @@ public class EditedOrder extends Response<EditedOrder.Data>  {
             return side;
         }
 
-        public String getAmount() {
+        public double getAmount() {
             return amount;
         }
 
-        public String getPrice() {
+        public double getPrice() {
             return price;
         }
 
-        public String getFilled() {
+        public double getFilled() {
             return filled;
         }
 
-        public String getInitialMargin() {
+        public double getInitialMargin() {
             return initialMargin;
         }
 
-        public String getAvgPrice() {
+        public double getAvgPrice() {
             return avgPrice;
         }
 
-        public String getCreatedTimestamp() {
+        public long getCreatedTimestamp() {
             return createdTimestamp;
         }
 
-        public String getTimestamp() {
+        public long getTimestamp() {
             return timestamp;
         }
 

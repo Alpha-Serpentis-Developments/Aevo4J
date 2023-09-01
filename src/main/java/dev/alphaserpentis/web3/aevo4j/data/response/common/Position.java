@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("unused")
 public class Position {
     @SerializedName("instrument_id")
-    private String instrumentId;
+    private long instrumentId;
     @SerializedName("instrument_name")
     private String instrumentName;
     @SerializedName("instrument_type")
@@ -13,25 +13,25 @@ public class Position {
     @SerializedName("option")
     private Option option;
     @SerializedName("iv")
-    private String iv;
+    private double iv;
     @SerializedName("asset")
     private String asset;
     @SerializedName("amount")
-    private String amount;
+    private double amount;
     @SerializedName("side")
     private String side;
     @SerializedName("mark_price")
-    private String markPrice;
+    private double markPrice;
     @SerializedName("avg_entry_price")
-    private String avgEntryPrice;
+    private double avgEntryPrice;
     @SerializedName("unrealized_pnl")
-    private String unrealizedPnl;
+    private double unrealizedPnl;
     @SerializedName("maintenance_margin")
-    private String maintenanceMargin;
+    private double maintenanceMargin;
     @SerializedName("liquidation_price")
-    private String liquidationPrice;
+    private double liquidationPrice;
 
-    public String getInstrumentId() {
+    public long getInstrumentId() {
         return instrumentId;
     }
 
@@ -47,7 +47,7 @@ public class Position {
         return option;
     }
 
-    public String getIv() {
+    public double getIv() {
         return iv;
     }
 
@@ -55,7 +55,7 @@ public class Position {
         return asset;
     }
 
-    public String getAmount() {
+    public double getAmount() {
         return amount;
     }
 
@@ -63,23 +63,23 @@ public class Position {
         return side;
     }
 
-    public String getMarkPrice() {
+    public double getMarkPrice() {
         return markPrice;
     }
 
-    public String getAvgEntryPrice() {
+    public double getAvgEntryPrice() {
         return avgEntryPrice;
     }
 
-    public String getUnrealizedPnl() {
+    public double getUnrealizedPnl() {
         return unrealizedPnl;
     }
 
-    public String getMaintenanceMargin() {
+    public double getMaintenanceMargin() {
         return maintenanceMargin;
     }
 
-    public String getLiquidationPrice() {
+    public double getLiquidationPrice() {
         return liquidationPrice;
     }
 

@@ -36,7 +36,7 @@ public class PlaceAnOrder {
                 2054, // Testnet ETH-PERP
                 args[3],
                 true,
-                "1000000", // 1 Contract (1.000000)
+                1000000, // 1 Contract (1.000000)
                 bestBid(publicService) // Matches the best bid at the time of calling
         ).buildAndSign(true, args[2]);
         Order orderResponse = privateService.postOrders(
@@ -46,8 +46,8 @@ public class PlaceAnOrder {
         System.out.println(orderResponse);
     }
 
-    public static String bestBid(@NonNull PublicService service) {
-        String[][] bids = service.getOrderbook("ETH-PERP").getBids();
+    public static long bestBid(@NonNull PublicService service) {
+        double[][] bids = service.getOrderbook("ETH-PERP").getBids();
         DecimalFormat df = new DecimalFormat("#");
         df.setRoundingMode(RoundingMode.FLOOR); // Cleans up any decimals + stops scientific notation
 
@@ -55,17 +55,14 @@ public class PlaceAnOrder {
             df = new DecimalFormat("#.##");
 
             // Obtain the index price and go 5% below it
-            double adjustedPrice = Double.parseDouble(
-                    df.format(
-                            Double.parseDouble(service.getIndex("ETH").getPrice()) * 0.95
-                    )
-            ) * Math.pow(10, 6);
 
-            return df.format(adjustedPrice);
+            return (long) (Double.parseDouble(
+                                df.format(
+                                        service.getIndex("ETH").getPrice() * 0.95
+                                )
+                        ) * Math.pow(10, 6));
         }
 
-        return df.format(
-                Double.parseDouble(bids[0][0]) * Math.pow(10, 6)
-        );
+        return (long) (bids[0][0] * Math.pow(10,6));
     }
 }

@@ -19,13 +19,13 @@ public class AevoWebSocketError extends Response<AevoWebSocketError.Data> {
 
     public static class Data {
         @SerializedName("retry_after")
-        private String retryAfter;
+        private long retryAfter;
 
         /**
          * Get the number of nanoseconds to retry after if hitting the rate limit
          * @return the number of nanoseconds to retry after
          */
-        public String getRetryAfter() {
+        public long getRetryAfter() {
             return retryAfter;
         }
 

@@ -11,19 +11,19 @@ public class CoinGeckoStats {
     @SerializedName("target_currency")
     private String targetCurrency;
     @SerializedName("target_volume")
-    private String targetVolume;
+    private double targetVolume;
     @SerializedName("product_volume")
     private String productVolume;
     @SerializedName("open_interest")
-    private String openInterest;
+    private double openInterest;
     @SerializedName("index_price")
-    private String indexPrice;
+    private double indexPrice;
     @SerializedName("index_currency")
     private String indexCurrency;
     @SerializedName("next_funding_rate_timestamp")
     private String nextFundingRateTimestamp;
     @SerializedName("funding_rate")
-    private String fundingRate;
+    private double fundingRate;
     @SerializedName("contract_type")
     private String contractType;
     @SerializedName("contract_price_currency")
@@ -41,7 +41,7 @@ public class CoinGeckoStats {
         return targetCurrency;
     }
 
-    public String getTargetVolume() {
+    public double getTargetVolume() {
         return targetVolume;
     }
 
@@ -49,11 +49,11 @@ public class CoinGeckoStats {
         return productVolume;
     }
 
-    public String getOpenInterest() {
+    public double getOpenInterest() {
         return openInterest;
     }
 
-    public String getIndexPrice() {
+    public double getIndexPrice() {
         return indexPrice;
     }
 
@@ -65,7 +65,7 @@ public class CoinGeckoStats {
         return nextFundingRateTimestamp;
     }
 
-    public String getFundingRate() {
+    public double getFundingRate() {
         return fundingRate;
     }
 

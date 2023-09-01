@@ -13,6 +13,7 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 public class OrderEIP712 {
+    private static final Gson GSON = new Gson();
     public static final List<StructuredData.Entry> DOMAIN_ENTRY = List.of(
             new StructuredData.Entry("name", "string"),
             new StructuredData.Entry("version", "string"),
@@ -99,11 +100,11 @@ public class OrderEIP712 {
             return new Order(
                     unsignedOrder.maker,
                     unsignedOrder.isBuy,
-                    Long.parseLong(unsignedOrder.limitPrice),
-                    Long.parseLong(unsignedOrder.amount),
-                    Long.parseLong(unsignedOrder.salt),
-                    Long.parseLong(String.valueOf(unsignedOrder.instrument)),
-                    Long.parseLong(unsignedOrder.timestamp)
+                    unsignedOrder.limitPrice,
+                    unsignedOrder.amount,
+                    unsignedOrder.salt,
+                    unsignedOrder.instrument,
+                    unsignedOrder.timestamp
             );
         }
     }
@@ -123,6 +124,6 @@ public class OrderEIP712 {
 
     @Override
     public String toString() {
-        return new Gson().toJson(this);
+        return GSON.toJson(this);
     }
 }

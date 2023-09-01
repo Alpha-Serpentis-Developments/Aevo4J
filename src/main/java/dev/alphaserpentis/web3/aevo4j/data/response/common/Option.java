@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Class representing an option. This is shared between {@code GET /account} and {@code GET /options-history}
  */
 @SuppressWarnings("unused")
-public class Option {
+public class Option extends Greeks {
     @SerializedName("instrument_name")
     private String instrumentName;
     @SerializedName("option_type")
@@ -14,25 +14,15 @@ public class Option {
     @SerializedName("expiry")
     private String expiry;
     @SerializedName("strike")
-    private String strike;
-    @SerializedName("iv")
-    private String iv;
-    @SerializedName("delta")
-    private String delta;
-    @SerializedName("theta")
-    private String theta;
-    @SerializedName("vega")
-    private String vega;
-    @SerializedName("rho")
-    private String rho;
+    private double strike;
     @SerializedName("order_type")
     private String orderType;
     @SerializedName("side")
     private String side;
     @SerializedName("avg_price")
-    private String avgPrice;
+    private double avgPrice;
     @SerializedName("amount")
-    private String amount;
+    private double amount;
     @SerializedName("trade_status")
     private String tradeStatus;
     @SerializedName("created_timestamp")
@@ -50,30 +40,6 @@ public class Option {
         return expiry;
     }
 
-    public String getStrike() {
-        return strike;
-    }
-
-    public String getIv() {
-        return iv;
-    }
-
-    public String getDelta() {
-        return delta;
-    }
-
-    public String getTheta() {
-        return theta;
-    }
-
-    public String getVega() {
-        return vega;
-    }
-
-    public String getRho() {
-        return rho;
-    }
-
     public String getOrderType() {
         return orderType;
     }
@@ -82,11 +48,11 @@ public class Option {
         return side;
     }
 
-    public String getAvgPrice() {
+    public double getAvgPrice() {
         return avgPrice;
     }
 
-    public String getAmount() {
+    public double getAmount() {
         return amount;
     }
 
@@ -105,11 +71,11 @@ public class Option {
                 ", optionType='" + optionType + '\'' +
                 ", expiry='" + expiry + '\'' +
                 ", strike='" + strike + '\'' +
-                ", iv='" + iv + '\'' +
-                ", delta='" + delta + '\'' +
-                ", theta='" + theta + '\'' +
-                ", vega='" + vega + '\'' +
-                ", rho='" + rho + '\'' +
+                ", iv='" + getIv() + '\'' +
+                ", delta='" + getDelta() + '\'' +
+                ", theta='" + getTheta() + '\'' +
+                ", vega='" + getVega() + '\'' +
+                ", rho='" + getRho() + '\'' +
                 ", orderType='" + orderType + '\'' +
                 ", side='" + side + '\'' +
                 ", avgPrice='" + avgPrice + '\'' +

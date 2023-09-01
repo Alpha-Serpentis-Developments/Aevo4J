@@ -9,13 +9,13 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("unused")
 public abstract class Response<T> {
     @SerializedName("id")
-    private String id;
+    private long id;
     @SerializedName("channel")
     private String channel;
     @SerializedName("data")
     private T data;
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 

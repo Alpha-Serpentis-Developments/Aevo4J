@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("unused")
 public class Index {
     @SerializedName("price")
-    private String price;
+    private double price;
     @SerializedName("timestamp")
     private String timestamp;
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 

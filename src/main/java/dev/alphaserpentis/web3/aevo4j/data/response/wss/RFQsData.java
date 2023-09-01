@@ -16,7 +16,7 @@ public class RFQsData extends Response<RFQsData.Data> {
 
     public static class Data {
         @SerializedName("timestamp")
-        private String timestamp;
+        private long timestamp;
         @SerializedName("rfqs")
         private RFQ[] rfqs;
 
@@ -32,13 +32,13 @@ public class RFQsData extends Response<RFQsData.Data> {
                 @SerializedName("amount")
                 private String amount;
                 @SerializedName("instrument_id")
-                private String instrumentId;
+                private long instrumentId;
 
                 public String getAmount() {
                     return amount;
                 }
 
-                public String getInstrumentId() {
+                public long getInstrumentId() {
                     return instrumentId;
                 }
 
@@ -73,7 +73,7 @@ public class RFQsData extends Response<RFQsData.Data> {
             }
         }
 
-        public String getTimestamp() {
+        public long getTimestamp() {
             return timestamp;
         }
 

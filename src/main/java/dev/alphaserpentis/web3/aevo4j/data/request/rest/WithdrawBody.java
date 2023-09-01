@@ -55,6 +55,17 @@ public class WithdrawBody {
             this.signature = signature;
         }
 
+        public Builder(
+                @NonNull String account,
+                @NonNull String collateral,
+                @NonNull String to,
+                long amount,
+                long salt,
+                @NonNull String signature
+        ) {
+            this(account, collateral, to, String.valueOf(amount), String.valueOf(salt), signature);
+        }
+
         public Builder recipient(String recipient) {
             this.recipient = recipient;
             return this;

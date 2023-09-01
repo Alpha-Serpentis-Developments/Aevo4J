@@ -11,7 +11,7 @@ public class Order {
     @SerializedName("account")
     private String account;
     @SerializedName("instrument_id")
-    private String instrumentId;
+    private long instrumentId;
     @SerializedName("instrument_name")
     private String instrumentName;
     @SerializedName("instrument_type")
@@ -21,35 +21,35 @@ public class Order {
     @SerializedName("side")
     private String side;
     @SerializedName("amount")
-    private String amount;
+    private double amount;
     @SerializedName("price")
-    private String price;
+    private double price;
     @SerializedName("avg_price")
-    private String avgPrice;
+    private double avgPrice;
     @SerializedName("filled")
-    private String filled;
+    private double filled;
     @SerializedName("order_status")
     private String orderStatus;
     @SerializedName("reduce_only")
     private boolean reduceOnly;
     @SerializedName("initial_margin")
-    private String initialMargin;
+    private Double initialMargin;
     @SerializedName("option_type")
     private String optionType;
     @SerializedName("iv")
-    private String iv;
+    private Double iv;
     @SerializedName("expiry")
-    private String expiry;
+    private Long expiry;
     @SerializedName("created_timestamp")
-    private String createdTimestamp;
+    private Long createdTimestamp;
     @SerializedName("timestamp")
-    private String timestamp;
+    private long timestamp;
     @SerializedName("system_type")
     private String systemType;
     @SerializedName("stop")
     private String stop;
     @SerializedName("trigger")
-    private String trigger;
+    private Double trigger;
 
     @NonNull
     public String getOrderId() {
@@ -61,8 +61,7 @@ public class Order {
         return account;
     }
 
-    @NonNull
-    public String getInstrumentId() {
+    public long getInstrumentId() {
         return instrumentId;
     }
 
@@ -86,23 +85,19 @@ public class Order {
         return side;
     }
 
-    @NonNull
-    public String getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    @NonNull
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    @Nullable
-    public String getAvgPrice() {
+    public double getAvgPrice() {
         return avgPrice;
     }
 
-    @NonNull
-    public String getFilled() {
+    public double getFilled() {
         return filled;
     }
 
@@ -116,7 +111,7 @@ public class Order {
     }
 
     @Nullable
-    public String getInitialMargin() {
+    public Double getInitialMargin() {
         return initialMargin;
     }
 
@@ -126,22 +121,21 @@ public class Order {
     }
 
     @Nullable
-    public String getIv() {
+    public Double getIv() {
         return iv;
     }
 
     @Nullable
-    public String getExpiry() {
+    public Long getExpiry() {
         return expiry;
     }
 
     @Nullable
-    public String getCreatedTimestamp() {
+    public Long getCreatedTimestamp() {
         return createdTimestamp;
     }
 
-    @NonNull
-    public String getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
@@ -156,7 +150,7 @@ public class Order {
     }
 
     @Nullable
-    public String getTrigger() {
+    public Double getTrigger() {
         return trigger;
     }
 

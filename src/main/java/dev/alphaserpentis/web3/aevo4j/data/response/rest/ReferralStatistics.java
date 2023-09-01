@@ -5,51 +5,51 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("unused")
 public class ReferralStatistics {
     @SerializedName("referred")
-    private String referred;
+    private long referred;
     @SerializedName("volume")
-    private String volume;
+    private double volume;
     @SerializedName("total_rewards")
-    private String totalRewards;
+    private double totalRewards;
     @SerializedName("total_referral_bonus")
-    private String totalReferralBonus;
+    private double totalReferralBonus;
     @SerializedName("total_referee_discount")
-    private String totalRefereeDiscount;
+    private double totalRefereeDiscount;
     @SerializedName("total_rewards_unclaimed")
-    private String totalRewardsUnclaimed;
+    private double totalRewardsUnclaimed;
     @SerializedName("total_referral_bonus_unclaimed")
-    private String totalReferralBonusUnclaimed;
+    private double totalReferralBonusUnclaimed;
     @SerializedName("total_referee_discount_unclaimed")
-    private String totalRefereeDiscountUnclaimed;
+    private double totalRefereeDiscountUnclaimed;
 
-    public String getReferred() {
+    public long getReferred() {
         return referred;
     }
 
-    public String getVolume() {
+    public double getVolume() {
         return volume;
     }
 
-    public String getTotalRewards() {
+    public double getTotalRewards() {
         return totalRewards;
     }
 
-    public String getTotalReferralBonus() {
+    public double getTotalReferralBonus() {
         return totalReferralBonus;
     }
 
-    public String getTotalRefereeDiscount() {
+    public double getTotalRefereeDiscount() {
         return totalRefereeDiscount;
     }
 
-    public String getTotalRewardsUnclaimed() {
+    public double getTotalRewardsUnclaimed() {
         return totalRewardsUnclaimed;
     }
 
-    public String getTotalReferralBonusUnclaimed() {
+    public double getTotalReferralBonusUnclaimed() {
         return totalReferralBonusUnclaimed;
     }
 
-    public String getTotalRefereeDiscountUnclaimed() {
+    public double getTotalRefereeDiscountUnclaimed() {
         return totalRefereeDiscountUnclaimed;
     }
 

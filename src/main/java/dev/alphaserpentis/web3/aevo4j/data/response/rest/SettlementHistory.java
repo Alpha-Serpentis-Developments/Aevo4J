@@ -7,25 +7,25 @@ public class SettlementHistory {
     @SerializedName("assset")
     private String asset;
     @SerializedName("expiry")
-    private String expiry;
+    private long expiry;
     @SerializedName("settlement_price")
-    private String settlementPrice;
+    private double settlementPrice;
     @SerializedName("settlement_timestamp")
-    private String settlementTimestamp;
+    private long settlementTimestamp;
 
     public String getAsset() {
         return asset;
     }
 
-    public String getExpiry() {
+    public long getExpiry() {
         return expiry;
     }
 
-    public String getSettlementPrice() {
+    public double getSettlementPrice() {
         return settlementPrice;
     }
 
-    public String getSettlementTimestamp() {
+    public long getSettlementTimestamp() {
         return settlementTimestamp;
     }
 

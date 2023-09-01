@@ -1,11 +1,12 @@
 package dev.alphaserpentis.web3.aevo4j.data.response.rest;
 
 import com.google.gson.annotations.SerializedName;
+import dev.alphaserpentis.web3.aevo4j.data.response.common.Greeks;
 
 @SuppressWarnings("unused")
 public class Markets {
     @SerializedName("instrument_id")
-    private String instrumentId;
+    private long instrumentId;
     @SerializedName("instrument_name")
     private String instrumentName;
     @SerializedName("instrument_type")
@@ -15,13 +16,13 @@ public class Markets {
     @SerializedName("quote_asset")
     private String quoteAsset;
     @SerializedName("price_step")
-    private String priceStep;
+    private double priceStep;
     @SerializedName("amount_step")
-    private String amountStep;
+    private double amountStep;
     @SerializedName("min_order_value")
-    private String minOrderValue;
+    private double minOrderValue;
     @SerializedName("mark_price")
-    private String markPrice;
+    private double markPrice;
     @SerializedName("is_active")
     private boolean isActive;
     @SerializedName("option_type")
@@ -29,11 +30,11 @@ public class Markets {
     @SerializedName("expiry")
     private String expiry;
     @SerializedName("strike")
-    private String strike;
+    private double strike;
     @SerializedName("greeks")
     private Greeks greeks;
 
-    public String getInstrumentId() {
+    public long getInstrumentId() {
         return instrumentId;
     }
 
@@ -53,19 +54,19 @@ public class Markets {
         return quoteAsset;
     }
 
-    public String getPriceStep() {
+    public double getPriceStep() {
         return priceStep;
     }
 
-    public String getAmountStep() {
+    public double getAmountStep() {
         return amountStep;
     }
 
-    public String getMinOrderValue() {
+    public double getMinOrderValue() {
         return minOrderValue;
     }
 
-    public String getMarkPrice() {
+    public double getMarkPrice() {
         return markPrice;
     }
 
@@ -81,7 +82,7 @@ public class Markets {
         return expiry;
     }
 
-    public String getStrike() {
+    public double getStrike() {
         return strike;
     }
 

@@ -33,4 +33,15 @@ public class TransferBody {
         this.salt = salt;
         this.signature = signature;
     }
+
+    public TransferBody(
+            @NonNull String account,
+            @NonNull String collateral,
+            @NonNull String to,
+            long amount,
+            long salt,
+            @NonNull String signature
+    ) {
+        this(account, collateral, to, String.valueOf(amount), String.valueOf(salt), signature);
+    }
 }

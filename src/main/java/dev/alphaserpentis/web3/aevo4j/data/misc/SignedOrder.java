@@ -11,28 +11,28 @@ public class SignedOrder extends UnsignedOrder {
 
     public static class Builder {
         private final String signature;
-        private final Integer instrument;
+        private final long instrument;
         private final String maker;
         private final boolean isBuy;
-        private final String amount;
-        private final String limitPrice;
-        private final String salt;
-        private final String timestamp;
+        private final long amount;
+        private final long limitPrice;
+        private final long salt;
+        private final long timestamp;
         private Boolean postOnly;
         private Boolean reduceOnly;
         private String timeInForce;
         private Boolean mmp;
         private String stop;
-        private String trigger;
+        private Double trigger;
 
         public Builder(
                 @NonNull Integer instrument,
                 @NonNull String maker,
                 boolean isBuy,
-                @NonNull String amount,
-                @NonNull String limitPrice,
-                @NonNull String salt,
-                @NonNull String timestamp,
+                long amount,
+                long limitPrice,
+                long salt,
+                long timestamp,
                 @NonNull String signature
         ) {
             this.instrument = instrument;
@@ -70,7 +70,7 @@ public class SignedOrder extends UnsignedOrder {
             return this;
         }
 
-        public Builder trigger(@Nullable String trigger) {
+        public Builder trigger(@Nullable Double trigger) {
             this.trigger = trigger;
             return this;
         }
@@ -99,20 +99,20 @@ public class SignedOrder extends UnsignedOrder {
      * @see Builder
      */
     public SignedOrder(
-            @NonNull Integer instrument,
+            long instrument,
             @NonNull String maker,
             boolean isBuy,
-            @NonNull String amount,
-            @NonNull String limitPrice,
-            @NonNull String salt,
+            long amount,
+            long limitPrice,
+            long salt,
             @NonNull String signature,
-            @NonNull String timestamp,
+            long timestamp,
             @Nullable Boolean postOnly,
             @Nullable Boolean reduceOnly,
             @Nullable String timeInForce,
             @Nullable Boolean mmp,
             @Nullable String stop,
-            @Nullable String trigger
+            @Nullable Double trigger
     ) {
         super(
                 instrument,
@@ -136,14 +136,14 @@ public class SignedOrder extends UnsignedOrder {
      * @see Builder
      */
     public SignedOrder(
-            @NonNull Integer instrument,
+            long instrument,
             @NonNull String maker,
             boolean isBuy,
-            @NonNull String amount,
-            @NonNull String limitPrice,
-            @NonNull String salt,
+            long amount,
+            long limitPrice,
+            long salt,
             @NonNull String signature,
-            @NonNull String timestamp
+            long timestamp
     ) {
         this(
                 instrument,

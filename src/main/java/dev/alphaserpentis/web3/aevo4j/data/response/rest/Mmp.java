@@ -9,19 +9,19 @@ public class Mmp {
     @SerializedName("triggered")
     private boolean triggered;
     @SerializedName("interval")
-    private String interval;
+    private double interval;
     @SerializedName("frozen")
-    private String frozen;
+    private double frozen;
     @SerializedName("frozen_end_time")
-    private String frozenEndTime;
+    private long frozenEndTime;
     @SerializedName("amount_limit")
-    private String amountLimit;
+    private long amountLimit;
     @SerializedName("delta_limit")
-    private String deltaLimit;
+    private double deltaLimit;
     @SerializedName("amount_change")
-    private String amountChange;
+    private double amountChange;
     @SerializedName("delta_change")
-    private String deltaChange;
+    private double deltaChange;
     @SerializedName("asset")
     private String asset;
 
@@ -33,31 +33,31 @@ public class Mmp {
         return triggered;
     }
 
-    public String getInterval() {
+    public double getInterval() {
         return interval;
     }
 
-    public String getFrozen() {
+    public double getFrozen() {
         return frozen;
     }
 
-    public String getFrozenEndTime() {
+    public long getFrozenEndTime() {
         return frozenEndTime;
     }
 
-    public String getAmountLimit() {
+    public long getAmountLimit() {
         return amountLimit;
     }
 
-    public String getDeltaLimit() {
+    public double getDeltaLimit() {
         return deltaLimit;
     }
 
-    public String getAmountChange() {
+    public double getAmountChange() {
         return amountChange;
     }
 
-    public String getDeltaChange() {
+    public double getDeltaChange() {
         return deltaChange;
     }
 

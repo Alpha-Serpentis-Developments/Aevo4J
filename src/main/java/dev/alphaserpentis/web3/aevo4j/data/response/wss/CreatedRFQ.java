@@ -12,15 +12,15 @@ public class CreatedRFQ extends Response<CreatedRFQ.Data> {
 
         public static class RFQ {
             @SerializedName("amount")
-            public String amount;
+            public long amount;
             @SerializedName("instrument_id")
-            public String instrumentId;
+            public long instrumentId;
 
-            public String getAmount() {
+            public long getAmount() {
                 return amount;
             }
 
-            public String getInstrumentId() {
+            public long getInstrumentId() {
                 return instrumentId;
             }
 

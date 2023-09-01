@@ -9,45 +9,45 @@ public class Statistics {
     @SerializedName("open_interest")
     private OpenInterest openInterest;
     @SerializedName("daily_volume")
-    private String dailyVolume;
+    private double dailyVolume;
     @SerializedName("daily_volume_premium")
-    private String dailyVolumePremium;
+    private double dailyVolumePremium;
     @SerializedName("total_volume")
-    private String totalVolume;
+    private double totalVolume;
     @SerializedName("total_volume_premium")
-    private String totalVolumePremium;
+    private double totalVolumePremium;
     @SerializedName("daily_volume_contracts")
-    private String dailyVolumeContracts;
+    private double dailyVolumeContracts;
     @SerializedName("index_price")
-    private String indexPrice;
+    private double indexPrice;
     @SerializedName("index_daily_change")
-    private String indexDailyChange;
+    private double indexDailyChange;
     @SerializedName("mark_price")
-    private String markPrice;
+    private double markPrice;
     @SerializedName("mark_daily_change")
-    private String markDailyChange;
+    private double markDailyChange;
     @SerializedName("funding_daily_avg")
-    private String fundingDailyAvg;
+    private double fundingDailyAvg;
     @SerializedName("put_call_ratio")
-    private String putCallRatio;
+    private double putCallRatio;
 
     public static class OpenInterest {
         @SerializedName("calls")
-        private String calls;
+        private double calls;
         @SerializedName("puts")
-        private String puts;
+        private double puts;
         @SerializedName("total")
-        private String total;
+        private double total;
 
-        public String getCalls() {
+        public double getCalls() {
             return calls;
         }
 
-        public String getPuts() {
+        public double getPuts() {
             return puts;
         }
 
-        public String getTotal() {
+        public double getTotal() {
             return total;
         }
 
@@ -69,47 +69,47 @@ public class Statistics {
         return openInterest;
     }
 
-    public String getDailyVolume() {
+    public double getDailyVolume() {
         return dailyVolume;
     }
 
-    public String getDailyVolumePremium() {
+    public double getDailyVolumePremium() {
         return dailyVolumePremium;
     }
 
-    public String getTotalVolume() {
+    public double getTotalVolume() {
         return totalVolume;
     }
 
-    public String getTotalVolumePremium() {
+    public double getTotalVolumePremium() {
         return totalVolumePremium;
     }
 
-    public String getDailyVolumeContracts() {
+    public double getDailyVolumeContracts() {
         return dailyVolumeContracts;
     }
 
-    public String getIndexPrice() {
+    public double getIndexPrice() {
         return indexPrice;
     }
 
-    public String getIndexDailyChange() {
+    public double getIndexDailyChange() {
         return indexDailyChange;
     }
 
-    public String getMarkPrice() {
+    public double getMarkPrice() {
         return markPrice;
     }
 
-    public String getMarkDailyChange() {
+    public double getMarkDailyChange() {
         return markDailyChange;
     }
 
-    public String getFundingDailyAvg() {
+    public double getFundingDailyAvg() {
         return fundingDailyAvg;
     }
 
-    public String getPutCallRatio() {
+    public double getPutCallRatio() {
         return putCallRatio;
     }
 

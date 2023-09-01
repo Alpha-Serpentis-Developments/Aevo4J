@@ -848,17 +848,17 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
             @NonNull Integer instrument,
             @NonNull String maker,
             boolean isBuy,
-            @NonNull String amount,
-            @NonNull String limitPrice,
-            @NonNull String salt,
+            long amount,
+            long limitPrice,
+            long salt,
             @NonNull String signature,
-            @NonNull String timestamp,
+            long timestamp,
             @Nullable Boolean postOnly,
             @Nullable Boolean reduceOnly,
             @Nullable String timeInForce,
             @Nullable Boolean mmp,
             @Nullable String stop,
-            @Nullable String trigger
+            @Nullable Double trigger
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
         SignedOrder body = new SignedOrder(
                 instrument,
@@ -913,11 +913,11 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
             @NonNull Integer instrument,
             @NonNull String maker,
             boolean isBuy,
-            @NonNull String amount,
-            @NonNull String limitPrice,
-            @NonNull String salt,
+            long amount,
+            long limitPrice,
+            long salt,
             @NonNull String signature,
-            @NonNull String timestamp
+            long timestamp
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
         return postOrders(
                 instrument,
@@ -1022,17 +1022,17 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
             @NonNull Integer instrument,
             @NonNull String maker,
             boolean isBuy,
-            @NonNull String amount,
-            @NonNull String limitPrice,
-            @NonNull String salt,
+            long amount,
+            long limitPrice,
+            long salt,
             @NonNull String signature,
-            @NonNull String timestamp,
+            long timestamp,
             @Nullable Boolean postOnly,
             @Nullable Boolean reduceOnly,
             @Nullable String timeInForce,
             @Nullable Boolean mmp,
             @Nullable String stop,
-            @Nullable String trigger
+            @Nullable Double trigger
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
         SignedOrder body = new SignedOrder(
                 instrument,
@@ -1090,11 +1090,11 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
             @NonNull Integer instrument,
             @NonNull String maker,
             boolean isBuy,
-            @NonNull String amount,
-            @NonNull String limitPrice,
-            @NonNull String salt,
+            long amount,
+            long limitPrice,
+            long salt,
             @NonNull String signature,
-            @NonNull String timestamp
+            long timestamp
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
         return postEditOrder(
                 orderId,

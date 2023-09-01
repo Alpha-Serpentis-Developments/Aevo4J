@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class Fills extends Response<Fills.Data> {
     public static class Data {
         @SerializedName("timestamp")
-        private String timestamp;
+        private long timestamp;
         @SerializedName("fill")
         private Fill fill;
 
@@ -16,25 +16,25 @@ public class Fills extends Response<Fills.Data> {
             @SerializedName("order_id")
             private String orderId;
             @SerializedName("instrument_id")
-            private String instrumentId;
+            private long instrumentId;
             @SerializedName("instrument_name")
             private String instrumentName;
             @SerializedName("instrument_type")
             private String instrumentType;
             @SerializedName("price")
-            private String price;
+            private double price;
             @SerializedName("side")
-            private String side;
+            private double side;
             @SerializedName("fees")
-            private String fees;
+            private double fees;
             @SerializedName("filled")
-            private String filled;
+            private double filled;
             @SerializedName("order_status")
             private String orderStatus;
             @SerializedName("liquidity")
             private String liquidity;
             @SerializedName("created_timestamp")
-            private String createdTimestamp;
+            private long createdTimestamp;
 
             public String getTradeId() {
                 return tradeId;
@@ -44,7 +44,7 @@ public class Fills extends Response<Fills.Data> {
                 return orderId;
             }
 
-            public String getInstrumentId() {
+            public long getInstrumentId() {
                 return instrumentId;
             }
 
@@ -56,19 +56,19 @@ public class Fills extends Response<Fills.Data> {
                 return instrumentType;
             }
 
-            public String getPrice() {
+            public double getPrice() {
                 return price;
             }
 
-            public String getSide() {
+            public double getSide() {
                 return side;
             }
 
-            public String getFees() {
+            public double getFees() {
                 return fees;
             }
 
-            public String getFilled() {
+            public double getFilled() {
                 return filled;
             }
 
@@ -80,7 +80,7 @@ public class Fills extends Response<Fills.Data> {
                 return liquidity;
             }
 
-            public String getCreatedTimestamp() {
+            public long getCreatedTimestamp() {
                 return createdTimestamp;
             }
 
@@ -103,7 +103,7 @@ public class Fills extends Response<Fills.Data> {
             }
         }
 
-        public String getTimestamp() {
+        public long getTimestamp() {
             return timestamp;
         }
 

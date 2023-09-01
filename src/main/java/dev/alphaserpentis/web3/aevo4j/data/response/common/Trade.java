@@ -7,7 +7,7 @@ public class Trade {
     @SerializedName("trade_id")
     private String tradeId;
     @SerializedName("instrument_id")
-    private String instrumentId;
+    private long instrumentId;
     @SerializedName("instrument_name")
     private String instrumentName;
     @SerializedName("instrument_type")
@@ -15,9 +15,9 @@ public class Trade {
     @SerializedName("side")
     private String side;
     @SerializedName("price")
-    private String price;
+    private double price;
     @SerializedName("amount")
-    private String amount;
+    private double amount;
     @SerializedName("created_timestamp")
     private String createdTimestamp;
 
@@ -25,7 +25,7 @@ public class Trade {
         return tradeId;
     }
 
-    public String getInstrumentId() {
+    public long getInstrumentId() {
         return instrumentId;
     }
 
@@ -41,11 +41,11 @@ public class Trade {
         return side;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public String getAmount() {
+    public double getAmount() {
         return amount;
     }
 

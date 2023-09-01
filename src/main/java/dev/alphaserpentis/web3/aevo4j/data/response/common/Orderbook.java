@@ -1,9 +1,9 @@
 package dev.alphaserpentis.web3.aevo4j.data.response.common;
 
 import com.google.gson.annotations.SerializedName;
-import io.reactivex.rxjava3.annotations.NonNull;
 
 import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.zip.CRC32;
 
@@ -12,19 +12,19 @@ public class Orderbook {
     @SerializedName("type")
     private String type;
     @SerializedName("instrument_id")
-    private String instrumentId;
+    private long instrumentId;
     @SerializedName("instrument_name")
     private String instrumentName;
     @SerializedName("instrument_type")
     private String instrumentType;
     @SerializedName("bids")
-    private String[][] bids;
+    private double[][] bids;
     @SerializedName("asks")
-    private String[][] asks;
+    private double[][] asks;
     @SerializedName("last_updated")
     private String lastUpdated;
     @SerializedName("checksum")
-    private String checksum;
+    private long checksum;
 
     /**
      * Generates a checksum for the best 100 price levels of the orderbook. Use this to compare against the checksum provided by the API.
@@ -33,7 +33,8 @@ public class Orderbook {
      * @return 32-bit integer checksum represented as a base-10 string
      * @see <a href="https://docs.aevo.xyz/reference/orderbook-checksum">Aevo - Orderbook Checksum</a>
      */
-    public static String generateChecksum(@NonNull String[][] bids, @NonNull String[][] asks) {
+    public static long generateChecksum(double[][] bids, double[][] asks) {
+        DecimalFormat df = new DecimalFormat("0.######");
         CRC32 crc32 = new CRC32();
         StringBuilder checksum = new StringBuilder();
         int iterations = Math.max(bids.length, asks.length);
@@ -41,15 +42,15 @@ public class Orderbook {
 
         for(int i = 0; i < Math.min(iterations, 100); i++) {
             if(bids.length > i) {
-                checksum.append(bids[i][0]); // price
+                checksum.append(df.format(bids[i][0])); // price
                 checksum.append(":");
-                checksum.append(bids[i][1]); // size
+                checksum.append(df.format(bids[i][1])); // size
                 checksum.append(":");
             }
             if(asks.length > i) {
-                checksum.append(asks[i][0]); // price
+                checksum.append(df.format(asks[i][0])); // price
                 checksum.append(":");
-                checksum.append(asks[i][1]); // size
+                checksum.append(df.format(asks[i][1])); // size
                 checksum.append(":");
             }
         }
@@ -58,14 +59,14 @@ public class Orderbook {
         bytes = checksum.toString().getBytes(StandardCharsets.UTF_8);
         crc32.update(bytes);
 
-        return String.valueOf(crc32.getValue());
+        return crc32.getValue();
     }
 
     public String getType() {
         return type;
     }
 
-    public String getInstrumentId() {
+    public long getInstrumentId() {
         return instrumentId;
     }
 
@@ -77,11 +78,11 @@ public class Orderbook {
         return instrumentType;
     }
 
-    public String[][] getBids() {
+    public double[][] getBids() {
         return bids;
     }
 
-    public String[][] getAsks() {
+    public double[][] getAsks() {
         return asks;
     }
 
@@ -89,7 +90,7 @@ public class Orderbook {
         return lastUpdated;
     }
 
-    public String getChecksum() {
+    public long getChecksum() {
         return checksum;
     }
 

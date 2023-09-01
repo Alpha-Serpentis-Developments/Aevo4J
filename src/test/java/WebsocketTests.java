@@ -12,7 +12,6 @@ import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -122,20 +121,20 @@ public class WebsocketTests {
         OrderbookListener listener = new OrderbookListener(
                 OrderbookListener.Filter.NONE,
                 false,
-                "orderbook:ETH-PERP", "orderbook:BTC-PERP", "orderbook:BNB-PERP"
+                "orderbook:XRP-PERP", "orderbook:OP-PERP", "orderbook:ETH-PERP", "orderbook:BTC-PERP", "orderbook:BNB-PERP", "orderbook:1000PEPE-PERP"
         );
 
         listener.responseFlowable().subscribe(
                 orderbookData -> {
-                    String genChecksum = Orderbook.generateChecksum(
+                    long genChecksum = Orderbook.generateChecksum(
                             orderbookData.getData().getBids(),
                             orderbookData.getData().getAsks()
                     );
-                    String apiChecksum = orderbookData.getData().getChecksum();
+                    long apiChecksum = orderbookData.getData().getChecksum();
 
                     System.out.printf(
                             "Generated checksum: %s\nAPI checksum: %s\nMatched: %s\n\n",
-                            genChecksum, apiChecksum, genChecksum.equals(apiChecksum)
+                            genChecksum, apiChecksum, genChecksum == apiChecksum
                     );
                 },
                 error -> System.out.println("Error: " + error.getMessage()),
@@ -155,18 +154,8 @@ public class WebsocketTests {
         listener.responseFlowable().subscribe(
                 tickerData -> Arrays.stream(tickerData.getData().getTickers()).forEach(
                         ticker -> {
-                            double ask = Double.parseDouble(
-                                    Objects.requireNonNullElse(
-                                            ticker.getAsk().getPrice(),
-                                            "0"
-                                    )
-                            );
-                            double bid = Double.parseDouble(
-                                    Objects.requireNonNullElse(
-                                            ticker.getBid().getPrice(),
-                                            "0"
-                                    )
-                            );
+                            double ask = ticker.getAsk().getPrice();
+                            double bid = ticker.getBid().getPrice();
 
                             System.out.printf(
                                     """

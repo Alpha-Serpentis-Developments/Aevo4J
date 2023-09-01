@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("unused")
 public class Funding {
     @SerializedName("funding_rate")
-    private String fundingRate;
+    private double fundingRate;
     @SerializedName("next_epoch")
     private String nextEpoch;
 
-    public String getFundingRate() {
+    public double getFundingRate() {
         return fundingRate;
     }
 

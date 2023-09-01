@@ -9,11 +9,11 @@ import java.util.Arrays;
 public class Positions extends Response<Fills.Data> {
     public static class Data {
         @SerializedName("timestamp")
-        public String timestamp;
+        public long timestamp;
         @SerializedName("positions")
         public Position[] positions;
 
-        public String getTimestamp() {
+        public long getTimestamp() {
             return timestamp;
         }
 

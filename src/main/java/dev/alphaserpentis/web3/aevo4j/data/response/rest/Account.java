@@ -12,11 +12,11 @@ public class Account {
     @SerializedName("username")
     private String username;
     @SerializedName("equity")
-    private String equity;
+    private double equity;
     @SerializedName("available_balance")
-    private String availableBalance;
+    private double availableBalance;
     @SerializedName("balance")
-    private String balance;
+    private double balance;
     @SerializedName("signing_keys")
     private SigningKey[] signingKeys;
     @SerializedName("collaterals")
@@ -82,25 +82,25 @@ public class Account {
         @SerializedName("collateral_asset")
         private String collateralAsset;
         @SerializedName("collateral_value")
-        private String collateralValue;
+        private double collateralValue;
         @SerializedName("balance")
-        private String balance;
+        private double balance;
         @SerializedName("available_balance")
-        private String availableBalance;
+        private double availableBalance;
 
         public String getCollateralAsset() {
             return collateralAsset;
         }
 
-        public String getCollateralValue() {
+        public double getCollateralValue() {
             return collateralValue;
         }
 
-        public String getBalance() {
+        public double getBalance() {
             return balance;
         }
 
-        public String getAvailableBalance() {
+        public double getAvailableBalance() {
             return availableBalance;
         }
 
@@ -121,9 +121,9 @@ public class Account {
         @SerializedName("instrument_type")
         private String instrumentType;
         @SerializedName("taker_fee")
-        private String takerFee;
+        private double takerFee;
         @SerializedName("maker_fee")
-        private String makerFee;
+        private double makerFee;
 
         public String getAsset() {
             return asset;
@@ -133,11 +133,11 @@ public class Account {
             return instrumentType;
         }
 
-        public String getTakerFee() {
+        public double getTakerFee() {
             return takerFee;
         }
 
-        public String getMakerFee() {
+        public double getMakerFee() {
             return makerFee;
         }
 
@@ -160,15 +160,15 @@ public class Account {
         return username;
     }
 
-    public String getEquity() {
+    public double getEquity() {
         return equity;
     }
 
-    public String getAvailableBalance() {
+    public double getAvailableBalance() {
         return availableBalance;
     }
 
-    public String getBalance() {
+    public double getBalance() {
         return balance;
     }
 

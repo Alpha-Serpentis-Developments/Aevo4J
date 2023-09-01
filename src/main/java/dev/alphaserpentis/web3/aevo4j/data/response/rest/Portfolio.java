@@ -1,23 +1,24 @@
 package dev.alphaserpentis.web3.aevo4j.data.response.rest;
 
 import com.google.gson.annotations.SerializedName;
+import dev.alphaserpentis.web3.aevo4j.data.response.common.Greeks;
 
 import java.util.Arrays;
 
 @SuppressWarnings("unused")
 public class Portfolio {
     @SerializedName("balance")
-    private String balance;
+    private double balance;
     @SerializedName("pnl")
-    private String pnl;
+    private double pnl;
     @SerializedName("realized_pnl")
-    private String realizedPnl;
+    private double realizedPnl;
     @SerializedName("profit_factor")
-    private String profitFactor;
+    private double profitFactor;
     @SerializedName("win_rate")
-    private String winRate;
+    private double winRate;
     @SerializedName("sharpe_ratio")
-    private String sharpeRatio;
+    private double sharpeRatio;
     @SerializedName("greeks")
     private Greeks[] greeks;
     @SerializedName("user_margin")
@@ -25,15 +26,15 @@ public class Portfolio {
 
     public static class UserMargin {
         @SerializedName("used")
-        private String used;
+        private double used;
         @SerializedName("balance")
-        private String balance;
+        private double balance;
 
-        public String getUsed() {
+        public double getUsed() {
             return used;
         }
 
-        public String getBalance() {
+        public double getBalance() {
             return balance;
         }
 
@@ -46,27 +47,27 @@ public class Portfolio {
         }
     }
 
-    public String getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public String getPnl() {
+    public double getPnl() {
         return pnl;
     }
 
-    public String getRealizedPnl() {
+    public double getRealizedPnl() {
         return realizedPnl;
     }
 
-    public String getProfitFactor() {
+    public double getProfitFactor() {
         return profitFactor;
     }
 
-    public String getWinRate() {
+    public double getWinRate() {
         return winRate;
     }
 
-    public String getSharpeRatio() {
+    public double getSharpeRatio() {
         return sharpeRatio;
     }
 

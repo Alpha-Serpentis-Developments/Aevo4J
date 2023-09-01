@@ -9,11 +9,11 @@ import java.util.Arrays;
 public class Orders extends Response<Orders.Data> {
     public static class Data {
         @SerializedName("timestamp")
-        public String timestamp;
+        public long timestamp;
         @SerializedName("orders")
         public Order[] orders;
 
-        public String getTimestamp() {
+        public long getTimestamp() {
             return timestamp;
         }
 
@@ -31,7 +31,7 @@ public class Orders extends Response<Orders.Data> {
     }
 
     @Override
-public String toString() {
+    public String toString() {
         return "Orders{" +
                 "data=" + getData() +
                 ", channel='" + getChannel() + '\'' +

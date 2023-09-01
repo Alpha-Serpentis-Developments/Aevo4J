@@ -1,7 +1,6 @@
-package dev.alphaserpentis.web3.aevo4j.data.response.rest;
+package dev.alphaserpentis.web3.aevo4j.data.response.common;
 
 import com.google.gson.annotations.SerializedName;
-import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.annotations.Nullable;
 
 /**
@@ -13,50 +12,45 @@ public class Greeks {
     @SerializedName("asset")
     private String asset;
     @SerializedName("delta")
-    private String delta;
+    private double delta;
     @SerializedName("gamma")
-    private String gamma;
+    private double gamma;
     @SerializedName("rho")
-    private String rho;
+    private double rho;
     @SerializedName("theta")
-    private String theta;
+    private double theta;
     @SerializedName("vega")
-    private String vega;
+    private double vega;
     @SerializedName("iv")
-    private String iv;
+    private Double iv;
 
     @Nullable
     public String getAsset() {
         return asset;
     }
 
-    @NonNull
-    public String getDelta() {
+    public double getDelta() {
         return delta;
     }
 
-    @NonNull
-    public String getGamma() {
+    public double getGamma() {
         return gamma;
     }
 
-    @NonNull
-    public String getRho() {
+    public double getRho() {
         return rho;
     }
 
-    @NonNull
-    public String getTheta() {
+    public double getTheta() {
         return theta;
     }
 
-    @NonNull
-    public String getVega() {
+    public double getVega() {
         return vega;
     }
 
     @Nullable
-    public String getIv() {
+    public Double getIv() {
         return iv;
     }
 

@@ -21,17 +21,17 @@ public class UnsignedOrder {
     @SerializedName("maker")
     protected final String maker;
     @SerializedName("instrument")
-    protected final Integer instrument;
+    protected final long instrument;
     @SerializedName("is_buy")
     protected final boolean isBuy;
     @SerializedName("amount")
-    protected final String amount;
+    protected final long amount;
     @SerializedName("limit_price")
-    protected final String limitPrice;
+    protected final long limitPrice;
     @SerializedName("salt")
-    protected final String salt;
+    protected final long salt;
     @SerializedName("timestamp")
-    protected final String timestamp;
+    protected final long timestamp;
     @SerializedName("post_only")
     protected final Boolean postOnly;
     @SerializedName("reduce_only")
@@ -43,31 +43,31 @@ public class UnsignedOrder {
     @SerializedName("stop")
     protected final String stop;
     @SerializedName("trigger")
-    protected final String trigger;
+    protected final Double trigger;
 
     public static class Builder {
         private final Integer instrument;
         private final String maker;
         private final boolean isBuy;
-        private final String amount;
-        private final String limitPrice;
-        private final String salt;
-        private final String timestamp;
+        private final long amount;
+        private final long limitPrice;
+        private final long salt;
+        private final long timestamp;
         private Boolean postOnly;
         private Boolean reduceOnly;
         private String timeInForce;
         private Boolean mmp;
         private String stop;
-        private String trigger;
+        private Double trigger;
 
         public Builder(
                 @NonNull Integer instrument,
                 @NonNull String maker,
                 boolean isBuy,
-                @NonNull String amount,
-                @NonNull String limitPrice,
-                @NonNull String salt,
-                @NonNull String timestamp
+                long amount,
+                long limitPrice,
+                long salt,
+                long timestamp
         ) {
             this.instrument = instrument;
             this.maker = maker;
@@ -82,16 +82,16 @@ public class UnsignedOrder {
                 @NonNull Integer instrument,
                 @NonNull String maker,
                 boolean isBuy,
-                @NonNull String amount,
-                @NonNull String limitPrice
+                long amount,
+                long limitPrice
         ) {
             this.instrument = instrument;
             this.maker = maker;
             this.isBuy = isBuy;
             this.amount = amount;
             this.limitPrice = limitPrice;
-            this.salt = String.valueOf((int) (Math.random() * 100000));
-            this.timestamp = String.valueOf(Instant.now().getEpochSecond());
+            this.salt = (long) (Math.random() * 100000);
+            this.timestamp = Instant.now().getEpochSecond();
         }
 
         public Builder postOnly(@Nullable Boolean postOnly) {
@@ -128,7 +128,7 @@ public class UnsignedOrder {
         /**
          * <b>Note:</b> This may or may not apply for the websocket request!
          */
-        public Builder trigger(@Nullable String trigger) {
+        public Builder trigger(@Nullable Double trigger) {
             this.trigger = trigger;
             return this;
         }
@@ -188,19 +188,19 @@ public class UnsignedOrder {
      * @see Builder
      */
     public UnsignedOrder(
-            @NonNull Integer instrument,
+            long instrument,
             @NonNull String maker,
             boolean isBuy,
-            @NonNull String amount,
-            @NonNull String limitPrice,
-            @NonNull String salt,
-            @NonNull String timestamp,
+            long amount,
+            long limitPrice,
+            long salt,
+            long timestamp,
             @Nullable Boolean postOnly,
             @Nullable Boolean reduceOnly,
             @Nullable String timeInForce,
             @Nullable Boolean mmp,
             @Nullable String stop,
-            @Nullable String trigger
+            @Nullable Double trigger
     ) {
         this.instrument = instrument;
         this.maker = maker;
@@ -221,13 +221,13 @@ public class UnsignedOrder {
      * @see Builder
      */
     public UnsignedOrder(
-            @NonNull Integer instrument,
+            long instrument,
             @NonNull String maker,
             boolean isBuy,
-            @NonNull String amount,
-            @NonNull String limitPrice,
-            @NonNull String salt,
-            @NonNull String timestamp
+            long amount,
+            long limitPrice,
+            long salt,
+            long timestamp
     ) {
         this(
                 instrument,
@@ -276,20 +276,8 @@ public class UnsignedOrder {
         signatureHex = Numeric.toHexString(retval);
 
         return new SignedOrder(
-                order.getInstrument(),
-                order.getMaker(),
-                order.isBuy(),
-                order.getAmount(),
-                order.getLimitPrice(),
-                order.getSalt(),
-                signatureHex,
-                order.getTimestamp(),
-                order.getPostOnly(),
-                order.getReduceOnly(),
-                order.getTimeInForce(),
-                order.getMmp(),
-                order.getStop(),
-                order.getTrigger()
+                order,
+                signatureHex
         );
     }
 
@@ -318,27 +306,13 @@ public class UnsignedOrder {
         System.arraycopy(signature.getS(), 0, retval, 32, 32);
         System.arraycopy(signature.getV(), 0, retval, 64, 1);
         signatureHex = Numeric.toHexString(retval);
-
         return new SignedOrder(
-                order.getInstrument(),
-                order.getMaker(),
-                order.isBuy(),
-                order.getAmount(),
-                order.getLimitPrice(),
-                order.getSalt(),
-                signatureHex,
-                order.getTimestamp(),
-                order.getPostOnly(),
-                order.getReduceOnly(),
-                order.getTimeInForce(),
-                order.getMmp(),
-                order.getStop(),
-                order.getTrigger()
+                order,
+                signatureHex
         );
     }
 
-    @NonNull
-    public Integer getInstrument() {
+    public long getInstrument() {
         return instrument;
     }
 
@@ -351,23 +325,19 @@ public class UnsignedOrder {
         return isBuy;
     }
 
-    @NonNull
-    public String getAmount() {
+    public long getAmount() {
         return amount;
     }
 
-    @NonNull
-    public String getLimitPrice() {
+    public long getLimitPrice() {
         return limitPrice;
     }
 
-    @NonNull
-    public String getSalt() {
+    public long getSalt() {
         return salt;
     }
 
-    @NonNull
-    public String getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
@@ -397,7 +367,7 @@ public class UnsignedOrder {
     }
 
     @Nullable
-    public String getTrigger() {
+    public Double getTrigger() {
         return trigger;
     }
 

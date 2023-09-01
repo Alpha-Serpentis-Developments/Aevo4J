@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class TradeHistory extends Trade {
 
     @SerializedName("count")
-    private String count;
+    private long count;
     @SerializedName("trade_history")
     private HistoricalTrade[] tradeHistory;
 
@@ -21,25 +21,25 @@ public class TradeHistory extends Trade {
         @SerializedName("asset")
         private String asset;
         @SerializedName("spot_price")
-        private String spotPrice;
+        private double spotPrice;
         @SerializedName("avg_price")
-        private String avgPrice;
+        private double avgPrice;
         @SerializedName("mark_price")
-        private String markPrice;
+        private double markPrice;
         @SerializedName("fees")
-        private String fees;
+        private double fees;
         @SerializedName("liquidity")
         private String liquidity;
         @SerializedName("iv")
-        private String iv;
+        private double iv;
         @SerializedName("fee_rate")
-        private String feeRate;
+        private double feeRate;
         @SerializedName("pnl")
-        private String pnl;
+        private double pnl;
         @SerializedName("payout")
-        private String payout;
+        private double payout;
         @SerializedName("strike")
-        private String strike;
+        private double strike;
         @SerializedName("option_type")
         private String optionType;
         @SerializedName("agg_order_id")
@@ -47,9 +47,9 @@ public class TradeHistory extends Trade {
         @SerializedName("trade_status")
         private String tradeStatus;
         @SerializedName("settlement_price")
-        private String settlementPrice;
+        private double settlementPrice;
         @SerializedName("liquidation_fee")
-        private String liquidationFee;
+        private double liquidationFee;
 
         public String getOrderId() {
             return orderId;
@@ -63,19 +63,19 @@ public class TradeHistory extends Trade {
             return asset;
         }
 
-        public String getSpotPrice() {
+        public double getSpotPrice() {
             return spotPrice;
         }
 
-        public String getAvgPrice() {
+        public double getAvgPrice() {
             return avgPrice;
         }
 
-        public String getMarkPrice() {
+        public double getMarkPrice() {
             return markPrice;
         }
 
-        public String getFees() {
+        public double getFees() {
             return fees;
         }
 
@@ -83,23 +83,23 @@ public class TradeHistory extends Trade {
             return liquidity;
         }
 
-        public String getIv() {
+        public double getIv() {
             return iv;
         }
 
-        public String getFeeRate() {
+        public double getFeeRate() {
             return feeRate;
         }
 
-        public String getPnl() {
+        public double getPnl() {
             return pnl;
         }
 
-        public String getPayout() {
+        public double getPayout() {
             return payout;
         }
 
-        public String getStrike() {
+        public double getStrike() {
             return strike;
         }
 
@@ -115,11 +115,11 @@ public class TradeHistory extends Trade {
             return tradeStatus;
         }
 
-        public String getSettlementPrice() {
+        public double getSettlementPrice() {
             return settlementPrice;
         }
 
-        public String getLiquidationFee() {
+        public double getLiquidationFee() {
             return liquidationFee;
         }
 
@@ -156,7 +156,7 @@ public class TradeHistory extends Trade {
         }
     }
 
-    public String getCount() {
+    public long getCount() {
         return count;
     }
 

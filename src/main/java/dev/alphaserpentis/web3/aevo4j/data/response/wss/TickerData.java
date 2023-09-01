@@ -2,7 +2,7 @@ package dev.alphaserpentis.web3.aevo4j.data.response.wss;
 
 import com.google.gson.annotations.SerializedName;
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.websocket.impl.TickerListener;
-import dev.alphaserpentis.web3.aevo4j.data.response.rest.Greeks;
+import dev.alphaserpentis.web3.aevo4j.data.response.common.Greeks;
 
 import java.util.Arrays;
 
@@ -22,7 +22,7 @@ public class TickerData extends Response<TickerData.Data> {
 
         public static class Ticker {
             @SerializedName("instrument_id")
-            private String instrumentId;
+            private long instrumentId;
             @SerializedName("instrument_name")
             private String instrumentName;
             @SerializedName("instrument_type")
@@ -36,11 +36,11 @@ public class TickerData extends Response<TickerData.Data> {
 
             public static class Price extends Greeks {
                 @SerializedName("price")
-                private String price;
+                private double price;
                 @SerializedName("amount")
                 private String amount;
 
-                public String getPrice() {
+                public double getPrice() {
                     return price;
                 }
 
@@ -63,7 +63,7 @@ public class TickerData extends Response<TickerData.Data> {
                 }
             }
 
-            public String getInstrumentId() {
+            public double getInstrumentId() {
                 return instrumentId;
             }
 
@@ -94,6 +94,8 @@ public class TickerData extends Response<TickerData.Data> {
                         ", instrumentName='" + instrumentName + '\'' +
                         ", instrumentType='" + instrumentType + '\'' +
                         ", mark=" + mark +
+                        ", bid=" + bid +
+                        ", ask=" + ask +
                         '}';
             }
         }

@@ -7,11 +7,11 @@ public class Time {
     @SerializedName("name")
     private String name;
     @SerializedName("timestamp")
-    private String timestamp;
+    private long timestamp;
     @SerializedName("time")
     private String time;
     @SerializedName("sequence")
-    private String sequence;
+    private long sequence;
     @SerializedName("block")
     private String block;
 
@@ -19,7 +19,7 @@ public class Time {
         return name;
     }
 
-    public String getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
@@ -27,7 +27,7 @@ public class Time {
         return time;
     }
 
-    public String getSequence() {
+    public long getSequence() {
         return sequence;
     }
 

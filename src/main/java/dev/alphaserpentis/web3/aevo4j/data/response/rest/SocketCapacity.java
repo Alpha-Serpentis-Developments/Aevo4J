@@ -7,19 +7,19 @@ public class SocketCapacity {
     @SerializedName("socket_connector")
     private String socketConnector;
     @SerializedName("chain_id")
-    private String chainId;
+    private long chainId;
     @SerializedName("capacity")
-    private String capacity;
+    private long capacity;
 
     public String getSocketConnector() {
         return socketConnector;
     }
 
-    public String getChainId() {
+    public long getChainId() {
         return chainId;
     }
 
-    public String getCapacity() {
+    public long getCapacity() {
         return capacity;
     }
 

@@ -20,10 +20,10 @@ public class CreateOrderListener extends PrivateListener<CreatedOrder> {
             @NonNull Integer instrumentId,
             @NonNull String maker,
             boolean isBuy,
-            @NonNull String amount,
-            @NonNull String limitPrice,
-            @NonNull String salt,
-            @Nullable String timestamp,
+            long amount,
+            long limitPrice,
+            long salt,
+            @Nullable Long timestamp,
             @NonNull String signature,
             @Nullable Boolean postOnly,
             @Nullable String timeInForce,
@@ -49,7 +49,7 @@ public class CreateOrderListener extends PrivateListener<CreatedOrder> {
                                 amount,
                                 limitPrice,
                                 salt,
-                                Objects.requireNonNullElse(timestamp, String.valueOf(Instant.now().getEpochSecond())),
+                                Objects.requireNonNullElse(timestamp, Instant.now().getEpochSecond()),
                                 signature
                         )
                                 .postOnly(postOnly)
