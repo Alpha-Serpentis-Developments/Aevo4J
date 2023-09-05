@@ -89,7 +89,7 @@ public class WebsocketTests {
         OrderbookListener listener = new OrderbookListener(
                 OrderbookListener.Filter.NONE,
                 false,
-                "orderbook:ETH-PERP"
+                "ETH-PERP"
         );
 
         listener.responseFlowable().subscribe(
@@ -105,7 +105,7 @@ public class WebsocketTests {
         OrderbookListener listener = new OrderbookListener(
                 OrderbookListener.Filter.UPDATE,
                 false,
-                "orderbook:ETH-PERP"
+                "ETH-PERP"
         );
 
         listener.responseFlowable().subscribe(
@@ -121,7 +121,7 @@ public class WebsocketTests {
         OrderbookListener listener = new OrderbookListener(
                 OrderbookListener.Filter.NONE,
                 false,
-                "orderbook:XRP-PERP", "orderbook:OP-PERP", "orderbook:ETH-PERP", "orderbook:BTC-PERP", "orderbook:BNB-PERP", "orderbook:1000PEPE-PERP"
+                "XRP-PERP", "OP-PERP", "ETH-PERP", "BTC-PERP", "BNB-PERP", "1000PEPE-PERP"
         );
 
         listener.responseFlowable().subscribe(
@@ -148,7 +148,7 @@ public class WebsocketTests {
         final NumberFormat numberFormat = NumberFormat.getInstance();
         TickerListener listener = new TickerListener(
                 false,
-                "ticker:ETH:PERPETUAL"
+                "ETH:PERPETUAL"
         );
 
         listener.responseFlowable().subscribe(
@@ -178,7 +178,7 @@ public class WebsocketTests {
     public static WebSocket test_SubscribedIndex() {
         IndexListener listener = new IndexListener(
                 false,
-                "index:ETH"
+                "ETH"
         );
 
         listener.responseFlowable().subscribe(
@@ -193,7 +193,7 @@ public class WebsocketTests {
     public static WebSocket test_SubscribedTrades() {
         TradesListener listener = new TradesListener(
                 false,
-                "trades:ETH"
+                "ETH"
         );
 
         listener.responseFlowable().subscribe(

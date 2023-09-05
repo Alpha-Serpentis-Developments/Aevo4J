@@ -65,21 +65,25 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
      * @param channelAllowed {@link ChannelName.Channels} allowed for this listener
      * @param operations {@link WebSocketOperations} to use
      * @param isTestnet Whether to use the testnet or not
-     * @param channels Channels (in string format) to subscribe to
+     * @param symbols Symbols (e.g. "BTC-USD") to subscribe to
      */
     public AevoListener(
             @NonNull Class<T> clazz,
             @Nullable ChannelName.Channels channelAllowed,
             @NonNull WebSocketOperations operations,
             boolean isTestnet,
-            @NonNull String... channels
+            @NonNull String... symbols
     ) {
-        ChannelName[] arrayOfChannels = Arrays.stream(channels)
-                .map(ChannelName::parseStringIntoChannelName)
-                .toArray(ChannelName[]::new);
+        ChannelName[] arrayOfChannels = null;
         this.clazz = clazz;
         this.channelAllowed = channelAllowed;
         webSocket = AevoHandler.createNewWebSocket(this, isTestnet);
+
+        if(channelAllowed != null) {
+            arrayOfChannels = Arrays.stream(symbols)
+                    .map(r -> ChannelName.convertSymbolIntoChannelName(r, channelAllowed))
+                    .toArray(ChannelName[]::new);
+        }
 
         if(operations.equals(WebSocketOperations.SUBSCRIBE) || operations.equals(WebSocketOperations.UNSUBSCRIBE)) {
             webSocket.send(new SubscribeWebSocketRequest(operations, arrayOfChannels).toString());
@@ -194,23 +198,31 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void onMessage(@NonNull WebSocket webSocket, @NonNull String response) {
         try {
-            Response<?> parsed = parseString(response);
-
-            if(!(parsed instanceof Ack)) {
-                subject.onNext((T) parsed);
-            }
+            handleResponse(response);
         } catch(Exception e) {
-            subject.onError(e);
-            webSocket.close(1000, "Unhandled exception");
+            handleError(e);
         }
     }
 
     @Override
     public void onClosed(@NonNull WebSocket webSocket, int code, @NonNull String reason) {
         subject.onComplete();
+    }
+
+    @SuppressWarnings("unchecked")
+    protected void handleResponse(@NonNull String response) {
+        Response<?> parsed = parseString(response);
+
+        if(!(parsed instanceof Ack)) {
+            subject.onNext((T) parsed);
+        }
+    }
+
+    protected void handleError(@NonNull Exception e) {
+        subject.onError(e);
+        webSocket.close(1000, "Unhandled exception");
     }
 
     /**

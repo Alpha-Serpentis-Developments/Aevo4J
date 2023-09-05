@@ -19,7 +19,6 @@ public class OrderEIP712 {
             new StructuredData.Entry("version", "string"),
             new StructuredData.Entry("chainId", "uint256")
     );
-
     public static final List<StructuredData.Entry> ORDER_ENTRY = List.of(
             new StructuredData.Entry("maker", "address"),
             new StructuredData.Entry("isBuy", "bool"),
@@ -29,19 +28,18 @@ public class OrderEIP712 {
             new StructuredData.Entry("instrument", "uint256"),
             new StructuredData.Entry("timestamp", "uint256")
     );
-
     public static final Domain MAINNET_DOMAIN = new Domain("Aevo Mainnet", "1", 1);
-
     public static final Domain TESTNET_DOMAIN = new Domain("Aevo Testnet", "1", 11155111);
 
     @SerializedName("domain")
     private Domain domain;
     @SerializedName("types")
-    private final HashMap<String, List<StructuredData.Entry>> types = new HashMap<>();
-    {
-        types.put("EIP712Domain", DOMAIN_ENTRY);
-        types.put("Order", ORDER_ENTRY);
-    }
+    private final HashMap<String, List<StructuredData.Entry>> types = new HashMap<>(2) {
+        {
+            put("EIP712Domain", DOMAIN_ENTRY);
+            put("Order", ORDER_ENTRY);
+        }
+    };
     @SerializedName("primaryType")
     private final String primaryType = "Order";
     @SerializedName("message")

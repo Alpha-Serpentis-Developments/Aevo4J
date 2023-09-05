@@ -17,9 +17,9 @@ public class TickerListener extends AevoListener<TickerData> {
 
     public TickerListener(
             boolean isTestnet,
-            @NonNull String... channels
+            @NonNull String... symbols
     ) {
-        super(TickerData.class, ChannelName.Channels.TICKER, WebSocketOperations.SUBSCRIBE, isTestnet, channels);
+        super(TickerData.class, ChannelName.Channels.TICKER, WebSocketOperations.SUBSCRIBE, isTestnet, symbols);
     }
 
     public TickerListener(

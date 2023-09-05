@@ -12,9 +12,7 @@ public class RFQsListener extends AevoListener<RFQsData> {
         super(RFQsData.class, ChannelName.Channels.RFQS);
     }
 
-    public RFQsListener(
-            boolean isTestnet
-    ) {
+    public RFQsListener(boolean isTestnet) {
         super(
                 RFQsData.class,
                 ChannelName.Channels.RFQS,

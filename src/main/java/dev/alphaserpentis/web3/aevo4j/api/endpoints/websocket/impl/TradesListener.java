@@ -18,9 +18,9 @@ public class TradesListener extends AevoListener<TradesData> {
 
     public TradesListener(
             boolean isTestnet,
-            @NonNull String... channels
+            @NonNull String... symbols
     ) {
-        super(TradesData.class, ChannelName.Channels.TRADES, WebSocketOperations.SUBSCRIBE, isTestnet, channels);
+        super(TradesData.class, ChannelName.Channels.TRADES, WebSocketOperations.SUBSCRIBE, isTestnet, symbols);
     }
 
     public TradesListener(

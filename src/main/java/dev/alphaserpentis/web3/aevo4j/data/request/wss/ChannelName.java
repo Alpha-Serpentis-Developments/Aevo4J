@@ -42,6 +42,10 @@ public record ChannelName(
         }
     }
 
+    public static ChannelName convertSymbolIntoChannelName(@NonNull String symbol, @NonNull Channels channel) {
+        return new ChannelName(channel, symbol);
+    }
+
     public static ChannelName parseStringIntoChannelName(@NonNull String channelName) {
         String[] split = channelName.split(":");
 

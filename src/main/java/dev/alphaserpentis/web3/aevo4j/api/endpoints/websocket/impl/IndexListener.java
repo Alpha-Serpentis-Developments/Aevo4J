@@ -17,9 +17,9 @@ public class IndexListener extends AevoListener<IndexData> {
 
     public IndexListener(
             boolean isTestnet,
-            @NonNull String... channels
+            @NonNull String... symbols
     ) {
-        super(IndexData.class, ChannelName.Channels.INDEX, WebSocketOperations.SUBSCRIBE, isTestnet, channels);
+        super(IndexData.class, ChannelName.Channels.INDEX, WebSocketOperations.SUBSCRIBE, isTestnet, symbols);
     }
 
     public IndexListener(

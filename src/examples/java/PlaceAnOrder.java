@@ -60,7 +60,8 @@ public class PlaceAnOrder {
                                 df.format(
                                         service.getIndex("ETH").getPrice() * 0.95
                                 )
-                        ) * Math.pow(10, 6));
+                        ) * Math.pow(10, 6)
+            );
         }
 
         return (long) (bids[0][0] * Math.pow(10,6));
