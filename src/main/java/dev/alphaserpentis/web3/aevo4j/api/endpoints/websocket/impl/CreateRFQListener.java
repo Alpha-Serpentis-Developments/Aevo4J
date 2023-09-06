@@ -15,7 +15,7 @@ public class CreateRFQListener extends PrivateListener<CreatedRFQ> {
             @NonNull String apiSecret,
             boolean authorizeOnConnect,
             boolean isTestnet,
-            @NonNull Integer instrumentId,
+            long instrumentId,
             @NonNull String amount
     ) {
         super(

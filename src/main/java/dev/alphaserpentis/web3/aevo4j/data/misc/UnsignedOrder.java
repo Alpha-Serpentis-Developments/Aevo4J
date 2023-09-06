@@ -46,7 +46,7 @@ public class UnsignedOrder {
     protected final Double trigger;
 
     public static class Builder {
-        private final Integer instrument;
+        private final long instrument;
         private final String maker;
         private final boolean isBuy;
         private final long amount;
@@ -61,7 +61,7 @@ public class UnsignedOrder {
         private Double trigger;
 
         public Builder(
-                @NonNull Integer instrument,
+                long instrument,
                 @NonNull String maker,
                 boolean isBuy,
                 long amount,
@@ -79,7 +79,7 @@ public class UnsignedOrder {
         }
 
         public Builder(
-                @NonNull Integer instrument,
+                long instrument,
                 @NonNull String maker,
                 boolean isBuy,
                 long amount,

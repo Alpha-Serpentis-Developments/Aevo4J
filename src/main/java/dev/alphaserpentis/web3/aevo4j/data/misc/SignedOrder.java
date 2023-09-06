@@ -26,7 +26,7 @@ public class SignedOrder extends UnsignedOrder {
         private Double trigger;
 
         public Builder(
-                @NonNull Integer instrument,
+                long instrument,
                 @NonNull String maker,
                 boolean isBuy,
                 long amount,

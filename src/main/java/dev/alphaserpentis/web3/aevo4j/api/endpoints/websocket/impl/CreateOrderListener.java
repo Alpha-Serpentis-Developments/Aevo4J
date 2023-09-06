@@ -17,7 +17,7 @@ public class CreateOrderListener extends PrivateListener<CreatedOrder> {
             @NonNull String apiSecret,
             boolean authorizeOnConnect,
             boolean isTestnet,
-            @NonNull Integer instrumentId,
+            long instrumentId,
             @NonNull String maker,
             boolean isBuy,
             long amount,

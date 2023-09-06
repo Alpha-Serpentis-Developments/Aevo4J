@@ -52,7 +52,7 @@ public class PrivateWebSockets {
     @NonNull
     public CreateOrderListener createOrder(
             boolean isTestnet,
-            @NonNull Integer instrumentId,
+            long instrumentId,
             @NonNull String maker,
             boolean isBuy,
             long amount,
@@ -100,7 +100,7 @@ public class PrivateWebSockets {
     @NonNull
     public EditOrderListener editOrder(
             boolean isTestnet,
-            @NonNull Integer instrumentId,
+            long instrumentId,
             @NonNull String maker,
             boolean isBuy,
             long amount,
@@ -188,7 +188,7 @@ public class PrivateWebSockets {
     @NonNull
     public CreateRFQListener createRFQ(
             boolean isTestnet,
-            @NonNull Integer instrumentId,
+            long instrumentId,
             @NonNull String amount
     ) {
         return new CreateRFQListener(

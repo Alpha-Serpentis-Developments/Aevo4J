@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class CreateRFQ {
     @SerializedName("instrument_id")
-    public final int instrumentId;
+    public final long instrumentId;
     @SerializedName("amount")
     public final String amount;
 
-    public CreateRFQ(int instrumentId, String amount) {
+    public CreateRFQ(long instrumentId, String amount) {
         this.instrumentId = instrumentId;
         this.amount = amount;
     }

@@ -89,6 +89,8 @@ To use the private web sockets, it requires that they're authenticated as well. 
 - Authorizing per Request
 - Authorizing on Connect
 
+This is assigned when either instantiating directly or via the `PrivateWebSockets` class under `authorizeOnConnect`.
+
 - - -
 ## Order Signing
 In order to place orders in either the REST APIs or WebSockets, you will need to be able to pass in a signature parameter.
@@ -103,12 +105,6 @@ See the [**Signing Orders**](https://api-docs.aevo.xyz/reference/signing-orders)
 - **Price**: `1000.0` (USD)
 
 ```java
-// Assume the private service has been already configured
-PrivateService service = AevoHandler.getPrivateService(...);
-
-// Assume the private websockets is already configured
-PrivateWebSockets webSockets = new PrivateWebSockets(...);
-
 // Create the order payload
 UnsignedOrder order = new UnsignedOrder.Builder(
         2054, // Instrument ID
@@ -123,15 +119,6 @@ SignedOrder signedOrder = UnsignedOrder.signOrder(
         order, // the unsigned order payload
         true, // true if testnet, false if mainnet
         "YOUR SIGNING KEY" // the signing key generated from the Aevo website
-);
-
-// Call the REST API
-Order orderResponse = service.postOrders(order);
-
-// Call the WebSockets
-CreateOrderListener listener = webSockets.createOrder(
-        true, // true if testnet, false if mainnet
-        signedOrder // the signed order payload
 );
 ```
 
