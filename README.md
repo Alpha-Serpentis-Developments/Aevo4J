@@ -6,11 +6,12 @@ Aevo4J is an unofficial implementation of [Aevo's](https://aevo.xyz) REST APIs a
 ## What is Aevo?
 Aevo is a decentralized derivatives exchange built on Ethereum.
 
-[**Receive a 10% discount on trading fees for 6 months by using our referral!**](https://app.aevo.xyz/r/Plum-Gossamer-Tepper)
+[**Receive a 10% discount on trading fees for 6 months + $25 credit after depositing $100+ by using our referral!**](https://app.aevo.xyz/r/Plum-Gossamer-Tepper)
 
 ## Features
 - Full coverage of the REST APIs and WebSockets
 - Automatic authentication for private endpoints (REST APIs and WebSockets), if needed
+- Orderbook checksum validator
 - Built-in order-signing for placing/editing orders
 
 ## How Do I Use Aevo4J In My Project?

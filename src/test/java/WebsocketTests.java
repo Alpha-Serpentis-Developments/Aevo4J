@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 /**
- * "Tests" for all the websockets
+ * "Tests" for all the public websockets
  */
 public class WebsocketTests {
 
@@ -64,7 +64,7 @@ public class WebsocketTests {
 
         listener.responseFlowable().subscribe(
                 System.out::println,
-                error -> System.out.println("Error: " + error.getMessage()),
+                error -> System.err.println(error.getMessage()),
                 () -> System.out.println("onComplete() called")
         );
 
@@ -78,7 +78,7 @@ public class WebsocketTests {
 
         listener.responseFlowable().subscribe(
                 System.out::println,
-                error -> System.out.println("Error: " + error.getMessage()),
+                error -> System.err.println(error.getMessage()),
                 () -> System.out.println("onComplete() called")
         );
 
@@ -94,7 +94,7 @@ public class WebsocketTests {
 
         listener.responseFlowable().subscribe(
                 System.out::println,
-                error -> System.out.println("Error: " + error.getMessage()),
+                error -> System.err.println(error.getMessage()),
                 () -> System.out.println("onComplete() called")
         );
 
@@ -110,7 +110,7 @@ public class WebsocketTests {
 
         listener.responseFlowable().subscribe(
                 System.out::println,
-                error -> System.out.println("Error: " + error.getMessage()),
+                error -> System.err.println(error.getMessage()),
                 () -> System.out.println("onComplete() called")
         );
 
@@ -137,7 +137,7 @@ public class WebsocketTests {
                             genChecksum, apiChecksum, genChecksum == apiChecksum
                     );
                 },
-                error -> System.out.println("Error: " + error.getMessage()),
+                error -> System.err.println(error.getMessage()),
                 () -> System.out.println("onComplete() called")
         );
 
@@ -169,7 +169,9 @@ public class WebsocketTests {
                                     numberFormat.format(ask - bid)
                             );
                         }
-                )
+                ),
+                error -> System.err.println(error.getMessage()),
+                () -> System.out.println("onComplete() called")
         );
 
         return listener.getWebSocket();
@@ -178,7 +180,7 @@ public class WebsocketTests {
     public static WebSocket test_SubscribedIndex() {
         IndexListener listener = new IndexListener(
                 false,
-                "ETH"
+                "ETH", "BTC", "OP", "ARB", "BNB"
         );
 
         listener.responseFlowable().subscribe(
@@ -193,12 +195,12 @@ public class WebsocketTests {
     public static WebSocket test_SubscribedTrades() {
         TradesListener listener = new TradesListener(
                 false,
-                "ETH"
+                "ETH", "BTC", "OP", "ARB", "BNB"
         );
 
         listener.responseFlowable().subscribe(
                 System.out::println,
-                error -> System.out.println("Error: " + error.getMessage()),
+                error -> System.err.println(error.getMessage()),
                 () -> System.out.println("onComplete() called")
         );
 
@@ -212,7 +214,7 @@ public class WebsocketTests {
 
         listener.responseFlowable().subscribe(
                 System.out::println,
-                error -> System.out.println("Error: " + error.getMessage()),
+                error -> System.err.println(error.getMessage()),
                 () -> System.out.println("onComplete() called")
         );
 
