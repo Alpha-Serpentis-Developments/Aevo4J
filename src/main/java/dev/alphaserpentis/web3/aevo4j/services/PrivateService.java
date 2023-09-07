@@ -1195,8 +1195,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
 
     /**
      * Returns the order history of the account
-     * @param startTime Entries created prior (<) to the start time are excluded in UNIX timestamp in nanosecond (default 0)
-     * @param endTime Entries created after (>) the end time are excluded in UNIX timestamp in nanosecond (default current time)
+     * @param startTime Entries created prior (less than) to the start time are excluded in UNIX timestamp in nanosecond (default 0)
+     * @param endTime Entries created after (greater than) the end time are excluded in UNIX timestamp in nanosecond (default current time)
      * @param limit Limits the number of relevant entries in the response. Defaults to 50. Maximum is 1000.
      * @param offset Offset
      * @return {@link OrderHistory}
@@ -1234,8 +1234,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
 
     /**
      * Returns the order history of the account
-     * @param startTime Entries created prior (<) to the start time are excluded in UNIX timestamp in nanosecond (default 0)
-     * @param endTime Entries created after (>) the end time are excluded in UNIX timestamp in nanosecond (default current time)
+     * @param startTime Entries created prior (less than) to the start time are excluded in UNIX timestamp in nanosecond (default 0)
+     * @param endTime Entries created after (greater than) the end time are excluded in UNIX timestamp in nanosecond (default current time)
      * @param limit Limits the number of relevant entries in the response. Defaults to 50. Maximum is 1000.
      * @return {@link OrderHistory}
      * @see <a href="https://api-docs.aevo.xyz/reference/getorderhistory">Aevo - GET Order History</a>
@@ -1250,9 +1250,9 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
 
     /**
      * Returns the account's trade history
-     * @param startTime Entries created prior (<) to the start time are excluded in UNIX timestamp in nanosecond (default 0)
+     * @param startTime Entries created prior (less than) to the start time are excluded in UNIX timestamp in nanosecond (default 0)
      * @param asset Asset to get trade history for
-     * @param endTime Entries created after (>) the end time are excluded in UNIX timestamp in nanosecond (default current time)
+     * @param endTime Entries created after (greater than) the end time are excluded in UNIX timestamp in nanosecond (default current time)
      * @param tradeTypes Trade types to get trade history for
      * @param instrumentType Instrument type to get trade history for
      * @param optionType Option type to get trade history for
@@ -1301,7 +1301,7 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
 
     /**
      * Returns the account's trade history
-     * @param startTime Entries created prior (<) to the start time are excluded in UNIX timestamp in nanosecond (default 0)
+     * @param startTime Entries created prior (less than) to the start time are excluded in UNIX timestamp in nanosecond (default 0)
      * @return {@link TradeHistory}
      * @see <a href="https://api-docs.aevo.xyz/reference/gettradehistory">Aevo - GET Trade History</a>
      */
@@ -1322,8 +1322,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
 
     /**
      * Returns the account's deposit and withdraw history
-     * @param startTime Entries created prior (<) to the start time are excluded in UNIX timestamp in nanosecond (default 0)
-     * @param endTime Entries created after (>) the end time are excluded in UNIX timestamp in nanosecond (default current time)
+     * @param startTime Entries created prior (less than) to the start time are excluded in UNIX timestamp in nanosecond (default 0)
+     * @param endTime Entries created after (greater than) the end time are excluded in UNIX timestamp in nanosecond (default current time)
      * @param txType Transaction type to get history for
      * @param txStatus Transaction status to get history for
      * @param limit Limits the number of relevant entries in the response. Defaults to 50. Maximum is 1000.
