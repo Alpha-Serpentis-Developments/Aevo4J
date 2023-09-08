@@ -1,3 +1,6 @@
+[maven-central]: https://img.shields.io/maven-central/v/dev.alphaserpentis.web3/aevo4j?style=flat-square
+
+[![Maven Central][maven-central]](https://search.maven.org/artifact/dev.alphaserpentis.web3/aevo4j)
 # Aevo4J
 
 ## What is Aevo4J?
@@ -23,13 +26,13 @@ Aevo is a decentralized derivatives exchange built on Ethereum.
 <dependency>
     <groupId>dev.alphaserpentis.web3</groupId>
     <artifactId>aevo4j</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
 #### Gradle
 ```groovy
-implementation 'dev.alphaserpentis.web3:aevo4j:1.0.0'
+implementation 'dev.alphaserpentis.web3:aevo4j:1.0.1'
 ```
 
 - - -

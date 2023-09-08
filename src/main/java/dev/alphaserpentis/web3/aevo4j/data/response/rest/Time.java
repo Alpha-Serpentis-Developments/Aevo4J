@@ -13,7 +13,7 @@ public class Time {
     @SerializedName("sequence")
     private long sequence;
     @SerializedName("block")
-    private String block;
+    private long block;
 
     public String getName() {
         return name;
@@ -31,7 +31,7 @@ public class Time {
         return sequence;
     }
 
-    public String getBlock() {
+    public long getBlock() {
         return block;
     }
 

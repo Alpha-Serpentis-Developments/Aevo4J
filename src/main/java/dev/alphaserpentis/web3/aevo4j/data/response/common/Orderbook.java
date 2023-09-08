@@ -22,7 +22,7 @@ public class Orderbook {
     @SerializedName("asks")
     private double[][] asks;
     @SerializedName("last_updated")
-    private String lastUpdated;
+    private long lastUpdated;
     @SerializedName("checksum")
     private long checksum;
 
@@ -86,7 +86,7 @@ public class Orderbook {
         return asks;
     }
 
-    public String getLastUpdated() {
+    public long getLastUpdated() {
         return lastUpdated;
     }
 

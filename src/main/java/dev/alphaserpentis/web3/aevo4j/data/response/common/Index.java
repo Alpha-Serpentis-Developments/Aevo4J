@@ -7,13 +7,13 @@ public class Index {
     @SerializedName("price")
     private double price;
     @SerializedName("timestamp")
-    private String timestamp;
+    private long timestamp;
 
     public double getPrice() {
         return price;
     }
 
-    public String getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 

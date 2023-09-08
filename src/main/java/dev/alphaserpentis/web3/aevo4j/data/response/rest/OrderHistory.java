@@ -6,11 +6,11 @@ import dev.alphaserpentis.web3.aevo4j.data.response.common.Order;
 @SuppressWarnings("unused")
 public class OrderHistory {
     @SerializedName("count")
-    private String count;
+    private long count;
     @SerializedName("order_history")
     private Order[] orderHistory;
 
-    public String getCount() {
+    public long getCount() {
         return count;
     }
 

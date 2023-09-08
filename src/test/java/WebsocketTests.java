@@ -105,7 +105,7 @@ public class WebsocketTests {
         OrderbookListener listener = new OrderbookListener(
                 OrderbookListener.Filter.UPDATE,
                 false,
-                "ETH-PERP"
+                "XRP-PERP", "OP-PERP", "ETH-PERP", "BTC-PERP", "BNB-PERP", "1000PEPE-PERP"
         );
 
         listener.responseFlowable().subscribe(

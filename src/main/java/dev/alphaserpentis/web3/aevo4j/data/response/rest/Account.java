@@ -34,7 +34,7 @@ public class Account {
     @SerializedName("in_liquidation")
     private boolean inLiquidation;
     @SerializedName("initial_margin")
-    private String initialMargin;
+    private double initialMargin;
     @SerializedName("maintenance_margin")
     private String maintenanceMargin;
     @SerializedName("email_address")
@@ -42,7 +42,7 @@ public class Account {
     @SerializedName("intercom_hash")
     private String intercomHash;
     @SerializedName("credit")
-    private String credit;
+    private double credit;
     @SerializedName("credited")
     private boolean credited;
     @SerializedName("has_been_referred")
@@ -204,7 +204,7 @@ public class Account {
         return inLiquidation;
     }
 
-    public String getInitialMargin() {
+    public double getInitialMargin() {
         return initialMargin;
     }
 
@@ -220,7 +220,7 @@ public class Account {
         return intercomHash;
     }
 
-    public String getCredit() {
+    public double getCredit() {
         return credit;
     }
 

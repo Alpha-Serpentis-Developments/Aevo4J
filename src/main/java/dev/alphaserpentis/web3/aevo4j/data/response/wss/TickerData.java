@@ -16,7 +16,7 @@ public class TickerData extends Response<TickerData.Data> {
 
     public static class Data {
         @SerializedName("timestamp")
-        private String timestamp;
+        private long timestamp;
         @SerializedName("tickers")
         private Ticker[] tickers;
 
@@ -38,13 +38,13 @@ public class TickerData extends Response<TickerData.Data> {
                 @SerializedName("price")
                 private double price;
                 @SerializedName("amount")
-                private String amount;
+                private Double amount;
 
                 public double getPrice() {
                     return price;
                 }
 
-                public String getAmount() {
+                public Double getAmount() {
                     return amount;
                 }
 
@@ -100,7 +100,7 @@ public class TickerData extends Response<TickerData.Data> {
             }
         }
 
-        public String getTimestamp() {
+        public long getTimestamp() {
             return timestamp;
         }
 

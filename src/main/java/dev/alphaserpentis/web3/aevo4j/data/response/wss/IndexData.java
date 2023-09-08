@@ -15,7 +15,7 @@ public class IndexData extends Response<Index> {
     @Override
     public String toString() {
         return "IndexData{" +
-                "channel='" + getChannel() + '\'' +
+                "channel='" + getChannel() + '\'' + ", " +
                 "data=" + getData() +
                 '}';
     }
