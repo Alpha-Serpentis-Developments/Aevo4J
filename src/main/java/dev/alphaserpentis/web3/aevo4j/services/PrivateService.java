@@ -13,9 +13,11 @@ import dev.alphaserpentis.web3.aevo4j.data.request.rest.PostApiKeyBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.RegisterBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.ResetMmpBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.SigningKeyBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.StrategyWithdrawBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.TransferBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.WithdrawBody;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Account;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.AccumulatedFunding;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ApiKeyData;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.CancelledOrders;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.EmailAddress;
@@ -28,6 +30,7 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.OrderHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.OrderId;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Portfolio;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.PostRegister;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Quote;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralRewardsHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralStatistics;
@@ -603,6 +606,32 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
     }
 
     /**
+     * Get the accumulated funding for your account's positions
+     * @return {@link AccumulatedFunding}
+     * @see <a href="https://api-docs.aevo.xyz/reference/getaccountaccumulatedfundings">Aevo - GET Account Accumulated Fundings</a>
+     */
+    public AccumulatedFunding getAccumulatedFundings() throws NoSuchAlgorithmException, InvalidKeyException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
+            Long.parseLong(timestamp),
+            apiKey,
+            apiSecret,
+            "GET",
+            "/account/accumulated-fundings",
+            ""
+        ) : null;
+
+        return execute(
+                getApi().getAccumulatedFundings(
+                        timestamp,
+                        signature,
+                        apiKey,
+                        useSignatures ? null : apiSecret
+                )
+        );
+    }
+
+    /**
      * Get the portfolio of the account
      * @return {@link Portfolio}
      * @see <a href="https://api-docs.aevo.xyz/reference/getportfolio">Aevo - GET Portfolio</a>
@@ -742,6 +771,87 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
 
         return execute(
                 getApi().postWithdraw(
+                        timestamp,
+                        signature2,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                )
+        );
+    }
+
+    /**
+     * Withdraw USDC from the strategy
+     * @param account Ethereum address of the account
+     * @param collateral Ethereum address of the collateral asset
+     * @param to Ethereum address to withdraw to
+     * @param amount Amount to withdraw in USDC (6 decimals fixed number)
+     * @param salt A randomly generated number to guarantee transaction uniqueness in 6 decimals fixed number
+     * @param signature Hash of order payload signature signed by the account
+     * @param label Label of the withdrawal
+     * @return {@link Success}
+     * @see <a href="https://api-docs.aevo.xyz/reference/poststrategywithdraw">Aevo - POST Strategy Withdraw</a>
+     */
+    public Success postStrategyWithdraw(
+            @NonNull String account,
+            @NonNull String collateral,
+            @NonNull String to,
+            @NonNull String amount,
+            @NonNull String salt,
+            @NonNull String signature,
+            @NonNull String label
+    ) throws NoSuchAlgorithmException, InvalidKeyException {
+        StrategyWithdrawBody body = new StrategyWithdrawBody(
+                account,
+                collateral,
+                to,
+                amount,
+                salt,
+                signature,
+                label
+        );
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "POST",
+                "/strategy/withdraw",
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postStrategyWithdraw(
+                        timestamp,
+                        signature2,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                )
+        );
+    }
+
+    /**
+     * Withdraw USDC from the strategy
+     * @param body {@link StrategyWithdrawBody} containing the parameters
+     * @return {@link Success}
+     * @see <a href="https://api-docs.aevo.xyz/reference/poststrategywithdraw">Aevo - POST Strategy Withdraw</a>
+     */
+    public Success postStrategyWithdraw(
+            @NonNull StrategyWithdrawBody body
+    ) throws NoSuchAlgorithmException, InvalidKeyException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "POST",
+                "/strategy/withdraw",
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postStrategyWithdraw(
                         timestamp,
                         signature2,
                         apiKey,
@@ -1656,6 +1766,32 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret,
                         body
+                )
+        );
+    }
+
+    /**
+     * Returns all the account's quotes
+     * @return {@link List<Quote>} of {@link Quote}
+     * @see <a href="https://api-docs.aevo.xyz/reference/getquotes">Aevo - GET Quotes</a>
+     */
+    public List<Quote> getQuotes() throws NoSuchAlgorithmException, InvalidKeyException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
+            Long.parseLong(timestamp),
+            apiKey,
+            apiSecret,
+            "GET",
+            "/quotes",
+            ""
+        ) : null;
+
+        return execute(
+                getApi().getQuotes(
+                        timestamp,
+                        signature,
+                        apiKey,
+                        useSignatures ? null : apiSecret
                 )
         );
     }

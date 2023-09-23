@@ -11,9 +11,11 @@ import dev.alphaserpentis.web3.aevo4j.data.request.rest.PostApiKeyBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.RegisterBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.ResetMmpBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.SigningKeyBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.StrategyWithdrawBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.TransferBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.WithdrawBody;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Account;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.AccumulatedFunding;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ApiKeyData;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.CancelledOrders;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.EmailAddress;
@@ -26,6 +28,7 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.OrderHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.OrderId;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Portfolio;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.PostRegister;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Quote;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralRewardsHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralStatistics;
@@ -198,6 +201,15 @@ public interface PrivateEndpoints {
     );
 
     @Headers("Content-Type: application/json")
+    @GET("account/accumulated-fundings")
+    Single<AccumulatedFunding> getAccumulatedFundings(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret
+    );
+
+    @Headers("Content-Type: application/json")
     @GET("portfolio")
     Single<Portfolio> getPortfolio(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
@@ -214,6 +226,16 @@ public interface PrivateEndpoints {
             @Header("AEVO-KEY") String aevoKey,
             @Header("AEVO-SECRET") String aevoSecret,
             @Body WithdrawBody body
+    );
+
+    @Headers("Content-Type: application/json")
+    @POST("strategy/withdraw")
+    Single<Success> postStrategyWithdraw(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY") String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body StrategyWithdrawBody body
     );
 
     @Headers("Content-Type: application/json")
@@ -389,5 +411,14 @@ public interface PrivateEndpoints {
             @Header("AEVO-KEY") String aevoKey,
             @Header("AEVO-SECRET") String aevoSecret,
             @Body ResetMmpBody body
+    );
+
+    @Headers("Content-Type: application/json")
+    @GET("quotes")
+    Single<List<Quote>> getQuotes(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret
     );
 }
