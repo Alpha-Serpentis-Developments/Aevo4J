@@ -15,13 +15,13 @@ public class Ping extends Response<Ping.Data> {
         @SerializedName("success")
         private boolean success;
         @SerializedName("timestamp")
-        private String timestamp;
+        private long timestamp;
 
         public boolean getSuccess() {
             return success;
         }
 
-        public String getTimestamp() {
+        public long getTimestamp() {
             return timestamp;
         }
 

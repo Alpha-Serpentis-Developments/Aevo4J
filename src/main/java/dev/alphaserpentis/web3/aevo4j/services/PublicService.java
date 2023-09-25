@@ -46,7 +46,7 @@ public class PublicService extends AbstractService<PublicEndpoints> {
      * @return A list of active expiries for an underlying asset
      * @see <a href="https://api-docs.aevo.xyz/reference/getexpiries">Aevo - GET Expiries</a>
      */
-    public List<String> getExpiries(
+    public List<Long> getExpiries(
             @NonNull String asset
     ) throws AevoRestException {
         return execute(

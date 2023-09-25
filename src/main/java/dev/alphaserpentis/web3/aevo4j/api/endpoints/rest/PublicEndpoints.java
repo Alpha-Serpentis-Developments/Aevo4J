@@ -27,7 +27,7 @@ public interface PublicEndpoints {
 
     @Headers("Content-Type: application/json")
     @GET("expiries")
-    Single<List<String>> getExpiries(
+    Single<List<Long>> getExpiries(
             @Query("asset") String asset
     );
 

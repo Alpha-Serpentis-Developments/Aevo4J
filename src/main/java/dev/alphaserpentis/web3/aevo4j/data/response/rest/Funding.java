@@ -7,13 +7,13 @@ public class Funding {
     @SerializedName("funding_rate")
     private double fundingRate;
     @SerializedName("next_epoch")
-    private String nextEpoch;
+    private long nextEpoch;
 
     public double getFundingRate() {
         return fundingRate;
     }
 
-    public String getNextEpoch() {
+    public long getNextEpoch() {
         return nextEpoch;
     }
 

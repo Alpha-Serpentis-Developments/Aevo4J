@@ -12,7 +12,7 @@ public class Option extends Greeks {
     @SerializedName("option_type")
     private String optionType;
     @SerializedName("expiry")
-    private String expiry;
+    private long expiry;
     @SerializedName("strike")
     private double strike;
     @SerializedName("order_type")
@@ -26,7 +26,7 @@ public class Option extends Greeks {
     @SerializedName("trade_status")
     private String tradeStatus;
     @SerializedName("created_timestamp")
-    private String createdTimestamp;
+    private long createdTimestamp;
 
     public String getInstrumentName() {
         return instrumentName;
@@ -36,7 +36,7 @@ public class Option extends Greeks {
         return optionType;
     }
 
-    public String getExpiry() {
+    public long getExpiry() {
         return expiry;
     }
 
@@ -60,7 +60,7 @@ public class Option extends Greeks {
         return tradeStatus;
     }
 
-    public String getCreatedTimestamp() {
+    public long getCreatedTimestamp() {
         return createdTimestamp;
     }
 

@@ -24,7 +24,7 @@ public class ApiKeyData {
     @SerializedName("read_only")
     private boolean readOnly;
     @SerializedName("created_timestamp")
-    private String createdTimestamp;
+    private Long createdTimestamp;
 
     @NonNull
     public String getName() {
@@ -51,7 +51,7 @@ public class ApiKeyData {
     }
 
     @Nullable
-    public String getCreatedTimestamp() {
+    public Long getCreatedTimestamp() {
         return createdTimestamp;
     }
 

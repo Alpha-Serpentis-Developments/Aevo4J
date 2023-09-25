@@ -19,7 +19,7 @@ public class Trade {
     @SerializedName("amount")
     private double amount;
     @SerializedName("created_timestamp")
-    private String createdTimestamp;
+    private long createdTimestamp;
 
     public String getTradeId() {
         return tradeId;
@@ -49,7 +49,7 @@ public class Trade {
         return amount;
     }
 
-    public String getCreatedTimestamp() {
+    public long getCreatedTimestamp() {
         return createdTimestamp;
     }
 

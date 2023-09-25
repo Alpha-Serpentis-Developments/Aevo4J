@@ -28,7 +28,7 @@ public class Markets {
     @SerializedName("option_type")
     private String optionType;
     @SerializedName("expiry")
-    private String expiry;
+    private Long expiry;
     @SerializedName("strike")
     private double strike;
     @SerializedName("greeks")
@@ -78,7 +78,7 @@ public class Markets {
         return optionType;
     }
 
-    public String getExpiry() {
+    public Long getExpiry() {
         return expiry;
     }
 

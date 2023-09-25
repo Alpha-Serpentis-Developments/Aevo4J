@@ -30,6 +30,10 @@ public class Position {
     private double maintenanceMargin;
     @SerializedName("liquidation_price")
     private double liquidationPrice;
+    @SerializedName("isolated_margin")
+    private double isolatedMargin;
+    @SerializedName("leverage")
+    private double leverage;
 
     public long getInstrumentId() {
         return instrumentId;
@@ -83,6 +87,14 @@ public class Position {
         return liquidationPrice;
     }
 
+    public double getIsolatedMargin() {
+        return isolatedMargin;
+    }
+
+    public double getLeverage() {
+        return leverage;
+    }
+
     @Override
     public String toString() {
         return "Position{" +
@@ -99,6 +111,8 @@ public class Position {
                 ", unrealizedPnl='" + unrealizedPnl + '\'' +
                 ", maintenanceMargin='" + maintenanceMargin + '\'' +
                 ", liquidationPrice='" + liquidationPrice + '\'' +
+                ", isolatedMargin='" + isolatedMargin + '\'' +
+                ", leverage='" + leverage + '\'' +
                 '}';
     }
 }

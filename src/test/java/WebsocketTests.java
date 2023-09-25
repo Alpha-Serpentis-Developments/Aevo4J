@@ -35,6 +35,10 @@ public class WebsocketTests {
             WebsocketTests::test_SubscribedRFQs
     );
     private static final Iterator<Supplier<WebSocket>> testIterator = tests.iterator();
+    private static final String[] TEST_INDEX_SYMBOLS = {"ETH", "BTC", "OP", "ARB", "XRP", "1000PEPE", "BNB"};
+    private static final String[] TEST_ORDERBOOK_SYMBOLS = {
+            "ETH-PERP", "BTC-PERP", "OP-PERP", "ARB-PERP", "XRP-PERP", "1000PEPE-PERP", "BNB-PERP"
+    };
 
     public static void main(String[] args) {
         runTests();
@@ -89,7 +93,7 @@ public class WebsocketTests {
         OrderbookListener listener = new OrderbookListener(
                 OrderbookListener.Filter.NONE,
                 false,
-                "ETH-PERP"
+                TEST_ORDERBOOK_SYMBOLS
         );
 
         listener.responseFlowable().subscribe(
@@ -105,7 +109,7 @@ public class WebsocketTests {
         OrderbookListener listener = new OrderbookListener(
                 OrderbookListener.Filter.UPDATE,
                 false,
-                "ETH-PERP"
+                TEST_ORDERBOOK_SYMBOLS
         );
 
         listener.responseFlowable().subscribe(
@@ -121,7 +125,7 @@ public class WebsocketTests {
         OrderbookListener listener = new OrderbookListener(
                 OrderbookListener.Filter.NONE,
                 false,
-                "XRP-PERP", "OP-PERP", "ETH-PERP", "BTC-PERP", "BNB-PERP", "1000PEPE-PERP"
+                TEST_ORDERBOOK_SYMBOLS
         );
 
         listener.responseFlowable().subscribe(
@@ -180,7 +184,7 @@ public class WebsocketTests {
     public static WebSocket test_SubscribedIndex() {
         IndexListener listener = new IndexListener(
                 false,
-                "ETH", "BTC", "OP", "ARB", "BNB"
+                TEST_INDEX_SYMBOLS
         );
 
         listener.responseFlowable().subscribe(
@@ -195,7 +199,7 @@ public class WebsocketTests {
     public static WebSocket test_SubscribedTrades() {
         TradesListener listener = new TradesListener(
                 false,
-                "ETH", "BTC", "OP", "ARB", "BNB"
+                TEST_INDEX_SYMBOLS
         );
 
         listener.responseFlowable().subscribe(

@@ -21,7 +21,7 @@ public class CoinGeckoStats {
     @SerializedName("index_currency")
     private String indexCurrency;
     @SerializedName("next_funding_rate_timestamp")
-    private String nextFundingRateTimestamp;
+    private long nextFundingRateTimestamp;
     @SerializedName("funding_rate")
     private double fundingRate;
     @SerializedName("contract_type")
@@ -61,7 +61,7 @@ public class CoinGeckoStats {
         return indexCurrency;
     }
 
-    public String getNextFundingRateTimestamp() {
+    public long getNextFundingRateTimestamp() {
         return nextFundingRateTimestamp;
     }
 

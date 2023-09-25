@@ -19,7 +19,7 @@ public class ReferralHistory {
         @SerializedName("rewards")
         private double rewards;
         @SerializedName("created_timestamp")
-        private String createdTimestamp;
+        private long createdTimestamp;
 
         public String getReferee() {
             return referee;
@@ -33,7 +33,7 @@ public class ReferralHistory {
             return rewards;
         }
 
-        public String getCreatedTimestamp() {
+        public long getCreatedTimestamp() {
             return createdTimestamp;
         }
 

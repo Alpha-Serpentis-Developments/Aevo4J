@@ -34,7 +34,7 @@ public class Account {
     @SerializedName("in_liquidation")
     private boolean inLiquidation;
     @SerializedName("initial_margin")
-    private String initialMargin;
+    private double initialMargin;
     @SerializedName("maintenance_margin")
     private String maintenanceMargin;
     @SerializedName("email_address")
@@ -42,11 +42,15 @@ public class Account {
     @SerializedName("intercom_hash")
     private String intercomHash;
     @SerializedName("credit")
-    private String credit;
+    private double credit;
     @SerializedName("credited")
     private boolean credited;
+    @SerializedName("referrer_username")
+    private String referrerUsername;
     @SerializedName("has_been_referred")
     private boolean hasBeenReferred;
+    @SerializedName("strategies")
+    private Strategy[] strategies;
 
     public static class SigningKey {
         @SerializedName("signing_key")
@@ -152,6 +156,29 @@ public class Account {
         }
     }
 
+    public static class Strategy {
+        @SerializedName("strategy_address")
+        private String strategyAddress;
+        @SerializedName("strategy_name")
+        private String strategyName;
+        @SerializedName("shares")
+        private double shares;
+        @SerializedName("shares_value")
+        private double sharesValue;
+        @SerializedName("pnl")
+        private double pnl;
+        @SerializedName("average_purchase_price")
+        private double averagePurchasePrice;
+        @SerializedName("pending_deposits")
+        private double pendingDeposits;
+        @SerializedName("pending_withdrawals")
+        private double pendingWithdrawals;
+        @SerializedName("cap")
+        private double cap;
+        @SerializedName("aum")
+        private double aum;
+    }
+
     public String getAccount() {
         return account;
     }
@@ -204,7 +231,7 @@ public class Account {
         return inLiquidation;
     }
 
-    public String getInitialMargin() {
+    public double getInitialMargin() {
         return initialMargin;
     }
 
@@ -220,7 +247,7 @@ public class Account {
         return intercomHash;
     }
 
-    public String getCredit() {
+    public double getCredit() {
         return credit;
     }
 
@@ -228,8 +255,16 @@ public class Account {
         return credited;
     }
 
+    public String getReferrerUsername() {
+        return referrerUsername;
+    }
+
     public boolean isHasBeenReferred() {
         return hasBeenReferred;
+    }
+
+    public Strategy[] getStrategies() {
+        return strategies;
     }
 
     @Override
@@ -254,7 +289,9 @@ public class Account {
                 ", intercomHash='" + intercomHash + '\'' +
                 ", credit='" + credit + '\'' +
                 ", credited=" + credited +
+                ", referrerUsername='" + referrerUsername + '\'' +
                 ", hasBeenReferred=" + hasBeenReferred +
+                ", strategies=" + Arrays.toString(strategies) +
                 '}';
     }
 }
