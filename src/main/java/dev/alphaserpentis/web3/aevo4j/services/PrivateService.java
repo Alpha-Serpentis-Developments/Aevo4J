@@ -87,6 +87,7 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      * @return {@link List} of {@link SocketCapacity}
      * @see <a href="https://api-docs.aevo.xyz/reference/getsocketcapacity">Aevo - GET Socket Capacity</a>
      */
+    @Deprecated(forRemoval = true)
     public List<SocketCapacity> getSocketCapacity() throws AevoRestException, NoSuchAlgorithmException, InvalidKeyException {
         String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
         String signature = useSignatures ? AevoHandler.generateAuthSignature(

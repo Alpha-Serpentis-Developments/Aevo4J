@@ -54,6 +54,7 @@ import java.util.List;
  */
 public interface PrivateEndpoints {
 
+    @Deprecated(forRemoval = true)
     @Headers("Content-Type: application/json")
     @GET("socket/capacity")
     Single<List<SocketCapacity>> getSocketCapacity(

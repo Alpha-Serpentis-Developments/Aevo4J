@@ -35,8 +35,10 @@ public class WebsocketTests {
             WebsocketTests::test_SubscribedRFQs
     );
     private static final Iterator<Supplier<WebSocket>> testIterator = tests.iterator();
-    private static final String[] TEST_INDEX_SYMBOLS = {"ETH", "BTC", "OP", "ARB", "BNB"};
-    private static final String[] TEST_ORDERBOOK_SYMBOLS = {"XRP-PERP", "OP-PERP", "ETH-PERP", "BTC-PERP", "BNB-PERP", "1000PEPE-PERP"};
+    private static final String[] TEST_INDEX_SYMBOLS = {"ETH", "BTC", "OP", "ARB", "XRP", "1000PEPE", "BNB"};
+    private static final String[] TEST_ORDERBOOK_SYMBOLS = {
+            "ETH-PERP", "BTC-PERP", "OP-PERP", "ARB-PERP", "XRP-PERP", "1000PEPE-PERP", "BNB-PERP"
+    };
 
     public static void main(String[] args) {
         runTests();
