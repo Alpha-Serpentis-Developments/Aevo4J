@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 /**
  * Response after getting the API key or creating a new one. This is shared between {@code GET /api-key} and {@code POST /api-key}.
- * <p></p>
+ * <p>
  * <b>Note:</b> The API Key and API Secret are omitted from the {@link #toString()} method. Call {@link #getApiKey()} and {@link #getApiSecret()} respectively.
  */
 @SuppressWarnings("unused")
