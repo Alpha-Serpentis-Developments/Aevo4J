@@ -30,7 +30,7 @@ public class Orderbook {
      * Generates a checksum for the best 100 price levels of the orderbook. Use this to compare against the checksum provided by the API.
      * @param bids Bids in the orderbook
      * @param asks Asks in the orderbook
-     * @return 32-bit integer checksum represented as a base-10 string
+     * @return 32-bit integer checksum represented as a long
      * @see <a href="https://docs.aevo.xyz/reference/orderbook-checksum">Aevo - Orderbook Checksum</a>
      */
     public static long generateChecksum(double[][] bids, double[][] asks) {

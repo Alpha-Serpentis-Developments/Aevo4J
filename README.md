@@ -26,13 +26,13 @@ Aevo is a decentralized derivatives exchange built on Ethereum.
 <dependency>
     <groupId>dev.alphaserpentis.web3</groupId>
     <artifactId>aevo4j</artifactId>
-    <version>1.0.1</version>
+    <version>1.1.0-SNAPSHOT</version>
 </dependency>
 ```
 
 #### Gradle
 ```groovy
-implementation 'dev.alphaserpentis.web3:aevo4j:1.0.1'
+implementation 'dev.alphaserpentis.web3:aevo4j:1.1.0-SNAPSHOT'
 ```
 
 - - -
@@ -66,26 +66,26 @@ You can get the websockets from the methods found in `PublicWebSockets` and `Pri
 
 Alternatively, you can obtain the needed websockets from this table below:
 
-| Channel                   | WebSocket Listener Class  | API Type |
-|---------------------------|---------------------------|----------|
-| PUBLISH Channels          | `ChannelsListener`        | Public   |
-| PUBLISH Ping              | `PingListener`            | Public   |
-| SUBSCRIBE Orderbook       | `OrderBookListener`       | Public   |
-| SUBSCRIBE Ticker          | `TickerListener`          | Public   |
-| SUBSCRIBE Index           | `IndexListener`           | Public   |
-| SUBSCRIBE Trades          | `TradesListener`          | Public   |
-| SUBSCRIBE RFQs            | `RFQsListener`            | Public   |
-| PUBLISH Status            | `StatusListener`          | Private  |
-| PUBLISH Create Order      | `CreateOrderListener`     | Private  |
-| PUBLISH Edit Order        | `EditOrderListener`       | Private  |
-| PUBLISH Cancel Order      | `CancelOrderListener`     | Private  |
-| PUBLISH Cancel All Orders | `CancelAllOrdersListener` | Private  |
-| PUBLISH Create RFQ        | `CreateRFQListener`       | Private  |
-| PUBLISH Cancel RFQ        | `CancelRFQListener`       | Private  |
-| PUBLISH Create Quote RFQ  | `CreateQuoteRFQListener`  | Private  |
-| SUBSCRIBE Orders          | `OrdersListener`          | Private  |
-| SUBSCRIBE Fills           | `FillsListener`           | Private  |
-| SUBSCRIBE Positions       | `PositionsListener`       | Private  |
+| Channel                   | WebSocket Listener Class                                                                                                            | API Type |
+|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------|----------|
+| PUBLISH Channels          | [`ChannelsListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/ChannelsListener.java)               | Public   |
+| PUBLISH Ping              | [`PingListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/PingListener.java)                       | Public   |
+| SUBSCRIBE Orderbook       | [`OrderbookListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/OrderbookListener.java)             | Public   |
+| SUBSCRIBE Ticker          | [`TickerListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/TickerListener.java)                   | Public   |
+| SUBSCRIBE Index           | [`IndexListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/IndexListener.java)                     | Public   |
+| SUBSCRIBE Trades          | [`TradesListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/TradesListener.java)                   | Public   |
+| SUBSCRIBE RFQs            | [`RFQsListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/RFQsListener.java)                       | Public   |
+| PUBLISH Status            | [`StatusListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/StatusListener.java)                   | Private  |
+| PUBLISH Create Order      | [`CreateOrderListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/CreateOrderListener.java)         | Private  |
+| PUBLISH Edit Order        | [`EditOrderListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/EditOrderListener.java)             | Private  |
+| PUBLISH Cancel Order      | [`CancelOrderListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/CancelOrderListener.java)         | Private  |
+| PUBLISH Cancel All Orders | [`CancelAllOrdersListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/CancelAllOrdersListener.java) | Private  |
+| PUBLISH Create RFQ        | [`CreateRFQListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/CreateRFQListener.java)             | Private  |
+| PUBLISH Cancel RFQ        | [`CancelRFQListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/CancelRFQListener.java)             | Private  |
+| PUBLISH Create Quote RFQ  | [`CreateQuoteRFQListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/CreateQuoteRFQListener.java)   | Private  |
+| SUBSCRIBE Orders          | [`OrdersListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/OrdersListener.java)                   | Private  |
+| SUBSCRIBE Fills           | [`FillsListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/FillsListener.java)                     | Private  |
+| SUBSCRIBE Positions       | [`PositionsListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/PositionsListener.java)             | Private  |
 
 ### Authentication
 To use the private web sockets, it requires that they're authenticated as well. This can be done by either:

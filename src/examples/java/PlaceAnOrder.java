@@ -23,9 +23,7 @@ public class PlaceAnOrder {
             throw new IllegalArgumentException("Please provide the API Key, API Secret, Aevo signing key, maker address, and true/false to use signatures as arguments");
         }
 
-        PublicService publicService = AevoHandler.getPublicService(
-                AevoHandler.defaultRetrofit(true)
-        );
+        PublicService publicService = AevoHandler.getPublicService(AevoHandler.defaultRetrofit(true));
         PrivateService privateService = AevoHandler.getPrivateService(
                 AevoHandler.defaultRetrofit(true),
                 args[0],
@@ -39,9 +37,7 @@ public class PlaceAnOrder {
                 1000000, // 1 Contract (1.000000)
                 bestBid(publicService) // Matches the best bid at the time of calling
         ).buildAndSign(true, args[2]);
-        Order orderResponse = privateService.postOrders(
-                order
-        );
+        Order orderResponse = privateService.postOrders(order);
 
         System.out.println(orderResponse);
     }
@@ -55,15 +51,11 @@ public class PlaceAnOrder {
             df = new DecimalFormat("#.##");
 
             // Obtain the index price and go 5% below it
-
             return (long) (Double.parseDouble(
-                                df.format(
-                                        service.getIndex("ETH").getPrice() * 0.95
-                                )
-                        ) * Math.pow(10, 6)
+                    df.format(service.getIndex("ETH").getPrice() * 0.95)) * 1e6
             );
         }
 
-        return (long) (bids[0][0] * Math.pow(10,6));
+        return (long) (bids[0][0] * 1e6);
     }
 }

@@ -2,21 +2,24 @@ package dev.alphaserpentis.web3.aevo4j.services;
 
 import com.google.gson.Gson;
 import dev.alphaserpentis.web3.aevo4j.api.endpoints.rest.PrivateEndpoints;
+import dev.alphaserpentis.web3.aevo4j.data.misc.SignedOrder;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.DeleteApiKeyBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.EmailAddressBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.EmailPreferenceBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.EnabledBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.MmpBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.OrdersAllBody;
-import dev.alphaserpentis.web3.aevo4j.data.misc.SignedOrder;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.PostApiKeyBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.RegisterBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.ResetMmpBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.SigningKeyBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.StrategyWithdrawBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.TransferBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.UpdateMarginBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.WithdrawBody;
+import dev.alphaserpentis.web3.aevo4j.data.response.common.Order;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Account;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.AccountUpdateMargin;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.AccumulatedFunding;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ApiKeyData;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.CancelledOrders;
@@ -25,7 +28,6 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.EmailPreferences;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.EmailVerified;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Enabled;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Mmp;
-import dev.alphaserpentis.web3.aevo4j.data.response.common.Order;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.OrderHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.OrderId;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Portfolio;
@@ -34,7 +36,6 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.Quote;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralRewardsHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralStatistics;
-import dev.alphaserpentis.web3.aevo4j.data.response.rest.SocketCapacity;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Success;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.TradeHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.TransactionHistory;
@@ -57,6 +58,20 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
             @NonNull PrivateEndpoints api,
             @NonNull String apiKey,
             @NonNull String apiSecret,
+            boolean useSignatures,
+            boolean autoRetryAfterRatelimit
+    ) {
+        super(api, autoRetryAfterRatelimit);
+
+        this.apiKey = apiKey;
+        this.apiSecret = apiSecret;
+        this.useSignatures = useSignatures;
+    }
+
+    public PrivateService(
+            @NonNull PrivateEndpoints api,
+            @NonNull String apiKey,
+            @NonNull String apiSecret,
             boolean useSignatures
     ) {
         super(api);
@@ -64,6 +79,13 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
         this.useSignatures = useSignatures;
+    }
+
+    public PrivateService(
+            @NonNull PrivateEndpoints api,
+            boolean autoRetryAfterRatelimit
+    ) {
+        super(api, autoRetryAfterRatelimit);
     }
 
     public PrivateService(@NonNull PrivateEndpoints api) {
@@ -80,33 +102,6 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
 
     public void setUseSignatures(boolean useSignatures) {
         this.useSignatures = useSignatures;
-    }
-
-    /**
-     * Returns the socket's capacities
-     * @return {@link List} of {@link SocketCapacity}
-     * @see <a href="https://api-docs.aevo.xyz/reference/getsocketcapacity">Aevo - GET Socket Capacity</a>
-     */
-    @Deprecated(forRemoval = true)
-    public List<SocketCapacity> getSocketCapacity() throws AevoRestException, NoSuchAlgorithmException, InvalidKeyException {
-        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
-        String signature = useSignatures ? AevoHandler.generateAuthSignature(
-                Long.parseLong(timestamp),
-                apiKey,
-                apiSecret,
-                "GET",
-                "/socket/capacity",
-                ""
-        ) : null;
-
-        return execute(
-                getApi().getSocketCapacity(
-                        timestamp,
-                        signature,
-                        apiKey,
-                        useSignatures ? null : apiSecret
-                )
-        );
     }
 
     /**
@@ -153,7 +148,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret,
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -213,7 +209,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret, 
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -249,7 +246,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKeyToGet,
                         queryTimestamp,
                         querySignature
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -288,7 +286,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret, 
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -337,7 +336,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret, 
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -363,7 +363,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         signature,
                         apiKey,
                         useSignatures ? null : apiSecret
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -389,7 +390,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         signature,
                         apiKey,
                         useSignatures ? null : apiSecret
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -422,7 +424,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret, 
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -454,7 +457,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         new EnabledBody(
                                 enabled
                         )
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -480,7 +484,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         signature,
                         apiKey,
                         useSignatures ? null : apiSecret
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -513,7 +518,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret, 
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -549,7 +555,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret, 
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -576,7 +583,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         signature,
                         apiKey,
                         useSignatures ? null : apiSecret
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -602,7 +610,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         signature,
                         apiKey,
                         useSignatures ? null : apiSecret
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -628,7 +637,46 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         signature,
                         apiKey,
                         useSignatures ? null : apiSecret
-                )
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     *
+     * @param instrumentId Instrument ID number
+     * @param margin The isolated margin of the position
+     * @return {@link AccountUpdateMargin}
+     * @see <a href="https://api-docs.aevo.xyz/reference/postaccountupdatemargin">Aevo - POST Account Update Margin</a>
+     */
+    public AccountUpdateMargin postUpdateMargin(
+            long instrumentId,
+            @NonNull String margin
+    ) throws NoSuchAlgorithmException, InvalidKeyException {
+        UpdateMarginBody body = new UpdateMarginBody(
+                instrumentId,
+                margin
+        );
+
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
+            Long.parseLong(timestamp),
+            apiKey,
+            apiSecret,
+            "POST",
+            "/account/update-margin",
+            gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postUpdateMargin(
+                        timestamp,
+                        signature,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -654,7 +702,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         signature,
                         apiKey,
                         useSignatures ? null : apiSecret
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -714,7 +763,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret,
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -777,7 +827,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret,
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -828,7 +879,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret,
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -858,7 +910,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret,
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -906,7 +959,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret,
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -932,7 +986,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         signature,
                         apiKey,
                         useSignatures ? null : apiSecret
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -1004,7 +1059,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret,
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -1074,7 +1130,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret,
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -1104,7 +1161,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret,
                         orderId
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -1179,7 +1237,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         useSignatures ? null : apiSecret,
                         orderId,
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -1255,7 +1314,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         useSignatures ? null : apiSecret,
                         orderId,
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -1291,7 +1351,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret,
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -1339,7 +1400,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         endTime,
                         limit,
                         offset
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -1406,7 +1468,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         optionType,
                         limit,
                         offset
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -1472,7 +1535,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         txStatus,
                         limit,
                         offset
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -1522,7 +1586,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         useSignatures ? null : apiSecret,
                         limit,
                         offset
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
     
@@ -1568,7 +1633,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         useSignatures ? null : apiSecret,
                         limit,
                         offset
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -1608,7 +1674,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         signature,
                         apiKey,
                         useSignatures ? null : apiSecret
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -1635,7 +1702,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         signature,
                         apiKey,
                         useSignatures ? null : apiSecret
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -1665,7 +1733,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret,
                         asset
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -1710,7 +1779,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret,
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -1767,7 +1837,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         apiKey,
                         useSignatures ? null : apiSecret,
                         body
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -1793,7 +1864,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         signature,
                         apiKey,
                         useSignatures ? null : apiSecret
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 }

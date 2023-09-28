@@ -97,7 +97,7 @@ public class AevoHandler {
 
     /**
      * Get a new {@link PrivateService} instance using the given {@link Retrofit} instance. You will need to supply your
-     * API Key and API Secret and whether you want to use signatures later on.
+     * API Key, API Secret, and whether you want to use signatures later on.
      * @param retrofit {@link Retrofit}
      * @return {@link PrivateService}
      */
@@ -168,7 +168,7 @@ public class AevoHandler {
     }
 
     /**
-     * Gets the current timestamp in nanoseconds
+     * Gets the current system timestamp in nanoseconds
      * @return {@link String} timestamp
      */
     public static String getTimestamp() {

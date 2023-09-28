@@ -14,6 +14,7 @@ import java.time.Instant;
 
 /**
  * An order payload without a signature
+ * @see <a href="https://api-docs.aevo.xyz/reference/signing-orders">Aevo - Signing Orders</a>
  */
 @SuppressWarnings("unused")
 public class UnsignedOrder {
@@ -306,6 +307,7 @@ public class UnsignedOrder {
         System.arraycopy(signature.getS(), 0, retval, 32, 32);
         System.arraycopy(signature.getV(), 0, retval, 64, 1);
         signatureHex = Numeric.toHexString(retval);
+
         return new SignedOrder(
                 order,
                 signatureHex

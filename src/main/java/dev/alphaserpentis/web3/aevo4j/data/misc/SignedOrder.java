@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.annotations.Nullable;
 
+/**
+ * @see <a href="https://api-docs.aevo.xyz/reference/signing-orders">Aevo - Signing Orders</a>
+ */
 @SuppressWarnings("unused")
 public class SignedOrder extends UnsignedOrder {
     @SerializedName("signature")

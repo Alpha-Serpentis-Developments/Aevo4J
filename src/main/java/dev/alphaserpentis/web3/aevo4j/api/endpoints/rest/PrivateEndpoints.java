@@ -13,8 +13,10 @@ import dev.alphaserpentis.web3.aevo4j.data.request.rest.ResetMmpBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.SigningKeyBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.StrategyWithdrawBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.TransferBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.UpdateMarginBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.WithdrawBody;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Account;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.AccountUpdateMargin;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.AccumulatedFunding;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ApiKeyData;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.CancelledOrders;
@@ -32,7 +34,6 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.Quote;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralRewardsHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralStatistics;
-import dev.alphaserpentis.web3.aevo4j.data.response.rest.SocketCapacity;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Success;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.TradeHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.TransactionHistory;
@@ -50,19 +51,11 @@ import retrofit2.http.Query;
 import java.util.List;
 
 /**
+ * @see dev.alphaserpentis.web3.aevo4j.handler.AevoHandler#getPrivateService(retrofit2.Retrofit, String, String, boolean)
+ * @see dev.alphaserpentis.web3.aevo4j.services.PrivateService
  * @see <a href="https://docs.aevo.xyz/reference/rest-authentication">Aevo - REST Authentication</a>
  */
 public interface PrivateEndpoints {
-
-    @Deprecated(forRemoval = true)
-    @Headers("Content-Type: application/json")
-    @GET("socket/capacity")
-    Single<List<SocketCapacity>> getSocketCapacity(
-            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
-            @Header("AEVO-SIGNATURE") String aevoSignature,
-            @Header("AEVO-KEY") String aevoKey,
-            @Header("AEVO-SECRET") String aevoSecret
-    );
 
     @Headers("Content-Type: application/json")
     @POST("register")
@@ -208,6 +201,16 @@ public interface PrivateEndpoints {
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY")  String aevoKey,
             @Header("AEVO-SECRET") String aevoSecret
+    );
+
+    @Headers("Content-Type: application/json")
+    @POST("account/update-margin")
+    Single<AccountUpdateMargin> postUpdateMargin(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY") String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body UpdateMarginBody body
     );
 
     @Headers("Content-Type: application/json")
