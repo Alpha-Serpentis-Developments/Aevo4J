@@ -9,16 +9,16 @@ import dev.alphaserpentis.web3.aevo4j.data.response.wss.RFQsData;
  */
 public class RFQsListener extends AevoListener<RFQsData> {
     public RFQsListener() {
-        super(RFQsData.class, ChannelName.Channels.RFQS);
+        super(RFQsData.class, ChannelName.ChannelType.RFQS);
     }
 
     public RFQsListener(boolean isTestnet) {
         super(
                 RFQsData.class,
-                ChannelName.Channels.RFQS,
+                ChannelName.ChannelType.RFQS,
                 WebSocketOperations.SUBSCRIBE,
                 isTestnet,
-                new ChannelName(ChannelName.Channels.RFQS)
+                new ChannelName(ChannelName.ChannelType.RFQS)
         );
     }
 }

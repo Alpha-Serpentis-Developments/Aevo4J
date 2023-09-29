@@ -19,7 +19,7 @@ public class PositionsListener extends PrivateListener<Positions> {
                 isTestnet,
                 authorizeOnConnect,
                 Positions.class,
-                ChannelName.Channels.POSITIONS
+                ChannelName.ChannelType.POSITIONS
         );
     }
 }

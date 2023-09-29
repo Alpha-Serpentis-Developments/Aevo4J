@@ -41,7 +41,7 @@ public abstract class PrivateListener<T extends Response<?>> extends AevoListene
             boolean isTestnet,
             boolean authorizeOnConnect,
             @NonNull Class<T> clazz,
-            @Nullable ChannelName.Channels channelAllowed
+            @Nullable ChannelName.ChannelType channelAllowed
     ) {
         super(clazz, channelAllowed);
 

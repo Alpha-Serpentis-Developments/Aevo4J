@@ -12,20 +12,20 @@ import io.reactivex.rxjava3.annotations.NonNull;
  */
 public class TickerListener extends AevoListener<TickerData> {
     public TickerListener() {
-        super(TickerData.class, ChannelName.Channels.TICKER);
+        super(TickerData.class, ChannelName.ChannelType.TICKER);
     }
 
     public TickerListener(
             boolean isTestnet,
             @NonNull String... symbols
     ) {
-        super(TickerData.class, ChannelName.Channels.TICKER, WebSocketOperations.SUBSCRIBE, isTestnet, symbols);
+        super(TickerData.class, ChannelName.ChannelType.TICKER, WebSocketOperations.SUBSCRIBE, isTestnet, symbols);
     }
 
     public TickerListener(
             boolean isTestnet,
             @NonNull ChannelName... channels
     ) {
-        super(TickerData.class, ChannelName.Channels.TICKER, WebSocketOperations.SUBSCRIBE, isTestnet, channels);
+        super(TickerData.class, ChannelName.ChannelType.TICKER, WebSocketOperations.SUBSCRIBE, isTestnet, channels);
     }
 }
