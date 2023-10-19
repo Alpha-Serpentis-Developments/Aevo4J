@@ -13,6 +13,7 @@ Aevo is a decentralized derivatives exchange built on Ethereum.
 
 ## Features
 - Full coverage of the REST APIs and WebSockets
+- Automatic deserialization of responses into Java objects
 - Automatic authentication for private endpoints (REST APIs and WebSockets), if needed
 - Orderbook checksum validator
 - Built-in order-signing for placing/editing orders
@@ -114,8 +115,8 @@ UnsignedOrder order = new UnsignedOrder.Builder(
         2054, // Instrument ID
         "YOUR WALLET ADDRESS", // maker address
         true, // true = buy, false = sell
-        "1000000", // amount of contracts (1.0)
-        "1000000000" // price in USD (1000.0)
+        1000000, // amount of contracts (1.0)
+        1000000000 // price in USD (1000.0)
 ).build();
 
 // Sign the unsigned order

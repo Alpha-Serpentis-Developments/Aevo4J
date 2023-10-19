@@ -45,6 +45,7 @@ import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -418,11 +419,105 @@ public interface PrivateEndpoints {
     );
 
     @Headers("Content-Type: application/json")
+    @DELETE("rfqs")
+    Single<?> deleteRfqs(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret
+    );
+
+    @Headers("Content-Type: application/json")
+    @GET("rfqs")
+    Single<?> getRfqs(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret
+    );
+
+    @Headers("Content-Type: application/json")
+    @POST("rfqs")
+    Single<?> postRfqs(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret
+    );
+
+    @Headers("Content-Type: application/json")
+    @DELETE("rfqs/{block_id}")
+    Single<?> deleteBlockRfq(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Path("block_id") String blockId
+    );
+
+    @Headers("Content-Type: application/json")
+    @GET("rfqs/{block_id}/quotes")
+    Single<?> getBlockRfqQuotes(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Path("block_id") String blockId
+    );
+
+    @Headers("Content-Type: application/json")
+    @DELETE("quotes")
+    Single<?> deleteQuotes(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret
+    );
+
+    @Headers("Content-Type: application/json")
     @GET("quotes")
     Single<List<Quote>> getQuotes(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY")  String aevoKey,
             @Header("AEVO-SECRET") String aevoSecret
+    );
+
+    @Headers("Content-Type: application/json")
+    @POST("quotes")
+    Single<?> postQuotes(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret
+    );
+
+    @Headers("Content-Type: application/json")
+    @POST("quotes/preview")
+    Single<?> postQuotesPreview(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret
+    );
+
+    @Headers("Content-Type: application/json")
+    @DELETE("quotes/{quote_id}")
+    Single<?> deleteQuotesById(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Path("quote_id") String quoteId
+    );
+
+    @Headers("Content-Type: application/json")
+    @PUT("quotes/{quote_id}")
+    Single<?> putQuotesById(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Path("quote_id") String quoteId
     );
 }

@@ -86,9 +86,9 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
         }
 
         if(operations.equals(WebSocketOperations.SUBSCRIBE) || operations.equals(WebSocketOperations.UNSUBSCRIBE)) {
-            webSocket.send(new SubscribeWebSocketRequest(operations, arrayOfChannels).toString());
+            sendWebSocketRequest(new SubscribeWebSocketRequest(operations, arrayOfChannels));
         } else {
-            webSocket.send(new PublishWebSocketRequest<>(operations).toString());
+            sendWebSocketRequest(new PublishWebSocketRequest<>(operations));
         }
     }
 
@@ -112,9 +112,9 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
         webSocket = AevoHandler.createNewWebSocket(this, isTestnet);
 
         if(operations.equals(WebSocketOperations.SUBSCRIBE) || operations.equals(WebSocketOperations.UNSUBSCRIBE)) {
-            webSocket.send(new SubscribeWebSocketRequest(operations, channels).toString());
+            sendWebSocketRequest(new SubscribeWebSocketRequest(operations, channels));
         } else {
-            webSocket.send(new PublishWebSocketRequest<>(operations).toString());
+            sendWebSocketRequest(new PublishWebSocketRequest<>(operations));
         }
     }
 
@@ -185,11 +185,7 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
      * @param channels {@link ChannelName} to unsubscribe from
      */
     public void unsubscribe(@NonNull ChannelName... channels) {
-        if(webSocket == null) {
-            throw new IllegalStateException("WebSocket is not open");
-        }
-
-        webSocket.send(new SubscribeWebSocketRequest(WebSocketOperations.UNSUBSCRIBE, channels).toString());
+        sendWebSocketRequest(new SubscribeWebSocketRequest(WebSocketOperations.UNSUBSCRIBE, channels));
     }
 
     @Override

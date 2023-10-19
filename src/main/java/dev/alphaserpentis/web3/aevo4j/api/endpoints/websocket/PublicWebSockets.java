@@ -14,6 +14,7 @@ import io.reactivex.rxjava3.annotations.Nullable;
 /**
  * Class to easily get the public websockets.
  */
+@SuppressWarnings("unused")
 public class PublicWebSockets {
 
     @NonNull
