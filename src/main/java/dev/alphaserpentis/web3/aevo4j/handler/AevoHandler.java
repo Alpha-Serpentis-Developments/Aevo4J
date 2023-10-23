@@ -150,13 +150,11 @@ public class AevoHandler {
             @NonNull String body
     ) throws NoSuchAlgorithmException, InvalidKeyException {
         Mac sha256HMAC = Mac.getInstance("HmacSHA256");
-        SecretKeySpec secretKeySpec;
         StringBuilder sb = new StringBuilder();
         final String message = apiKey + "," + timestamp + "," + method + "," + path + "," + body;
         byte[] hashBytes;
 
-        secretKeySpec = new SecretKeySpec(apiSecret.getBytes(), message);
-        sha256HMAC.init(secretKeySpec);
+        sha256HMAC.init(new SecretKeySpec(apiSecret.getBytes(), message));
 
         hashBytes = sha256HMAC.doFinal(message.getBytes(StandardCharsets.UTF_8));
 

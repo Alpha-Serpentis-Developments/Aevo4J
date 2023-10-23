@@ -8,6 +8,8 @@ import dev.alphaserpentis.web3.aevo4j.data.request.rest.MmpBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.OrdersAllBody;
 import dev.alphaserpentis.web3.aevo4j.data.misc.SignedOrder;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.PostApiKeyBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.QuotesBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.RFQsBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.RegisterBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.ResetMmpBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.SigningKeyBody;
@@ -19,6 +21,7 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.Account;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.AccountUpdateMargin;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.AccumulatedFunding;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ApiKeyData;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Cancelled;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.CancelledOrders;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.EmailAddress;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.EmailPreferences;
@@ -31,6 +34,8 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.OrderId;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Portfolio;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.PostRegister;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Quote;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.QuoteOfRfq;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.RFQBlocks;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralRewardsHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralStatistics;
@@ -420,7 +425,7 @@ public interface PrivateEndpoints {
 
     @Headers("Content-Type: application/json")
     @DELETE("rfqs")
-    Single<?> deleteRfqs(
+    Single<Cancelled> deleteRfqs(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY")  String aevoKey,
@@ -429,25 +434,27 @@ public interface PrivateEndpoints {
 
     @Headers("Content-Type: application/json")
     @GET("rfqs")
-    Single<?> getRfqs(
+    Single<RFQBlocks> getRfqs(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY")  String aevoKey,
-            @Header("AEVO-SECRET") String aevoSecret
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Query("role") String role
     );
 
     @Headers("Content-Type: application/json")
     @POST("rfqs")
-    Single<?> postRfqs(
+    Single<RFQBlocks> postRfqs(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY")  String aevoKey,
-            @Header("AEVO-SECRET") String aevoSecret
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body RFQsBody body
     );
 
     @Headers("Content-Type: application/json")
     @DELETE("rfqs/{block_id}")
-    Single<?> deleteBlockRfq(
+    Single<Success> deleteBlockRfq(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY")  String aevoKey,
@@ -457,7 +464,7 @@ public interface PrivateEndpoints {
 
     @Headers("Content-Type: application/json")
     @GET("rfqs/{block_id}/quotes")
-    Single<?> getBlockRfqQuotes(
+    Single<QuoteOfRfq> getBlockRfqQuotes(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY")  String aevoKey,
@@ -467,11 +474,13 @@ public interface PrivateEndpoints {
 
     @Headers("Content-Type: application/json")
     @DELETE("quotes")
-    Single<?> deleteQuotes(
+    Single<Cancelled> deleteQuotes(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY")  String aevoKey,
-            @Header("AEVO-SECRET") String aevoSecret
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Query("quote_ids") String[] quoteIds,
+            @Query("block_id") String blockId
     );
 
     @Headers("Content-Type: application/json")
@@ -485,25 +494,27 @@ public interface PrivateEndpoints {
 
     @Headers("Content-Type: application/json")
     @POST("quotes")
-    Single<?> postQuotes(
+    Single<Quote> postQuotes(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY")  String aevoKey,
-            @Header("AEVO-SECRET") String aevoSecret
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body QuotesBody body
     );
 
     @Headers("Content-Type: application/json")
     @POST("quotes/preview")
-    Single<?> postQuotesPreview(
+    Single<Quote> postQuotesPreview(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY")  String aevoKey,
-            @Header("AEVO-SECRET") String aevoSecret
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body QuotesBody body
     );
 
     @Headers("Content-Type: application/json")
     @DELETE("quotes/{quote_id}")
-    Single<?> deleteQuotesById(
+    Single<Success> deleteQuotesById(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY")  String aevoKey,
@@ -513,11 +524,12 @@ public interface PrivateEndpoints {
 
     @Headers("Content-Type: application/json")
     @PUT("quotes/{quote_id}")
-    Single<?> putQuotesById(
+    Single<Quote> putQuotesById(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
             @Header("AEVO-SIGNATURE") String aevoSignature,
             @Header("AEVO-KEY")  String aevoKey,
             @Header("AEVO-SECRET") String aevoSecret,
-            @Path("quote_id") String quoteId
+            @Path("quote_id") String quoteId,
+            @Body QuotesBody body
     );
 }

@@ -10,6 +10,8 @@ import dev.alphaserpentis.web3.aevo4j.data.request.rest.EnabledBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.MmpBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.OrdersAllBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.PostApiKeyBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.QuotesBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.RFQsBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.RegisterBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.ResetMmpBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.SigningKeyBody;
@@ -22,6 +24,7 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.Account;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.AccountUpdateMargin;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.AccumulatedFunding;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ApiKeyData;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Cancelled;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.CancelledOrders;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.EmailAddress;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.EmailPreferences;
@@ -33,6 +36,8 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.OrderId;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Portfolio;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.PostRegister;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Quote;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.QuoteOfRfq;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.RFQBlocks;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralRewardsHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralStatistics;
@@ -48,6 +53,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public class PrivateService extends AbstractService<PrivateEndpoints> {
     protected Gson gson = new Gson();
     private String apiKey = null;
@@ -923,6 +929,7 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      * @param amount Amount to transfer
      * @param salt A randomly generated number to guarantee transaction uniqueness in 6 decimals fixed number
      * @param signature Hash of order payload signature signed by the account
+     * @param label Label of the transfer
      * @return {@link Success}
      * @see <a href="https://api-docs.aevo.xyz/reference/posttransfer">Aevo - POST Transfer</a>
      */
@@ -932,7 +939,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
             @NonNull String to,
             @NonNull String amount,
             @NonNull String salt,
-            @NonNull String signature
+            @NonNull String signature,
+            @Nullable String label
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
         TransferBody body = new TransferBody(
                 account,
@@ -940,7 +948,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 to,
                 amount,
                 salt,
-                signature
+                signature,
+                label
         );
         String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
         String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
@@ -962,6 +971,28 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 ),
                 isAutoRetryAfterRatelimit()
         );
+    }
+
+    /**
+     * Transfers assets between accounts
+     * @param account Ethereum address of the account
+     * @param collateral Ethereum address of the collateral asset
+     * @param to Ethereum address to transfer to
+     * @param amount Amount to transfer
+     * @param salt A randomly generated number to guarantee transaction uniqueness in 6 decimals fixed number
+     * @param signature Hash of order payload signature signed by the account
+     * @return {@link Success}
+     * @see <a href="https://api-docs.aevo.xyz/reference/posttransfer">Aevo - POST Transfer</a>
+     */
+    public Success postTransfer(
+            @NonNull String account,
+            @NonNull String collateral,
+            @NonNull String to,
+            @NonNull String amount,
+            @NonNull String salt,
+            @NonNull String signature
+    ) throws NoSuchAlgorithmException, InvalidKeyException {
+        return postTransfer(account, collateral, to, amount, salt, signature, null);
     }
 
     /**
@@ -1007,6 +1038,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      * @param mmp Whether to get market maker orders or not (default {@code false})
      * @param stop Stop price of the orders
      * @param trigger Trigger price of the orders
+     * @param closePosition Is order a close position take-profit/stop-loss order
+     * @param isolatedMargin The isolated margin of the position
      * @return {@link Order}
      * @see <a href="https://api-docs.aevo.xyz/reference/postorders">Aevo - POST Orders</a>
      */
@@ -1024,7 +1057,9 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
             @Nullable String timeInForce,
             @Nullable Boolean mmp,
             @Nullable String stop,
-            @Nullable Double trigger
+            @Nullable Double trigger,
+            @Nullable Boolean closePosition,
+            @Nullable String isolatedMargin
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
         SignedOrder body = new SignedOrder(
                 instrument,
@@ -1040,7 +1075,9 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 timeInForce,
                 mmp,
                 stop,
-                trigger
+                trigger,
+                closePosition,
+                isolatedMargin
         );
         String timestamp2 = useSignatures ? AevoHandler.getTimestamp() : null;
         String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
@@ -1095,6 +1132,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 salt,
                 signature,
                 timestamp,
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -1183,6 +1222,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      * @param mmp Whether to edit the order to be a market maker order or not (default {@code false})
      * @param stop Stop price of the order
      * @param trigger Trigger price of the order
+     * @param closePosition Is order a close position take-profit/stop-loss order
+     * @param isolatedMargin The isolated margin of the position
      * @return {@link Order}
      * @see <a href="https://api-docs.aevo.xyz/reference/postordersorderid">Aevo - POST Orders/{Order ID}</a>
      */
@@ -1201,7 +1242,9 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
             @Nullable String timeInForce,
             @Nullable Boolean mmp,
             @Nullable String stop,
-            @Nullable Double trigger
+            @Nullable Double trigger,
+            @Nullable Boolean closePosition,
+            @Nullable String isolatedMargin
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
         SignedOrder body = new SignedOrder(
                 instrument,
@@ -1217,7 +1260,9 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 timeInForce,
                 mmp != null && mmp,
                 stop,
-                trigger
+                trigger,
+                closePosition,
+                isolatedMargin
         );
         String timestamp2 = useSignatures ? AevoHandler.getTimestamp() : null;
         String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
@@ -1276,6 +1321,8 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 salt,
                 signature,
                 timestamp,
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -1843,11 +1890,255 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
     }
 
     /**
+     * Cancels all the RFQ blocks
+     * @return {@link Cancelled}
+     * @see <a href="https://api-docs.aevo.xyz/reference/deleterfqs">Aevo - DELETE RFQs</a>
+     */
+    public Cancelled deleteRfqs()
+            throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "DELETE",
+                "/rfqs",
+                ""
+        ) : null;
+
+        return execute(
+                getApi().deleteRfqs(
+                        timestamp,
+                        signature,
+                        apiKey,
+                        useSignatures ? null : apiSecret
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Get RFQ blocks open for trading
+     * @param role Role of the account
+     * @return {@link RFQBlocks}
+     * @see <a href="https://api-docs.aevo.xyz/reference/getrfqs">Aevo - GET RFQs</a>
+     */
+    public RFQBlocks getRfqs(
+            @Nullable String role
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "GET",
+                "/rfqs",
+                ""
+        ) : null;
+
+        return execute(
+                getApi().getRfqs(
+                        timestamp,
+                        signature,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        role
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Get RFQ blocks open for trading
+     * @return {@link RFQBlocks}
+     * @see <a href="https://api-docs.aevo.xyz/reference/getrfqs">Aevo - GET RFQs</a>
+     */
+    public RFQBlocks getRfqs() throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        return getRfqs(null);
+    }
+
+    /**
+     * Creates a new RFQ block
+     * @param legs {@link RFQsBody.RFQLeg} to create the RFQ block with
+     * @param fullSize Full size if true
+     * @param isBuy True if long, false if short
+     * @param amount Number of contracts, in 6 decimals fixed number
+     * @param duration Duration of the RFQ block in seconds
+     * @param counterparties Counterparties allowed to quote for the RFQ block
+     * @return {@link RFQBlocks}
+     * @see <a href="https://api-docs.aevo.xyz/reference/postrfqs">Aevo - POST RFQs</a>
+     */
+    public RFQBlocks postRfqs(
+            @Nullable RFQsBody.RFQLeg[] legs,
+            @Nullable Boolean fullSize,
+            @Nullable Boolean isBuy,
+            @Nullable String amount,
+            @Nullable Long duration,
+            @Nullable String[] counterparties
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        RFQsBody body = new RFQsBody(
+                legs,
+                fullSize,
+                isBuy,
+                amount,
+                duration,
+                counterparties
+        );
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "POST",
+                "/rfqs",
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postRfqs(
+                        timestamp,
+                        signature2,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Creates a new RFQ block
+     * @param body {@link RFQsBody} to create the RFQ block with
+     * @return {@link RFQBlocks}
+     * @see <a href="https://api-docs.aevo.xyz/reference/postrfqs">Aevo - POST RFQs</a>
+     */
+    public RFQBlocks postRfqs(
+            @NonNull RFQsBody body
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "POST",
+                "/rfqs",
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postRfqs(
+                        timestamp,
+                        signature2,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Close an RFQ block
+     * @param blockId Block ID to close
+     * @return {@link Success}
+     * @see <a href="https://api-docs.aevo.xyz/reference/deleterfqsblockid">Aevo - DELETE RFQs/{Block ID}</a>
+     */
+    public Success deleteBlockRfq(
+            @NonNull String blockId
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "DELETE",
+                "/rfqs/" + blockId,
+                ""
+        ) : null;
+
+        return execute(
+                getApi().deleteBlockRfq(
+                        timestamp,
+                        signature,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        blockId
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Get the quotes for a given RFQ block
+     * @param blockId Block ID to get quotes for
+     * @return {@link QuoteOfRfq}
+     * @see <a href="https://api-docs.aevo.xyz/reference/getrfqsblockidquotes">Aevo - GET RFQs/{Block ID}/Quotes</a>
+     */
+    public QuoteOfRfq getBlockRfqQuotes(
+            @NonNull String blockId
+    ) throws NoSuchAlgorithmException, InvalidKeyException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "GET",
+                "/rfqs/" + blockId + "/quotes",
+                ""
+        ) : null;
+
+        return execute(
+                getApi().getBlockRfqQuotes(
+                        timestamp,
+                        signature2,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        blockId
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Cancel multiple quotes
+     * @param quoteIds Quote IDs to cancel
+     * @param blockId Block ID to cancel quotes for
+     * @return {@link Cancelled}
+     * @see <a href="https://api-docs.aevo.xyz/reference/deletequotes">Aevo - DELETE Quotes</a>
+     */
+    public Cancelled deleteQuotes(
+            @Nullable String[] quoteIds,
+            @Nullable String blockId
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
+            Long.parseLong(timestamp),
+            apiKey,
+            apiSecret,
+            "DELETE",
+            "/quotes",
+            ""
+        ) : null;
+
+        return execute(
+                getApi().deleteQuotes(
+                        timestamp,
+                        signature,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        quoteIds,
+                        blockId
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
      * Returns all the account's quotes
      * @return {@link List<Quote>} of {@link Quote}
      * @see <a href="https://api-docs.aevo.xyz/reference/getquotes">Aevo - GET Quotes</a>
      */
-    public List<Quote> getQuotes() throws NoSuchAlgorithmException, InvalidKeyException {
+    public List<Quote> getQuotes() throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
         String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
         String signature = useSignatures ? AevoHandler.generateAuthSignature(
             Long.parseLong(timestamp),
@@ -1864,6 +2155,469 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                         signature,
                         apiKey,
                         useSignatures ? null : apiSecret
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Creates a new quote
+     * @param body {@link QuotesBody} to create the quote with
+     * @return {@link Quote}
+     * @see <a href="https://api-docs.aevo.xyz/reference/postquotes">Aevo - POST Quotes</a>
+     */
+    public Quote postQuotes(
+            @NonNull QuotesBody body
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "POST",
+                "/quotes",
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postQuotes(
+                        timestamp,
+                        signature,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Creates a new quote
+     * @param blockId Block ID to create the quote for
+     * @param account Account's ethereum address
+     * @param amount Number of contracts, in 6 decimals fixed number
+     * @param isBuy True if long, false if short
+     * @param salt Salt for the signature
+     * @param timestamp Timestamp for the signature
+     * @param signature Hash of the order payload signature signed by the account
+     * @param legs Array of {@link QuotesBody.QuoteLeg} to create the quote with
+     * @param limitPrice Limit price for the quote
+     * @return {@link Quote}
+     * @see <a href="https://api-docs.aevo.xyz/reference/postquotes">Aevo - POST Quotes</a>
+     */
+    public Quote postQuotes(
+            @NonNull String blockId,
+            @NonNull String account,
+            @NonNull String amount,
+            boolean isBuy,
+            @NonNull String salt,
+            @NonNull String timestamp,
+            @NonNull String signature,
+            @Nullable QuotesBody.QuoteLeg[] legs,
+            @Nullable String limitPrice
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        QuotesBody body = new QuotesBody(
+                blockId,
+                account,
+                amount,
+                isBuy,
+                salt,
+                timestamp,
+                signature,
+                legs,
+                limitPrice
+        );
+        String timestamp2 = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "POST",
+                "/quotes",
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postQuotes(
+                        timestamp2,
+                        signature2,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Creates a new quote
+     * @param blockId Block ID to create the quote for
+     * @param account Account's ethereum address
+     * @param amount Number of contracts, in 6 decimals fixed number
+     * @param isBuy True if long, false if short
+     * @param salt Salt for the signature
+     * @param timestamp Timestamp for the signature
+     * @param signature Hash of the order payload signature signed by the account
+     * @return {@link Quote}
+     * @see <a href="https://api-docs.aevo.xyz/reference/postquotes">Aevo - POST Quotes</a>
+     */
+    public Quote postQuotes(
+            @NonNull String blockId,
+            @NonNull String account,
+            @NonNull String amount,
+            boolean isBuy,
+            @NonNull String salt,
+            @NonNull String timestamp,
+            @NonNull String signature
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        QuotesBody body = new QuotesBody(
+                blockId,
+                account,
+                amount,
+                isBuy,
+                salt,
+                timestamp,
+                signature
+        );
+        String timestamp2 = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "POST",
+                "/quotes",
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postQuotes(
+                        timestamp2,
+                        signature2,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Simulates a new quote
+     * @param body {@link QuotesBody} to simulate the quote with
+     * @return {@link Quote}
+     * @see <a href="https://api-docs.aevo.xyz/reference/postquotespreview">Aevo - POST Quotes Preview</a>
+     */
+    public Quote postQuotesPreview(
+            @NonNull QuotesBody body
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "POST",
+                "/quotes/preview",
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postQuotesPreview(
+                        timestamp,
+                        signature,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Creates a new quote
+     * @param blockId Block ID to create the quote for
+     * @param account Account's ethereum address
+     * @param amount Number of contracts, in 6 decimals fixed number
+     * @param isBuy True if long, false if short
+     * @param salt Salt for the signature
+     * @param timestamp Timestamp for the signature
+     * @param signature Hash of the order payload signature signed by the account
+     * @param legs Array of {@link QuotesBody.QuoteLeg} to create the quote with
+     * @param limitPrice Limit price for the quote
+     * @return {@link Quote}
+     * @see <a href="https://api-docs.aevo.xyz/reference/postquotespreview">Aevo - POST Quotes Preview</a>
+     */
+    public Quote postQuotesPreview(
+            @NonNull String blockId,
+            @NonNull String account,
+            @NonNull String amount,
+            boolean isBuy,
+            @NonNull String salt,
+            @NonNull String timestamp,
+            @NonNull String signature,
+            @Nullable QuotesBody.QuoteLeg[] legs,
+            @Nullable String limitPrice
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        QuotesBody body = new QuotesBody(
+                blockId,
+                account,
+                amount,
+                isBuy,
+                salt,
+                timestamp,
+                signature,
+                legs,
+                limitPrice
+        );
+        String timestamp2 = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "POST",
+                "/quotes/preview",
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postQuotesPreview(
+                        timestamp2,
+                        signature2,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Simulates a new quote
+     * @param blockId Block ID to create the quote for
+     * @param account Account's ethereum address
+     * @param amount Number of contracts, in 6 decimals fixed number
+     * @param isBuy True if long, false if short
+     * @param salt Salt for the signature
+     * @param timestamp Timestamp for the signature
+     * @param signature Hash of the order payload signature signed by the account
+     * @return {@link Quote}
+     * @see <a href="https://api-docs.aevo.xyz/reference/postquotespreview">Aevo - POST Quotes Preview</a>
+     */
+    public Quote postQuotesPreview(
+            @NonNull String blockId,
+            @NonNull String account,
+            @NonNull String amount,
+            boolean isBuy,
+            @NonNull String salt,
+            @NonNull String timestamp,
+            @NonNull String signature
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        QuotesBody body = new QuotesBody(
+                blockId,
+                account,
+                amount,
+                isBuy,
+                salt,
+                timestamp,
+                signature
+        );
+        String timestamp2 = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "POST",
+                "/quotes/preview",
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postQuotesPreview(
+                        timestamp2,
+                        signature2,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Cancels a quote
+     * @param quoteId Quote ID to cancel
+     * @return {@link Success}
+     * @see <a href="https://api-docs.aevo.xyz/reference/deletequotesquoteid">Aevo - DELETE Quotes/{Quote ID}</a>
+     */
+    public Success deleteQuotesById(
+            @NonNull String quoteId
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "DELETE",
+                "/quotes/" + quoteId,
+                ""
+        ) : null;
+
+        return execute(
+                getApi().deleteQuotesById(
+                        timestamp,
+                        signature2,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        quoteId
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Edits an existing quote
+     * @param quoteId Quote ID to edit
+     * @param body {@link QuotesBody} to edit the quote with
+     * @return {@link Quote}
+     * @see <a href="https://api-docs.aevo.xyz/reference/putquotesquoteid">Aevo - PUT Quotes/{Quote ID}</a>
+     */
+    public Quote putQuotesById(
+            @NonNull String quoteId,
+            @NonNull QuotesBody body
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "PUT",
+                "/quotes/" + quoteId,
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().putQuotesById(
+                        timestamp,
+                        signature2,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        quoteId,
+                        body
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Edits an existing quote
+     * @param quoteId Quote ID to edit
+     * @param blockId Block ID to edit the quote for
+     * @param account Account's ethereum address
+     * @param amount Number of contracts, in 6 decimals fixed number
+     * @param isBuy True if long, false if short
+     * @param salt Salt for the signature
+     * @param timestamp Timestamp for the signature
+     * @param signature Hash of the order payload signature signed by the account
+     * @param legs Array of {@link QuotesBody.QuoteLeg} to edit the quote with
+     * @param limitPrice Limit price for the quote
+     * @return {@link Quote}
+     * @see <a href="https://api-docs.aevo.xyz/reference/putquotesquoteid">Aevo - PUT Quotes/{Quote ID}</a>
+     */
+    public Quote putQuotesById(
+            @NonNull String quoteId,
+            @NonNull String blockId,
+            @NonNull String account,
+            @NonNull String amount,
+            boolean isBuy,
+            @NonNull String salt,
+            @NonNull String timestamp,
+            @NonNull String signature,
+            @Nullable QuotesBody.QuoteLeg[] legs,
+            @Nullable String limitPrice
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        QuotesBody body = new QuotesBody(
+                blockId,
+                account,
+                amount,
+                isBuy,
+                salt,
+                timestamp,
+                signature,
+                legs,
+                limitPrice
+        );
+        String timestamp2 = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
+            Long.parseLong(timestamp),
+            apiKey,
+            apiSecret,
+            "PUT",
+            "/quotes/" + quoteId,
+            gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().putQuotesById(
+                        timestamp2,
+                        signature2,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        quoteId,
+                        body
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Edits an existing quote
+     * @param quoteId Quote ID to edit
+     * @param blockId Block ID to edit the quote for
+     * @param account Account's ethereum address
+     * @param amount Number of contracts, in 6 decimals fixed number
+     * @param isBuy True if long, false if short
+     * @param salt Salt for the signature
+     * @param timestamp Timestamp for the signature
+     * @param signature Hash of the order payload signature signed by the account
+     * @return {@link Quote}
+     * @see <a href="https://api-docs.aevo.xyz/reference/putquotesquoteid">Aevo - PUT Quotes/{Quote ID}</a>
+     */
+    public Quote putQuotesById(
+            @NonNull String quoteId,
+            @NonNull String blockId,
+            @NonNull String account,
+            @NonNull String amount,
+            boolean isBuy,
+            @NonNull String salt,
+            @NonNull String timestamp,
+            @NonNull String signature
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        QuotesBody body = new QuotesBody(
+                blockId,
+                account,
+                amount,
+                isBuy,
+                salt,
+                timestamp,
+                signature
+        );
+        String timestamp2 = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "PUT",
+                "/quotes/" + quoteId,
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().putQuotesById(
+                        timestamp2,
+                        signature2,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        quoteId,
+                        body
                 ),
                 isAutoRetryAfterRatelimit()
         );

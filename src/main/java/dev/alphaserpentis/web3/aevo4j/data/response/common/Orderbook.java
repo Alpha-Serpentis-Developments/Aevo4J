@@ -9,6 +9,7 @@ import java.util.zip.CRC32;
 
 @SuppressWarnings("unused")
 public class Orderbook {
+    private static final DecimalFormat DF = new DecimalFormat("0.######");
     @SerializedName("type")
     private String type;
     @SerializedName("instrument_id")
@@ -34,28 +35,26 @@ public class Orderbook {
      * @see <a href="https://docs.aevo.xyz/reference/orderbook-checksum">Aevo - Orderbook Checksum</a>
      */
     public static long generateChecksum(double[][] bids, double[][] asks) {
-        DecimalFormat df = new DecimalFormat("0.######");
         CRC32 crc32 = new CRC32();
         StringBuilder checksum = new StringBuilder();
-        int iterations = Math.max(bids.length, asks.length);
+        int bidsLength = bids.length;
+        int asksLength = asks.length;
+        int iterations = Math.min(Math.max(bidsLength, asksLength), 100);
         byte[] bytes;
 
-        for(int i = 0; i < Math.min(iterations, 100); i++) {
-            if(bids.length > i) {
-                checksum.append(df.format(bids[i][0])); // price
-                checksum.append(":");
-                checksum.append(df.format(bids[i][1])); // size
-                checksum.append(":");
+        for(int i = 0; i < iterations; i++) {
+            if(bidsLength > i) {
+                checksum
+                        .append(DF.format(bids[i][0])).append(':') // price
+                        .append(DF.format(bids[i][1])).append(':'); // size
             }
-            if(asks.length > i) {
-                checksum.append(df.format(asks[i][0])); // price
-                checksum.append(":");
-                checksum.append(df.format(asks[i][1])); // size
-                checksum.append(":");
+            if(asksLength > i) {
+                checksum.append(DF.format(asks[i][0])).append(':') // price
+                        .append(DF.format(asks[i][1])).append(':'); // size
             }
         }
 
-        checksum.deleteCharAt(checksum.length() - 1);
+        checksum.setLength(checksum.length() - 1);
         bytes = checksum.toString().getBytes(StandardCharsets.UTF_8);
         crc32.update(bytes);
 

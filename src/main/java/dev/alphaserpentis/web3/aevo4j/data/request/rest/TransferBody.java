@@ -2,6 +2,7 @@ package dev.alphaserpentis.web3.aevo4j.data.request.rest;
 
 import com.google.gson.annotations.SerializedName;
 import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.annotations.Nullable;
 
 @SuppressWarnings("unused")
 public class TransferBody {
@@ -17,6 +18,8 @@ public class TransferBody {
     private final String salt;
     @SerializedName("signature")
     private final String signature;
+    @SerializedName("label")
+    private final String label;
 
     public TransferBody(
             @NonNull String account,
@@ -24,7 +27,8 @@ public class TransferBody {
             @NonNull String to,
             @NonNull String amount,
             @NonNull String salt,
-            @NonNull String signature
+            @NonNull String signature,
+            @Nullable String label
     ) {
         this.account = account;
         this.collateral = collateral;
@@ -32,6 +36,19 @@ public class TransferBody {
         this.amount = amount;
         this.salt = salt;
         this.signature = signature;
+        this.label = label;
+    }
+
+    public TransferBody(
+            @NonNull String account,
+            @NonNull String collateral,
+            @NonNull String to,
+            long amount,
+            long salt,
+            @NonNull String signature,
+            @Nullable String label
+    ) {
+        this(account, collateral, to, String.valueOf(amount), String.valueOf(salt), signature, label);
     }
 
     public TransferBody(
@@ -42,6 +59,6 @@ public class TransferBody {
             long salt,
             @NonNull String signature
     ) {
-        this(account, collateral, to, String.valueOf(amount), String.valueOf(salt), signature);
+        this(account, collateral, to, String.valueOf(amount), String.valueOf(salt), signature, null);
     }
 }
