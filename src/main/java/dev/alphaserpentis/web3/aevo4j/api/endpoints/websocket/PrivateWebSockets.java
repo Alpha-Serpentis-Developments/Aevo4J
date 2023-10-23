@@ -21,6 +21,7 @@ import io.reactivex.rxjava3.annotations.Nullable;
  *
  * @see <a href="https://api-docs.aevo.xyz/reference/websocket-authentication">Aevo - Websocket Authentication</a>
  */
+@SuppressWarnings("unused")
 public class PrivateWebSockets {
     private String apiKey;
     private String apiSecret;

@@ -19,7 +19,7 @@ public class FillsListener extends PrivateListener<Fills> {
                 isTestnet,
                 authorizeOnConnect,
                 Fills.class,
-                ChannelName.Channels.FILLS
+                ChannelName.ChannelType.FILLS
         );
     }
 }

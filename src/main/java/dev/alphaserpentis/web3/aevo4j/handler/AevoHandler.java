@@ -97,7 +97,7 @@ public class AevoHandler {
 
     /**
      * Get a new {@link PrivateService} instance using the given {@link Retrofit} instance. You will need to supply your
-     * API Key and API Secret and whether you want to use signatures later on.
+     * API Key, API Secret, and whether you want to use signatures later on.
      * @param retrofit {@link Retrofit}
      * @return {@link PrivateService}
      */
@@ -150,13 +150,11 @@ public class AevoHandler {
             @NonNull String body
     ) throws NoSuchAlgorithmException, InvalidKeyException {
         Mac sha256HMAC = Mac.getInstance("HmacSHA256");
-        SecretKeySpec secretKeySpec;
         StringBuilder sb = new StringBuilder();
         final String message = apiKey + "," + timestamp + "," + method + "," + path + "," + body;
         byte[] hashBytes;
 
-        secretKeySpec = new SecretKeySpec(apiSecret.getBytes(), message);
-        sha256HMAC.init(secretKeySpec);
+        sha256HMAC.init(new SecretKeySpec(apiSecret.getBytes(), message));
 
         hashBytes = sha256HMAC.doFinal(message.getBytes(StandardCharsets.UTF_8));
 
@@ -168,7 +166,7 @@ public class AevoHandler {
     }
 
     /**
-     * Gets the current timestamp in nanoseconds
+     * Gets the current system timestamp in nanoseconds
      * @return {@link String} timestamp
      */
     public static String getTimestamp() {

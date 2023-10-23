@@ -6,7 +6,7 @@ import io.reactivex.rxjava3.annotations.Nullable;
 import java.util.Arrays;
 
 /**
- * Submit a request to the Aevo websocket.
+ * Submit a subscribe request to the Aevo websocket.
  * @param op The websocket operation to perform.
  * @param data The data to send.
  * @param id The id of the request.

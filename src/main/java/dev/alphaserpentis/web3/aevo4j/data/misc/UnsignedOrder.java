@@ -14,6 +14,7 @@ import java.time.Instant;
 
 /**
  * An order payload without a signature
+ * @see <a href="https://api-docs.aevo.xyz/reference/signing-orders">Aevo - Signing Orders</a>
  */
 @SuppressWarnings("unused")
 public class UnsignedOrder {
@@ -44,6 +45,10 @@ public class UnsignedOrder {
     protected final String stop;
     @SerializedName("trigger")
     protected final Double trigger;
+    @SerializedName("close_position")
+    private Boolean closePosition;
+    @SerializedName("isolated_margin")
+    private String isolatedMargin;
 
     public static class Builder {
         private final long instrument;
@@ -59,6 +64,8 @@ public class UnsignedOrder {
         private Boolean mmp;
         private String stop;
         private Double trigger;
+        private Boolean closePosition;
+        private String isolatedMargin;
 
         public Builder(
                 long instrument,
@@ -133,6 +140,16 @@ public class UnsignedOrder {
             return this;
         }
 
+        public Builder closePosition(@Nullable Boolean closePosition) {
+            this.closePosition = closePosition;
+            return this;
+        }
+
+        public Builder isolatedMargin(@Nullable String isolatedMargin) {
+            this.isolatedMargin = isolatedMargin;
+            return this;
+        }
+
         /**
          * Builds an {@link UnsignedOrder} from the given parameters
          * @return {@link UnsignedOrder}
@@ -151,7 +168,9 @@ public class UnsignedOrder {
                     timeInForce,
                     mmp,
                     stop,
-                    trigger
+                    trigger,
+                    closePosition,
+                    isolatedMargin
             );
         }
 
@@ -200,7 +219,9 @@ public class UnsignedOrder {
             @Nullable String timeInForce,
             @Nullable Boolean mmp,
             @Nullable String stop,
-            @Nullable Double trigger
+            @Nullable Double trigger,
+            @Nullable Boolean closePosition,
+            @Nullable String isolatedMargin
     ) {
         this.instrument = instrument;
         this.maker = maker;
@@ -215,6 +236,8 @@ public class UnsignedOrder {
         this.mmp = mmp;
         this.stop = stop;
         this.trigger = trigger;
+        this.closePosition = closePosition;
+        this.isolatedMargin = isolatedMargin;
     }
 
     /**
@@ -242,12 +265,17 @@ public class UnsignedOrder {
                 null,
                 null,
                 null,
+                null,
+                null,
                 null
         );
     }
 
     /**
-     * Signs an order using the given signing key
+     * Signs an order using the given signing key.
+     * <p>
+     * <b>This might be a very heavy operation! We suggest to
+     * use {@link #signOrder(UnsignedOrder, boolean, ECKeyPair)}</b>
      * @param order The unsigned order to sign
      * @param isTestnet Whether to use the testnet domain
      * @param signingKey Signing key provided by Aevo when you enabled trading
@@ -259,25 +287,20 @@ public class UnsignedOrder {
             boolean isTestnet,
             @NonNull String signingKey
     ) throws IOException {
-        OrderEIP712 orderEIP712 = new OrderEIP712(
+        String orderEIP712 = new OrderEIP712(
                 isTestnet ? OrderEIP712.TESTNET_DOMAIN : OrderEIP712.MAINNET_DOMAIN,
                 OrderEIP712.Order.fromUnsignedOrder(order)
-        );
-        Sign.SignatureData signature = Sign.signTypedData(
-                orderEIP712.toString(),
-                Credentials.create(signingKey).getEcKeyPair()
-        );
-        String signatureHex;
+        ).toString();
+        Sign.SignatureData signature = Sign.signTypedData(orderEIP712, Credentials.create(signingKey).getEcKeyPair());
         byte[] retval = new byte[65];
 
         System.arraycopy(signature.getR(), 0, retval, 0, 32);
         System.arraycopy(signature.getS(), 0, retval, 32, 32);
         System.arraycopy(signature.getV(), 0, retval, 64, 1);
-        signatureHex = Numeric.toHexString(retval);
 
         return new SignedOrder(
                 order,
-                signatureHex
+                Numeric.toHexString(retval)
         );
     }
 
@@ -294,21 +317,20 @@ public class UnsignedOrder {
             boolean isTestnet,
             @NonNull ECKeyPair signingKey
     ) throws IOException {
-        OrderEIP712 orderEIP712 = new OrderEIP712(
+        String orderEIP712 = new OrderEIP712(
                 isTestnet ? OrderEIP712.TESTNET_DOMAIN : OrderEIP712.MAINNET_DOMAIN,
                 OrderEIP712.Order.fromUnsignedOrder(order)
-        );
-        Sign.SignatureData signature = Sign.signTypedData(orderEIP712.toString(), signingKey);
-        String signatureHex;
+        ).toString();
+        Sign.SignatureData signature = Sign.signTypedData(orderEIP712, signingKey);
         byte[] retval = new byte[65];
 
         System.arraycopy(signature.getR(), 0, retval, 0, 32);
         System.arraycopy(signature.getS(), 0, retval, 32, 32);
         System.arraycopy(signature.getV(), 0, retval, 64, 1);
-        signatureHex = Numeric.toHexString(retval);
+
         return new SignedOrder(
                 order,
-                signatureHex
+                Numeric.toHexString(retval)
         );
     }
 
@@ -369,6 +391,16 @@ public class UnsignedOrder {
     @Nullable
     public Double getTrigger() {
         return trigger;
+    }
+
+    @Nullable
+    public Boolean getClosePosition() {
+        return closePosition;
+    }
+
+    @Nullable
+    public String getIsolatedMargin() {
+        return isolatedMargin;
     }
 
     @Override

@@ -12,20 +12,20 @@ import io.reactivex.rxjava3.annotations.NonNull;
  */
 public class IndexListener extends AevoListener<IndexData> {
     public IndexListener() {
-        super(IndexData.class, ChannelName.Channels.INDEX);
+        super(IndexData.class, ChannelName.ChannelType.INDEX);
     }
 
     public IndexListener(
             boolean isTestnet,
             @NonNull String... symbols
     ) {
-        super(IndexData.class, ChannelName.Channels.INDEX, WebSocketOperations.SUBSCRIBE, isTestnet, symbols);
+        super(IndexData.class, ChannelName.ChannelType.INDEX, WebSocketOperations.SUBSCRIBE, isTestnet, symbols);
     }
 
     public IndexListener(
             boolean isTestnet,
             @NonNull ChannelName... channels
     ) {
-        super(IndexData.class, ChannelName.Channels.INDEX, WebSocketOperations.SUBSCRIBE, isTestnet, channels);
+        super(IndexData.class, ChannelName.ChannelType.INDEX, WebSocketOperations.SUBSCRIBE, isTestnet, channels);
     }
 }

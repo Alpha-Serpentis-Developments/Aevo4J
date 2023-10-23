@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.annotations.Nullable;
 
+/**
+ * @see <a href="https://api-docs.aevo.xyz/reference/signing-orders">Aevo - Signing Orders</a>
+ */
 @SuppressWarnings("unused")
 public class SignedOrder extends UnsignedOrder {
     @SerializedName("signature")
@@ -24,6 +27,8 @@ public class SignedOrder extends UnsignedOrder {
         private Boolean mmp;
         private String stop;
         private Double trigger;
+        private Boolean closePosition;
+        private String isolatedMargin;
 
         public Builder(
                 long instrument,
@@ -75,6 +80,16 @@ public class SignedOrder extends UnsignedOrder {
             return this;
         }
 
+        public Builder closePosition(@Nullable Boolean closePosition) {
+            this.closePosition = closePosition;
+            return this;
+        }
+
+        public Builder isolatedMargin(@Nullable String isolatedMargin) {
+            this.isolatedMargin = isolatedMargin;
+            return this;
+        }
+
         public SignedOrder build() {
             return new SignedOrder(
                     instrument,
@@ -90,7 +105,9 @@ public class SignedOrder extends UnsignedOrder {
                     timeInForce,
                     mmp,
                     stop,
-                    trigger
+                    trigger,
+                    closePosition,
+                    isolatedMargin
             );
         }
     }
@@ -112,7 +129,9 @@ public class SignedOrder extends UnsignedOrder {
             @Nullable String timeInForce,
             @Nullable Boolean mmp,
             @Nullable String stop,
-            @Nullable Double trigger
+            @Nullable Double trigger,
+            @Nullable Boolean closePosition,
+            @Nullable String isolatedMargin
     ) {
         super(
                 instrument,
@@ -127,7 +146,9 @@ public class SignedOrder extends UnsignedOrder {
                 timeInForce,
                 mmp,
                 stop,
-                trigger
+                trigger,
+                closePosition,
+                isolatedMargin
         );
         this.signature = signature;
     }
@@ -159,6 +180,8 @@ public class SignedOrder extends UnsignedOrder {
                 null,
                 null,
                 null,
+                null,
+                null,
                 null
         );
     }
@@ -181,7 +204,9 @@ public class SignedOrder extends UnsignedOrder {
                 unsignedorder.getTimeInForce(),
                 unsignedorder.getMmp(),
                 unsignedorder.getStop(),
-                unsignedorder.getTrigger()
+                unsignedorder.getTrigger(),
+                unsignedorder.getClosePosition(),
+                unsignedorder.getIsolatedMargin()
         );
     }
 }

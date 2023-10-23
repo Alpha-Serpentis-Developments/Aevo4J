@@ -45,7 +45,7 @@ public class OrderbookListener extends AevoListener<OrderbookData> {
     }
 
     public OrderbookListener(@NonNull Filter filter) {
-        super(OrderbookData.class, ChannelName.Channels.ORDERBOOK);
+        super(OrderbookData.class, ChannelName.ChannelType.ORDERBOOK);
 
         this.filter = filter;
     }
@@ -55,7 +55,7 @@ public class OrderbookListener extends AevoListener<OrderbookData> {
             boolean isTestnet,
             @NonNull String... symbols
     ) {
-        super(OrderbookData.class, ChannelName.Channels.ORDERBOOK, WebSocketOperations.SUBSCRIBE, isTestnet, symbols);
+        super(OrderbookData.class, ChannelName.ChannelType.ORDERBOOK, WebSocketOperations.SUBSCRIBE, isTestnet, symbols);
 
         this.filter = filter;
     }
@@ -65,7 +65,7 @@ public class OrderbookListener extends AevoListener<OrderbookData> {
             boolean isTestnet,
             @NonNull ChannelName... channels
     ) {
-        super(OrderbookData.class, ChannelName.Channels.ORDERBOOK, WebSocketOperations.SUBSCRIBE, isTestnet, channels);
+        super(OrderbookData.class, ChannelName.ChannelType.ORDERBOOK, WebSocketOperations.SUBSCRIBE, isTestnet, channels);
 
         this.filter = filter;
     }

@@ -38,9 +38,9 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
      */
     protected final PublishSubject<T> subject = PublishSubject.create();
     /**
-     * {@link ChannelName.Channels} allowed for this listener
+     * {@link ChannelName.ChannelType} allowed for this listener
      */
-    protected final ChannelName.Channels channelAllowed;
+    protected final ChannelName.ChannelType channelAllowed;
     /**
      * {@link WebSocket} this listener is attached to
      */
@@ -49,11 +49,11 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
     /**
      * Creates a new {@link AevoListener} with the given response class
      * @param clazz Class of the response to deserialize the incoming JSON responses into
-     * @param channelAllowed {@link ChannelName.Channels} allowed for this listener
+     * @param channelAllowed {@link ChannelName.ChannelType} allowed for this listener
      */
     public AevoListener(
             @NonNull Class<T> clazz,
-            @Nullable ChannelName.Channels channelAllowed
+            @Nullable ChannelName.ChannelType channelAllowed
     ) {
         this.clazz = clazz;
         this.channelAllowed = channelAllowed;
@@ -62,14 +62,14 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
     /**
      * Creates a new {@link AevoListener} with the given parameters and opens a new {@link WebSocket}
      * @param clazz Class of the response to deserialize the incoming JSON responses into
-     * @param channelAllowed {@link ChannelName.Channels} allowed for this listener
+     * @param channelAllowed {@link ChannelName.ChannelType} allowed for this listener
      * @param operations {@link WebSocketOperations} to use
      * @param isTestnet Whether to use the testnet or not
      * @param symbols Symbols (e.g. "BTC-USD") to subscribe to
      */
     public AevoListener(
             @NonNull Class<T> clazz,
-            @Nullable ChannelName.Channels channelAllowed,
+            @Nullable ChannelName.ChannelType channelAllowed,
             @NonNull WebSocketOperations operations,
             boolean isTestnet,
             @NonNull String... symbols
@@ -81,28 +81,28 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
 
         if(channelAllowed != null) {
             arrayOfChannels = Arrays.stream(symbols)
-                    .map(r -> ChannelName.convertSymbolIntoChannelName(r, channelAllowed))
+                    .map(r -> new ChannelName(channelAllowed, r))
                     .toArray(ChannelName[]::new);
         }
 
         if(operations.equals(WebSocketOperations.SUBSCRIBE) || operations.equals(WebSocketOperations.UNSUBSCRIBE)) {
-            webSocket.send(new SubscribeWebSocketRequest(operations, arrayOfChannels).toString());
+            sendWebSocketRequest(new SubscribeWebSocketRequest(operations, arrayOfChannels));
         } else {
-            webSocket.send(new PublishWebSocketRequest<>(operations).toString());
+            sendWebSocketRequest(new PublishWebSocketRequest<>(operations));
         }
     }
 
     /**
      * Creates a new {@link AevoListener} with the given parameters and opens a new {@link WebSocket}
      * @param clazz Class of the response to deserialize the incoming JSON responses into
-     * @param channelAllowed {@link ChannelName.Channels} allowed for this listener
+     * @param channelAllowed {@link ChannelName.ChannelType} allowed for this listener
      * @param operations {@link WebSocketOperations} to use
      * @param isTestnet Whether to use the testnet or not
      * @param channels {@link ChannelName} to subscribe to
      */
     public AevoListener(
             @NonNull Class<T> clazz,
-            @Nullable ChannelName.Channels channelAllowed,
+            @Nullable ChannelName.ChannelType channelAllowed,
             @NonNull WebSocketOperations operations,
             boolean isTestnet,
             @NonNull ChannelName... channels
@@ -112,9 +112,9 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
         webSocket = AevoHandler.createNewWebSocket(this, isTestnet);
 
         if(operations.equals(WebSocketOperations.SUBSCRIBE) || operations.equals(WebSocketOperations.UNSUBSCRIBE)) {
-            webSocket.send(new SubscribeWebSocketRequest(operations, channels).toString());
+            sendWebSocketRequest(new SubscribeWebSocketRequest(operations, channels));
         } else {
-            webSocket.send(new PublishWebSocketRequest<>(operations).toString());
+            sendWebSocketRequest(new PublishWebSocketRequest<>(operations));
         }
     }
 
@@ -138,7 +138,7 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
     }
 
     @NonNull
-    public ChannelName.Channels getChannelAllowed() {
+    public ChannelName.ChannelType getChannelAllowed() {
         return channelAllowed;
     }
 
@@ -185,11 +185,7 @@ public abstract class AevoListener<T extends Response<?>> extends WebSocketListe
      * @param channels {@link ChannelName} to unsubscribe from
      */
     public void unsubscribe(@NonNull ChannelName... channels) {
-        if(webSocket == null) {
-            throw new IllegalStateException("WebSocket is not open");
-        }
-
-        webSocket.send(new SubscribeWebSocketRequest(WebSocketOperations.UNSUBSCRIBE, channels).toString());
+        sendWebSocketRequest(new SubscribeWebSocketRequest(WebSocketOperations.UNSUBSCRIBE, channels));
     }
 
     @Override

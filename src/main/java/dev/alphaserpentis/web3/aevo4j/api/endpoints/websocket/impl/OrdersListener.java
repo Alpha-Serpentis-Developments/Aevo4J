@@ -19,7 +19,7 @@ public class OrdersListener extends PrivateListener<Orders> {
                 isTestnet,
                 authorizeOnConnect,
                 Orders.class,
-                ChannelName.Channels.ORDERS
+                ChannelName.ChannelType.ORDERS
         );
     }
 }

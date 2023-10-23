@@ -17,6 +17,7 @@ import retrofit2.http.Query;
 import java.util.List;
 
 /**
+ * @see dev.alphaserpentis.web3.aevo4j.handler.AevoHandler#getPublicService(retrofit2.Retrofit)
  * @see dev.alphaserpentis.web3.aevo4j.services.PublicService
  */
 public interface PublicEndpoints {

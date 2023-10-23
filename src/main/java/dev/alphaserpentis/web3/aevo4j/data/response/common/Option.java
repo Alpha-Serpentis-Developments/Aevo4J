@@ -3,7 +3,8 @@ package dev.alphaserpentis.web3.aevo4j.data.response.common;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Class representing an option. This is shared between {@code GET /account} and {@code GET /options-history}
+ * Class representing an option. This is shared between {@code GET /account}, {@code GET /options-history},
+ * and {@code POST /account/update-margin}
  */
 @SuppressWarnings("unused")
 public class Option extends Greeks {

@@ -29,6 +29,13 @@ public class PublicService extends AbstractService<PublicEndpoints> {
         super(api);
     }
 
+    public PublicService(
+            @NonNull PublicEndpoints api,
+            boolean autoRetryAfterRatelimit
+    ) {
+        super(api, autoRetryAfterRatelimit);
+    }
+
     /**
      * Get a list of active underlying assets
      * @return A list of active underlying assets
@@ -36,7 +43,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
      */
     public List<String> getAssets() throws AevoRestException {
         return execute(
-                getApi().getAssets()
+                getApi().getAssets(),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -52,7 +60,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
         return execute(
                 getApi().getExpiries(
                         asset
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -68,7 +77,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
         return execute(
                 getApi().getIndex(
                         asset
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -110,7 +120,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
                         resolution,
                         startTime,
                         endTime
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -156,7 +167,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
                         limit,
                         startTime,
                         endTime
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -195,7 +207,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
                         startTime,
                         endTime,
                         limit
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -226,7 +239,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
                 getApi().getMarkets(
                         asset,
                         instrumentType
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -261,7 +275,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
                         asset,
                         instrumentType,
                         endTime
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -272,7 +287,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
      */
     public List<CoinGeckoStats> getCoinGeckoStatistics() throws AevoRestException {
         return execute(
-            getApi().getCoinGeckoStatistics()
+                getApi().getCoinGeckoStatistics(),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -288,7 +304,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
         return execute(
                 getApi().getOrderbook(
                         instrumentName
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -304,7 +321,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
         return execute(
                 getApi().getFunding(
                         instrumentName
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -339,7 +357,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
                         instrumentName,
                         startTime,
                         endTime
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -355,7 +374,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
         return execute(
                 getApi().getInstrumentInformation(
                         instrumentName
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -393,7 +413,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
                         instrumentName,
                         startTime,
                         endTime
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -412,7 +433,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
                 getApi().getCheckReferral(
                         account,
                         referralCode
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -433,7 +455,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
                                 account,
                                 authTokenEmail
                         )
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -444,7 +467,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
      */
     public Time getTime() throws AevoRestException {
         return execute(
-            getApi().getTime()
+                getApi().getTime(),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -494,7 +518,8 @@ public class PublicService extends AbstractService<PublicEndpoints> {
                         optionType,
                         offset,
                         limit
-                )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 
@@ -509,12 +534,13 @@ public class PublicService extends AbstractService<PublicEndpoints> {
         @NonNull String authTokenEmail
     ) throws AevoRestException {
         return execute(
-            getApi().postEmailVerified(
-                new AccountBody(
-                    account,
-                    authTokenEmail
-                )
-            )
+                getApi().postEmailVerified(
+                        new AccountBody(
+                                account,
+                                authTokenEmail
+                        )
+                ),
+                isAutoRetryAfterRatelimit()
         );
     }
 }

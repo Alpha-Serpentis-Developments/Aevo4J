@@ -13,20 +13,20 @@ import io.reactivex.rxjava3.annotations.NonNull;
 public class TradesListener extends AevoListener<TradesData> {
 
     public TradesListener() {
-        super(TradesData.class, ChannelName.Channels.TRADES);
+        super(TradesData.class, ChannelName.ChannelType.TRADES);
     }
 
     public TradesListener(
             boolean isTestnet,
             @NonNull String... symbols
     ) {
-        super(TradesData.class, ChannelName.Channels.TRADES, WebSocketOperations.SUBSCRIBE, isTestnet, symbols);
+        super(TradesData.class, ChannelName.ChannelType.TRADES, WebSocketOperations.SUBSCRIBE, isTestnet, symbols);
     }
 
     public TradesListener(
             boolean isTestnet,
             @NonNull ChannelName... channels
     ) {
-        super(TradesData.class, ChannelName.Channels.TRADES, WebSocketOperations.SUBSCRIBE, isTestnet, channels);
+        super(TradesData.class, ChannelName.ChannelType.TRADES, WebSocketOperations.SUBSCRIBE, isTestnet, channels);
     }
 }
