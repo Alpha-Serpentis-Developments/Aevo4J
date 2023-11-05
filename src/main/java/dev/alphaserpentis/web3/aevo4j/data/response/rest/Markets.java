@@ -2,6 +2,7 @@ package dev.alphaserpentis.web3.aevo4j.data.response.rest;
 
 import com.google.gson.annotations.SerializedName;
 import dev.alphaserpentis.web3.aevo4j.data.response.common.Greeks;
+import io.reactivex.rxjava3.annotations.Nullable;
 
 @SuppressWarnings("unused")
 public class Markets {
@@ -86,6 +87,7 @@ public class Markets {
         return strike;
     }
 
+    @Nullable
     public Greeks getGreeks() {
         return greeks;
     }
