@@ -24,6 +24,8 @@ public class Statistics {
     private double indexDailyChange;
     @SerializedName("mark_price")
     private double markPrice;
+    @SerializedName("mark_price_24_ago")
+    private double markPrice24Ago;
     @SerializedName("mark_daily_change")
     private double markDailyChange;
     @SerializedName("funding_daily_avg")
@@ -101,6 +103,10 @@ public class Statistics {
         return markPrice;
     }
 
+    public double getMarkPrice24Ago() {
+        return markPrice24Ago;
+    }
+
     public double getMarkDailyChange() {
         return markDailyChange;
     }
@@ -126,6 +132,7 @@ public class Statistics {
                 ", indexPrice='" + indexPrice + '\'' +
                 ", indexDailyChange='" + indexDailyChange + '\'' +
                 ", markPrice='" + markPrice + '\'' +
+                ", markPrice24Ago='" + markPrice24Ago + '\'' +
                 ", markDailyChange='" + markDailyChange + '\'' +
                 ", fundingDailyAvg='" + fundingDailyAvg + '\'' +
                 ", putCallRatio='" + putCallRatio + '\'' +

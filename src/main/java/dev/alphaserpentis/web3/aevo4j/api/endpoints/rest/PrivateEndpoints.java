@@ -4,6 +4,7 @@ import dev.alphaserpentis.web3.aevo4j.data.request.rest.DeleteApiKeyBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.EmailAddressBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.EmailPreferenceBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.EnabledBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.LeverageBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.MmpBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.OrdersAllBody;
 import dev.alphaserpentis.web3.aevo4j.data.misc.SignedOrder;
@@ -217,6 +218,16 @@ public interface PrivateEndpoints {
             @Header("AEVO-KEY") String aevoKey,
             @Header("AEVO-SECRET") String aevoSecret,
             @Body UpdateMarginBody body
+    );
+
+    @Headers("Content-Type: application/json")
+    @POST("account/leverage")
+    Single<Success> postAccountLeverage(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body LeverageBody body
     );
 
     @Headers("Content-Type: application/json")

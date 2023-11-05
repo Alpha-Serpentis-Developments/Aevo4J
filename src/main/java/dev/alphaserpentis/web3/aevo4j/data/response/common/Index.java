@@ -19,7 +19,7 @@ public class Index {
 
     @Override
     public String toString() {
-        return "GetIndexResponse{" +
+        return "Index{" +
                 "price='" + price + '\'' +
                 ", timestamp='" + timestamp + '\'' +
                 '}';

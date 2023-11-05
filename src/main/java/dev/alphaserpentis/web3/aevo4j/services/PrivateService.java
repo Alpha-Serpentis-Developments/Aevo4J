@@ -7,6 +7,7 @@ import dev.alphaserpentis.web3.aevo4j.data.request.rest.DeleteApiKeyBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.EmailAddressBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.EmailPreferenceBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.EnabledBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.LeverageBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.MmpBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.OrdersAllBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.PostApiKeyBody;
@@ -676,6 +677,43 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
 
         return execute(
                 getApi().postUpdateMargin(
+                        timestamp,
+                        signature,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Sets the leverage of an instrument for your account
+     * @param instrumentId Instrument ID number
+     * @param leverageMultiplier The leverage multiplier for an instrument
+     * @return {@link Success}
+     * @see <a href="https://api-docs.aevo.xyz/reference/postaccountleverage">Aevo - POST Account Leverage</a>
+     */
+    public Success postAccountLeverage(
+            long instrumentId,
+            long leverageMultiplier
+    ) throws NoSuchAlgorithmException, InvalidKeyException {
+        LeverageBody body = new LeverageBody(
+                instrumentId,
+                leverageMultiplier
+        );
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
+            Long.parseLong(timestamp),
+            apiKey,
+            apiSecret,
+            "POST",
+            "/account/leverage",
+            gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postAccountLeverage(
                         timestamp,
                         signature,
                         apiKey,
