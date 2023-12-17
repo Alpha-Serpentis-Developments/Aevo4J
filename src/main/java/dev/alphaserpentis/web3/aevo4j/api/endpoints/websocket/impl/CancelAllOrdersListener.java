@@ -14,7 +14,6 @@ public class CancelAllOrdersListener extends PrivateListener<CancelledAllOrders>
     public CancelAllOrdersListener(
             @NonNull String apiKey,
             @NonNull String apiSecret,
-            boolean authorizeOnConnect,
             boolean isTestnet,
             @Nullable String instrumentType
     ) {
@@ -23,7 +22,6 @@ public class CancelAllOrdersListener extends PrivateListener<CancelledAllOrders>
                 apiKey,
                 apiSecret,
                 isTestnet,
-                authorizeOnConnect,
                 CancelledAllOrders.class
         );
 
@@ -38,9 +36,8 @@ public class CancelAllOrdersListener extends PrivateListener<CancelledAllOrders>
     public CancelAllOrdersListener(
             @NonNull String apiKey,
             @NonNull String apiSecret,
-            boolean authorizeOnConnect,
             boolean isTestnet
     ) {
-        this(apiKey, apiSecret, authorizeOnConnect, isTestnet, null);
+        this(apiKey, apiSecret, isTestnet, null);
     }
 }

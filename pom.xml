@@ -6,7 +6,7 @@
 
     <groupId>dev.alphaserpentis.web3</groupId>
     <artifactId>aevo4j</artifactId>
-    <version>1.1.1</version>
+    <version>1.2.0-SNAPSHOT</version>
     <name>Aevo4J</name>
     <description>Unofficial Java implementation of Aevo's APIs</description>
     <url>https://asrp.dev</url>

@@ -9,7 +9,6 @@ public class FillsListener extends PrivateListener<Fills> {
     public FillsListener(
             @NonNull String apiKey,
             @NonNull String apiSecret,
-            boolean authorizeOnConnect,
             boolean isTestnet
     ) {
         super(
@@ -17,7 +16,6 @@ public class FillsListener extends PrivateListener<Fills> {
                 apiKey,
                 apiSecret,
                 isTestnet,
-                authorizeOnConnect,
                 Fills.class,
                 ChannelName.ChannelType.FILLS
         );

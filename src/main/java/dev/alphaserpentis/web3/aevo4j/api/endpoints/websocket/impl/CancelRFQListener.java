@@ -10,7 +10,6 @@ public class CancelRFQListener extends PrivateListener<CancelledRFQ> {
     public CancelRFQListener(
             @NonNull String apiKey,
             @NonNull String apiSecret,
-            boolean authorizeOnConnect,
             boolean isTestnet,
             @NonNull String rfqId
     ) {
@@ -19,7 +18,6 @@ public class CancelRFQListener extends PrivateListener<CancelledRFQ> {
                 apiKey,
                 apiSecret,
                 isTestnet,
-                authorizeOnConnect,
                 CancelledRFQ.class,
                 null
         );

@@ -9,7 +9,6 @@ public class OrdersListener extends PrivateListener<Orders> {
     public OrdersListener(
             @NonNull String apiKey,
             @NonNull String apiSecret,
-            boolean authorizeOnConnect,
             boolean isTestnet
     ) {
         super(
@@ -17,7 +16,6 @@ public class OrdersListener extends PrivateListener<Orders> {
                 apiKey,
                 apiSecret,
                 isTestnet,
-                authorizeOnConnect,
                 Orders.class,
                 ChannelName.ChannelType.ORDERS
         );
