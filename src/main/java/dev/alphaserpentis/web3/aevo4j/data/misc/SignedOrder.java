@@ -21,6 +21,7 @@ public class SignedOrder extends UnsignedOrder {
         private final long limitPrice;
         private final long salt;
         private final long timestamp;
+        private String orderId = null;
         private Boolean postOnly;
         private Boolean reduceOnly;
         private String timeInForce;
@@ -48,6 +49,11 @@ public class SignedOrder extends UnsignedOrder {
             this.salt = salt;
             this.timestamp = timestamp;
             this.signature = signature;
+        }
+
+        public Builder orderId(@NonNull String orderId) {
+            this.orderId = orderId;
+            return this;
         }
 
         public Builder postOnly(@Nullable Boolean postOnly) {
@@ -93,6 +99,7 @@ public class SignedOrder extends UnsignedOrder {
         public SignedOrder build() {
             return new SignedOrder(
                     instrument,
+                    orderId,
                     maker,
                     isBuy,
                     amount,
@@ -117,6 +124,7 @@ public class SignedOrder extends UnsignedOrder {
      */
     public SignedOrder(
             long instrument,
+            @Nullable String orderId,
             @NonNull String maker,
             boolean isBuy,
             long amount,
@@ -135,6 +143,7 @@ public class SignedOrder extends UnsignedOrder {
     ) {
         super(
                 instrument,
+                orderId,
                 maker,
                 isBuy,
                 amount,
@@ -168,6 +177,7 @@ public class SignedOrder extends UnsignedOrder {
     ) {
         this(
                 instrument,
+                null,
                 maker,
                 isBuy,
                 amount,
@@ -192,6 +202,7 @@ public class SignedOrder extends UnsignedOrder {
     ) {
         this(
                 unsignedorder.getInstrument(),
+                unsignedorder.getOrderId(),
                 unsignedorder.getMaker(),
                 unsignedorder.isBuy(),
                 unsignedorder.getAmount(),

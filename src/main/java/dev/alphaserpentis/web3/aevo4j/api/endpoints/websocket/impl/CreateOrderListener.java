@@ -15,7 +15,6 @@ public class CreateOrderListener extends PrivateListener<CreatedOrder> {
     public CreateOrderListener(
             @NonNull String apiKey,
             @NonNull String apiSecret,
-            boolean authorizeOnConnect,
             boolean isTestnet,
             long instrumentId,
             @NonNull String maker,
@@ -34,7 +33,6 @@ public class CreateOrderListener extends PrivateListener<CreatedOrder> {
                 apiKey,
                 apiSecret,
                 isTestnet,
-                authorizeOnConnect,
                 CreatedOrder.class,
                 null
         );
@@ -63,7 +61,6 @@ public class CreateOrderListener extends PrivateListener<CreatedOrder> {
     public CreateOrderListener(
             @NonNull String apiKey,
             @NonNull String apiSecret,
-            boolean authorizeOnConnect,
             boolean isTestnet,
             @NonNull SignedOrder signedOrder
     ) {
@@ -72,7 +69,6 @@ public class CreateOrderListener extends PrivateListener<CreatedOrder> {
                 apiKey,
                 apiSecret,
                 isTestnet,
-                authorizeOnConnect,
                 CreatedOrder.class,
                 null
         );

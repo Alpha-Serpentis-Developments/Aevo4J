@@ -1101,6 +1101,7 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
         SignedOrder body = new SignedOrder(
                 instrument,
+                null,
                 maker,
                 isBuy,
                 amount,
@@ -1286,6 +1287,7 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
     ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
         SignedOrder body = new SignedOrder(
                 instrument,
+                orderId,
                 maker,
                 isBuy,
                 amount,

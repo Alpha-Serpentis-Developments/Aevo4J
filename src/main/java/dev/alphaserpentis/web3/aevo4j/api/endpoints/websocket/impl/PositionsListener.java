@@ -9,7 +9,6 @@ public class PositionsListener extends PrivateListener<Positions> {
     public PositionsListener(
             @NonNull String apiKey,
             @NonNull String apiSecret,
-            boolean authorizeOnConnect,
             boolean isTestnet
     ) {
         super(
@@ -17,7 +16,6 @@ public class PositionsListener extends PrivateListener<Positions> {
                 apiKey,
                 apiSecret,
                 isTestnet,
-                authorizeOnConnect,
                 Positions.class,
                 ChannelName.ChannelType.POSITIONS
         );

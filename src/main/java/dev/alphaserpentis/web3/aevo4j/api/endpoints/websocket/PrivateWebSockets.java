@@ -45,11 +45,34 @@ public class PrivateWebSockets {
         this.authorizeOnConnect = authorizeOnConnect;
     }
 
+    /**
+     * Get the currently subscribed channels
+     * @param isTestnet Whether to use the testnet
+     * @return {@link StatusListener}
+     * @see <a href="https://api-docs.aevo.xyz/reference/get-status">Aevo - PUBLISH Status</a>
+     */
     @NonNull
     public StatusListener status(boolean isTestnet) {
-        return new StatusListener(apiKey, apiSecret, authorizeOnConnect, isTestnet);
+        return new StatusListener(apiKey, apiSecret, isTestnet);
     }
 
+    /**
+     * Create an order
+     * @param isTestnet Whether to use the testnet
+     * @param instrumentId The instrument id
+     * @param maker Account's Ethereum address
+     * @param isBuy Whether the order is a buy or sell
+     * @param amount Number of contracts in 6 decimal fixed number
+     * @param limitPrice The limit price of the order in 6 decimal fixed number
+     * @param salt Randomly generated number for the order
+     * @param timestamp Unix timestamp in seconds
+     * @param signature Signature of the order
+     * @param postOnly Whether the order is post only
+     * @param timeInForce Time in force of the order (GTC default)
+     * @param mmp Flag to include the order into MMP (false by default)
+     * @return {@link CreateOrderListener}
+     * @see <a href="https://api-docs.aevo.xyz/reference/publish-create-order">Aevo - PUBLISH Create Order</a>
+     */
     @NonNull
     public CreateOrderListener createOrder(
             boolean isTestnet,
@@ -68,7 +91,6 @@ public class PrivateWebSockets {
         return new CreateOrderListener(
                 apiKey,
                 apiSecret,
-                authorizeOnConnect,
                 isTestnet,
                 instrumentId,
                 maker,
@@ -84,6 +106,13 @@ public class PrivateWebSockets {
         );
     }
 
+    /**
+     * Create an order
+     * @param isTestnet Whether to use the testnet
+     * @param signedOrder The signed order
+     * @return {@link CreateOrderListener}
+     * @see <a href="https://api-docs.aevo.xyz/reference/publish-create-order">Aevo - PUBLISH Create Order</a>
+     */
     @NonNull
     public CreateOrderListener createOrder(
             boolean isTestnet,
@@ -92,15 +121,32 @@ public class PrivateWebSockets {
         return new CreateOrderListener(
                 apiKey,
                 apiSecret,
-                authorizeOnConnect,
                 isTestnet,
                 signedOrder
         );
     }
 
+    /**
+     * Edits an existing order
+     * @param isTestnet Whether to use the testnet
+     * @param orderId
+     * @param instrumentId
+     * @param maker
+     * @param isBuy
+     * @param amount
+     * @param limitPrice
+     * @param salt
+     * @param timestamp
+     * @param signature
+     * @param postOnly
+     * @param timeInForce
+     * @param mmp
+     * @return
+     */
     @NonNull
     public EditOrderListener editOrder(
             boolean isTestnet,
+            @NonNull String orderId,
             long instrumentId,
             @NonNull String maker,
             boolean isBuy,
@@ -116,8 +162,8 @@ public class PrivateWebSockets {
         return new EditOrderListener(
                 apiKey,
                 apiSecret,
-                authorizeOnConnect,
                 isTestnet,
+                orderId,
                 instrumentId,
                 maker,
                 isBuy,
@@ -140,7 +186,6 @@ public class PrivateWebSockets {
         return new EditOrderListener(
                 apiKey,
                 apiSecret,
-                authorizeOnConnect,
                 isTestnet,
                 signedOrder
         );
@@ -154,7 +199,6 @@ public class PrivateWebSockets {
         return new CancelOrderListener(
                 apiKey,
                 apiSecret,
-                authorizeOnConnect,
                 isTestnet,
                 orderId
         );
@@ -168,7 +212,6 @@ public class PrivateWebSockets {
         return new CancelAllOrdersListener(
                 apiKey,
                 apiSecret,
-                authorizeOnConnect,
                 isTestnet,
                 instrumentType
         );
@@ -181,7 +224,6 @@ public class PrivateWebSockets {
         return new CancelAllOrdersListener(
                 apiKey,
                 apiSecret,
-                authorizeOnConnect,
                 isTestnet
         );
     }
@@ -195,7 +237,6 @@ public class PrivateWebSockets {
         return new CreateRFQListener(
                 apiKey,
                 apiSecret,
-                authorizeOnConnect,
                 isTestnet,
                 instrumentId,
                 amount
@@ -210,7 +251,6 @@ public class PrivateWebSockets {
         return new CancelRFQListener(
                 apiKey,
                 apiSecret,
-                authorizeOnConnect,
                 isTestnet,
                 rfqId
         );
@@ -235,7 +275,6 @@ public class PrivateWebSockets {
         return new CreateQuoteRFQListener(
                 apiKey,
                 apiSecret,
-                authorizeOnConnect,
                 isTestnet,
                 rfqBlockId,
                 instrumentId,
@@ -267,7 +306,6 @@ public class PrivateWebSockets {
         return new CreateQuoteRFQListener(
                 apiKey,
                 apiSecret,
-                authorizeOnConnect,
                 isTestnet,
                 rfqBlockId,
                 instrumentId,
@@ -292,7 +330,6 @@ public class PrivateWebSockets {
         return new CreateQuoteRFQListener(
                 apiKey,
                 apiSecret,
-                authorizeOnConnect,
                 isTestnet,
                 quoteRFQ
         );
@@ -303,7 +340,6 @@ public class PrivateWebSockets {
         return new OrdersListener(
                 apiKey,
                 apiSecret,
-                authorizeOnConnect,
                 isTestnet
         );
     }
@@ -313,7 +349,6 @@ public class PrivateWebSockets {
         return new FillsListener(
                 apiKey,
                 apiSecret,
-                authorizeOnConnect,
                 isTestnet
         );
     }
@@ -323,7 +358,6 @@ public class PrivateWebSockets {
         return new PositionsListener(
                 apiKey,
                 apiSecret,
-                authorizeOnConnect,
                 isTestnet
         );
     }

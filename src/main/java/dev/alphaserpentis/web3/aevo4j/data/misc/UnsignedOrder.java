@@ -23,6 +23,8 @@ public class UnsignedOrder {
     protected final String maker;
     @SerializedName("instrument")
     protected final long instrument;
+    @SerializedName("order_id")
+    protected final String orderId;
     @SerializedName("is_buy")
     protected final boolean isBuy;
     @SerializedName("amount")
@@ -58,6 +60,7 @@ public class UnsignedOrder {
         private final long limitPrice;
         private final long salt;
         private final long timestamp;
+        private String orderId = null;
         private Boolean postOnly;
         private Boolean reduceOnly;
         private String timeInForce;
@@ -99,6 +102,11 @@ public class UnsignedOrder {
             this.limitPrice = limitPrice;
             this.salt = (long) (Math.random() * 100000);
             this.timestamp = Instant.now().getEpochSecond();
+        }
+
+        public Builder orderId(@Nullable String orderId) {
+            this.orderId = orderId;
+            return this;
         }
 
         public Builder postOnly(@Nullable Boolean postOnly) {
@@ -157,6 +165,7 @@ public class UnsignedOrder {
         public UnsignedOrder build() {
             return new UnsignedOrder(
                     instrument,
+                    orderId,
                     maker,
                     isBuy,
                     amount,
@@ -208,6 +217,7 @@ public class UnsignedOrder {
      */
     public UnsignedOrder(
             long instrument,
+            @Nullable String orderId,
             @NonNull String maker,
             boolean isBuy,
             long amount,
@@ -224,6 +234,7 @@ public class UnsignedOrder {
             @Nullable String isolatedMargin
     ) {
         this.instrument = instrument;
+        this.orderId = orderId;
         this.maker = maker;
         this.isBuy = isBuy;
         this.amount = amount;
@@ -254,6 +265,7 @@ public class UnsignedOrder {
     ) {
         this(
                 instrument,
+                null,
                 maker,
                 isBuy,
                 amount,
@@ -336,6 +348,11 @@ public class UnsignedOrder {
 
     public long getInstrument() {
         return instrument;
+    }
+
+    @Nullable
+    public String getOrderId() {
+        return orderId;
     }
 
     @NonNull

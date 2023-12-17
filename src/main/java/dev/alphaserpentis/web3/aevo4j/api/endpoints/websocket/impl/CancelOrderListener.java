@@ -10,7 +10,6 @@ public class CancelOrderListener extends PrivateListener<CancelledOrder> {
     public CancelOrderListener(
             @NonNull String apiKey,
             @NonNull String apiSecret,
-            boolean authorizeOnConnect,
             boolean isTestnet,
             @NonNull String orderId
     ) {
@@ -19,7 +18,6 @@ public class CancelOrderListener extends PrivateListener<CancelledOrder> {
                 apiKey,
                 apiSecret,
                 isTestnet,
-                authorizeOnConnect,
                 CancelledOrder.class,
                 null
         );

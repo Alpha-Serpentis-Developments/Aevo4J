@@ -13,7 +13,6 @@ public class CreateRFQListener extends PrivateListener<CreatedRFQ> {
     public CreateRFQListener(
             @NonNull String apiKey,
             @NonNull String apiSecret,
-            boolean authorizeOnConnect,
             boolean isTestnet,
             long instrumentId,
             @NonNull String amount
@@ -23,7 +22,6 @@ public class CreateRFQListener extends PrivateListener<CreatedRFQ> {
                 apiKey,
                 apiSecret,
                 isTestnet,
-                authorizeOnConnect,
                 CreatedRFQ.class,
                 null
         );

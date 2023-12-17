@@ -9,7 +9,6 @@ public class StatusListener extends PrivateListener<Status> {
     public StatusListener(
             @NonNull String apiKey,
             @NonNull String apiSecret,
-            boolean authorizeOnConnect,
             boolean isTestnet
     ) {
         super(
@@ -17,7 +16,6 @@ public class StatusListener extends PrivateListener<Status> {
                 apiKey,
                 apiSecret,
                 isTestnet,
-                authorizeOnConnect,
                 Status.class,
                 null
         );

@@ -15,7 +15,6 @@ public class CreateQuoteRFQListener extends PrivateListener<CreatedQuoteRFQ> {
     public CreateQuoteRFQListener(
             @NonNull String apiKey,
             @NonNull String apiSecret,
-            boolean authorizeOnConnect,
             boolean isTestnet,
             @NonNull QuoteRFQ quoteRFQ
     ) {
@@ -24,7 +23,6 @@ public class CreateQuoteRFQListener extends PrivateListener<CreatedQuoteRFQ> {
                 apiKey,
                 apiSecret,
                 isTestnet,
-                authorizeOnConnect,
                 CreatedQuoteRFQ.class
         );
 
@@ -39,7 +37,6 @@ public class CreateQuoteRFQListener extends PrivateListener<CreatedQuoteRFQ> {
     public CreateQuoteRFQListener(
             @NonNull String apiKey,
             @NonNull String apiSecret,
-            boolean authorizeOnConnect,
             boolean isTestnet,
             @NonNull String rfqBlockId,
             @NonNull String instrumentId,
@@ -59,7 +56,6 @@ public class CreateQuoteRFQListener extends PrivateListener<CreatedQuoteRFQ> {
                 apiKey,
                 apiSecret,
                 isTestnet,
-                authorizeOnConnect,
                 CreatedQuoteRFQ.class
         );
 
@@ -93,7 +89,6 @@ public class CreateQuoteRFQListener extends PrivateListener<CreatedQuoteRFQ> {
     public CreateQuoteRFQListener(
             @NonNull String apiKey,
             @NonNull String apiSecret,
-            boolean authorizeOnConnect,
             boolean isTestnet,
             @NonNull String rfqBlockId,
             @NonNull String instrumentId,
@@ -107,7 +102,6 @@ public class CreateQuoteRFQListener extends PrivateListener<CreatedQuoteRFQ> {
         this(
                 apiKey,
                 apiSecret,
-                authorizeOnConnect,
                 isTestnet,
                 rfqBlockId,
                 instrumentId,
