@@ -14,7 +14,6 @@ public class CancelOrderListener extends PrivateListener<CancelledOrder> {
             @NonNull String orderId
     ) {
         super(
-                WebSocketOperations.CANCEL_ORDER.getOperation(),
                 apiKey,
                 apiSecret,
                 isTestnet,

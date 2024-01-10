@@ -16,7 +16,10 @@ import dev.alphaserpentis.web3.aevo4j.data.request.rest.RFQsBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.RegisterBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.ResetMmpBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.SigningKeyBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.StratInitWithdrawBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.StratPendingTxsBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.StrategyWithdrawBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.SwapBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.TransferBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.UpdateMarginBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.WithdrawBody;
@@ -42,11 +45,15 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.RFQBlocks;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralRewardsHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralStatistics;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.StratPendingTX;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Success;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Swap;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.SwapPreview;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.TradeHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.TransactionHistory;
 import dev.alphaserpentis.web3.aevo4j.exception.AevoRestException;
 import dev.alphaserpentis.web3.aevo4j.handler.AevoHandler;
+import io.reactivex.rxjava3.annotations.Experimental;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.annotations.Nullable;
 
@@ -888,6 +895,7 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      * @return {@link Success}
      * @see <a href="https://api-docs.aevo.xyz/reference/poststrategywithdraw">Aevo - POST Strategy Withdraw</a>
      */
+    @Experimental
     public Success postStrategyWithdraw(
             @NonNull String account,
             @NonNull String collateral,
@@ -934,9 +942,10 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
      * @return {@link Success}
      * @see <a href="https://api-docs.aevo.xyz/reference/poststrategywithdraw">Aevo - POST Strategy Withdraw</a>
      */
+    @Experimental
     public Success postStrategyWithdraw(
             @NonNull StrategyWithdrawBody body
-    ) throws NoSuchAlgorithmException, InvalidKeyException {
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
         String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
         String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
                 Long.parseLong(timestamp),
@@ -957,6 +966,101 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 ),
                 isAutoRetryAfterRatelimit()
         );
+    }
+
+    /**
+     * Initiate a USDC withdrawal from the strategy
+     * @param body {@link StratInitWithdrawBody} containing the parameters
+     * @return {@link Success}
+     * @see <a href="https://api-docs.aevo.xyz/reference/poststrategyinitiatewithdraw">Aevo - POST Strategy Initiate Withdraw</a>
+     */
+    public Success postStrategyInitiateWithdraw(
+            @NonNull StratInitWithdrawBody body
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature2 = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "POST",
+                "/strategy/initiate-withdraw",
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postStrategyInitiateWithdraw(
+                        timestamp,
+                        signature2,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Initiate a USDC withdrawal from the strategy
+     * @param strategyAddress Strategy address
+     * @param collateralAddress Collateral address
+     * @param amount Amount to withdraw in USDC (6 decimals fixed number)
+     * @return {@link Success}
+     * @see <a href="https://api-docs.aevo.xyz/reference/poststrategyinitiatewithdraw">Aevo - POST Strategy Initiate Withdraw</a>
+     */
+    public Success postStrategyInitiateWithdraw(
+            @NonNull String strategyAddress,
+            @NonNull String collateralAddress,
+            double amount
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        StratInitWithdrawBody body = new StratInitWithdrawBody(
+                strategyAddress,
+                collateralAddress,
+                amount
+        );
+        return postStrategyInitiateWithdraw(body);
+    }
+
+    /**
+     * Get pending transactions of a strategy of a certain type
+     * @param body {@link StratPendingTxsBody}
+     * @return {@link StratPendingTX}
+     * @see <a href="https://api-docs.aevo.xyz/reference/poststrategypendingtransactions">Aevo - POST Strategy Pending Transactions</a>
+     */
+    public StratPendingTX postStrategyPendingTransactions(
+            @NonNull StratPendingTxsBody body
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "POST",
+                "/strategy/pending-transactions",
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postStrategyPendingTransactions(
+                        timestamp,
+                        signature,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Get pending transactions of a strategy of a certain type
+     * @param type Transaction types for vault and strategy interactions
+     * @return {@link StratPendingTX}
+     * @see <a href="https://api-docs.aevo.xyz/reference/poststrategypendingtransactions">Aevo - POST Strategy Pending Transactions</a>
+     */
+    public StratPendingTX postStrategyPendingTransactions(
+            @NonNull String type
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        return postStrategyPendingTransactions(new StratPendingTxsBody(type));
     }
 
     /**
@@ -2661,5 +2765,117 @@ public class PrivateService extends AbstractService<PrivateEndpoints> {
                 ),
                 isAutoRetryAfterRatelimit()
         );
+    }
+
+    /**
+     * Submits a swap
+     * @param collateralAsset Name of the collateral asset
+     * @param isBuy True for long, false for short
+     * @param baseAmount The collateral amount. In 6 decimals fixed number for USDT, 18 decimals for WETH, and 8 decimals for WBTC
+     * @param quoteAmount Amount of USDC in 6 decimals fixed number
+     * @return {@link Swap}
+     * @see <a href="https://api-docs.aevo.xyz/reference/postswap">Aevo - POST Swap</a>
+     */
+    public Swap postSwap(
+            @NonNull String collateralAsset,
+            @Nullable Boolean isBuy,
+            @Nullable String baseAmount,
+            @Nullable Long quoteAmount
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        SwapBody body = new SwapBody(
+                collateralAsset,
+                isBuy,
+                baseAmount,
+                quoteAmount
+        );
+
+        return postSwap(body);
+    }
+
+    /**
+     * Submits a swap
+     * @param body {@link SwapBody} to submit the swap with
+     * @return {@link Swap}
+     * @see <a href="https://api-docs.aevo.xyz/reference/postswap">Aevo - POST Swap</a>
+     */
+    public Swap postSwap(
+            @NonNull SwapBody body
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "POST",
+                "/swap",
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postSwap(
+                        timestamp,
+                        signature,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Simulates a new swap
+     * @param body {@link SwapBody} to simulate the swap with
+     * @return {@link SwapPreview}
+     * @see <a href="https://api-docs.aevo.xyz/reference/postswappreview">Aevo - POST Swap Preview</a>
+     */
+    public SwapPreview postSwapPreview(
+            @NonNull SwapBody body
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        String timestamp = useSignatures ? AevoHandler.getTimestamp() : null;
+        String signature = useSignatures ? AevoHandler.generateAuthSignature(
+                Long.parseLong(timestamp),
+                apiKey,
+                apiSecret,
+                "POST",
+                "/swap/preview",
+                gson.toJson(body)
+        ) : null;
+
+        return execute(
+                getApi().postSwapPreview(
+                        timestamp,
+                        signature,
+                        apiKey,
+                        useSignatures ? null : apiSecret,
+                        body
+                ),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Simulates a new swap
+     * @param collateralAsset Name of the collateral asset
+     * @param isBuy True for long, false for short
+     * @param baseAmount The collateral amount. In 6 decimals fixed number for USDT, 18 decimals for WETH, and 8 decimals for WBTC
+     * @param quoteAmount Amount of USDC in 6 decimals fixed number
+     * @return {@link SwapPreview}
+     * @see <a href="https://api-docs.aevo.xyz/reference/postswappreview">Aevo - POST Swap Preview</a>
+     */
+    public SwapPreview postSwapPreview(
+            @NonNull String collateralAsset,
+            @Nullable Boolean isBuy,
+            @Nullable String baseAmount,
+            @Nullable Long quoteAmount
+    ) throws NoSuchAlgorithmException, InvalidKeyException, AevoRestException {
+        SwapBody body = new SwapBody(
+                collateralAsset,
+                isBuy,
+                baseAmount,
+                quoteAmount
+        );
+
+        return postSwapPreview(body);
     }
 }

@@ -19,7 +19,6 @@ public class CreateQuoteRFQListener extends PrivateListener<CreatedQuoteRFQ> {
             @NonNull QuoteRFQ quoteRFQ
     ) {
         super(
-                WebSocketOperations.CREATE_QUOTE_RFQ.getOperation(),
                 apiKey,
                 apiSecret,
                 isTestnet,
@@ -52,7 +51,6 @@ public class CreateQuoteRFQListener extends PrivateListener<CreatedQuoteRFQ> {
             @Nullable Boolean mmp
     ) {
         super(
-                WebSocketOperations.CREATE_QUOTE_RFQ.getOperation(),
                 apiKey,
                 apiSecret,
                 isTestnet,

@@ -18,7 +18,6 @@ public class CancelAllOrdersListener extends PrivateListener<CancelledAllOrders>
             @Nullable String instrumentType
     ) {
         super(
-                WebSocketOperations.CANCEL_ALL_ORDERS.getOperation(),
                 apiKey,
                 apiSecret,
                 isTestnet,

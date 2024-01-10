@@ -9,21 +9,7 @@ import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.annotations.Nullable;
 
 public abstract class PrivateListener<T extends Response<?>> extends AevoListener<T> {
-    /**
-     * The operation this listener is assigned to
-     */
-    private final String op;
-    /**
-     * The API key
-     */
-    private final String apiKey;
-    /**
-     * The API secret
-     */
-    private final String apiSecret;
-
     public PrivateListener(
-            @NonNull String op,
             @NonNull String apiKey,
             @NonNull String apiSecret,
             boolean isTestnet,
@@ -31,10 +17,6 @@ public abstract class PrivateListener<T extends Response<?>> extends AevoListene
             @Nullable ChannelName.ChannelType channelAllowed
     ) {
         super(clazz, channelAllowed);
-
-        this.op = op;
-        this.apiKey = apiKey;
-        this.apiSecret = apiSecret;
 
         this.openWebSocket(isTestnet);
 
@@ -52,20 +34,11 @@ public abstract class PrivateListener<T extends Response<?>> extends AevoListene
     }
 
     public PrivateListener(
-            @NonNull String op,
             @NonNull String apiKey,
             @NonNull String apiSecret,
             boolean isTestnet,
             @NonNull Class<T> clazz
     ) {
-        this(op, apiKey, apiSecret, isTestnet, clazz, null);
-    }
-
-    @Override
-    public void sendWebSocketRequest(@NonNull PublishWebSocketRequest<?> request) {
-        if(this.webSocket == null)
-            throw new IllegalStateException("WebSocket is not open");
-
-        webSocket.send(request.toString());
+        this(apiKey, apiSecret, isTestnet, clazz, null);
     }
 }

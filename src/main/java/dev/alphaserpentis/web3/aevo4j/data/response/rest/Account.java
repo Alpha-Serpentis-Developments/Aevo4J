@@ -2,6 +2,7 @@ package dev.alphaserpentis.web3.aevo4j.data.response.rest;
 
 import com.google.gson.annotations.SerializedName;
 import dev.alphaserpentis.web3.aevo4j.data.response.common.Position;
+import io.reactivex.rxjava3.annotations.Experimental;
 
 import java.util.Arrays;
 
@@ -36,7 +37,7 @@ public class Account {
     @SerializedName("initial_margin")
     private double initialMargin;
     @SerializedName("maintenance_margin")
-    private String maintenanceMargin;
+    private double maintenanceMargin;
     @SerializedName("email_address")
     private String emailAddress;
     @SerializedName("intercom_hash")
@@ -91,6 +92,12 @@ public class Account {
         private double balance;
         @SerializedName("available_balance")
         private double availableBalance;
+        @SerializedName("collateral_yield_bearing")
+        private boolean collateralYieldBearing;
+        @SerializedName("pending_withdrawals")
+        private double pendingWithdrawals;
+        @SerializedName("unrealized_pnl")
+        private double unrealizedPnl;
 
         public String getCollateralAsset() {
             return collateralAsset;
@@ -108,6 +115,18 @@ public class Account {
             return availableBalance;
         }
 
+        public boolean isCollateralYieldBearing() {
+            return collateralYieldBearing;
+        }
+
+        public double getPendingWithdrawals() {
+            return pendingWithdrawals;
+        }
+
+        public double getUnrealizedPnl() {
+            return unrealizedPnl;
+        }
+
         @Override
         public String toString() {
             return "Collateral{" +
@@ -115,6 +134,9 @@ public class Account {
                     ", collateralValue='" + collateralValue + '\'' +
                     ", balance='" + balance + '\'' +
                     ", availableBalance='" + availableBalance + '\'' +
+                    ", collateralYieldBearing='" + collateralYieldBearing + '\'' +
+                    ", pendingWithdrawals='" + pendingWithdrawals + '\'' +
+                    ", unrealizedPnl='" + unrealizedPnl + '\'' +
                     '}';
         }
     }
@@ -156,6 +178,7 @@ public class Account {
         }
     }
 
+    @Experimental
     public static class Strategy {
         @SerializedName("strategy_address")
         private String strategyAddress;
@@ -235,7 +258,7 @@ public class Account {
         return initialMargin;
     }
 
-    public String getMaintenanceMargin() {
+    public double getMaintenanceMargin() {
         return maintenanceMargin;
     }
 
@@ -263,6 +286,7 @@ public class Account {
         return hasBeenReferred;
     }
 
+    @Experimental
     public Strategy[] getStrategies() {
         return strategies;
     }

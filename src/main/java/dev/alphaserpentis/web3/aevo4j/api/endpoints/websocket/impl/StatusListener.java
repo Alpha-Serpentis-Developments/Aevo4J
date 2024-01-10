@@ -12,7 +12,6 @@ public class StatusListener extends PrivateListener<Status> {
             boolean isTestnet
     ) {
         super(
-                WebSocketOperations.STATUS.getOperation(),
                 apiKey,
                 apiSecret,
                 isTestnet,

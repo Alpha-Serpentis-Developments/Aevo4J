@@ -14,7 +14,6 @@ public class CancelRFQListener extends PrivateListener<CancelledRFQ> {
             @NonNull String rfqId
     ) {
         super(
-                WebSocketOperations.CANCEL_RFQ.getOperation(),
                 apiKey,
                 apiSecret,
                 isTestnet,

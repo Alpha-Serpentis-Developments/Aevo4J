@@ -27,13 +27,13 @@ Aevo is a decentralized derivatives exchange built on Ethereum.
 <dependency>
     <groupId>dev.alphaserpentis.web3</groupId>
     <artifactId>aevo4j</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 
 #### Gradle
 ```groovy
-implementation 'dev.alphaserpentis.web3:aevo4j:1.2.0-SNAPSHOT'
+implementation 'dev.alphaserpentis.web3:aevo4j:1.2.0'
 ```
 
 - - -

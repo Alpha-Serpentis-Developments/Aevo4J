@@ -29,7 +29,6 @@ public class EditOrderListener extends PrivateListener<EditedOrder> {
             @Nullable Boolean mmp
     ) {
         super(
-                WebSocketOperations.EDIT_ORDER.getOperation(),
                 apiKey,
                 apiSecret,
                 isTestnet,
@@ -66,7 +65,6 @@ public class EditOrderListener extends PrivateListener<EditedOrder> {
             @NonNull SignedOrder signedOrder
     ) {
         super(
-                WebSocketOperations.EDIT_ORDER.getOperation(),
                 apiKey,
                 apiSecret,
                 isTestnet,

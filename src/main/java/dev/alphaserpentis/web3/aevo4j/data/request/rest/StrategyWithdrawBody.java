@@ -1,12 +1,14 @@
 package dev.alphaserpentis.web3.aevo4j.data.request.rest;
 
 import com.google.gson.annotations.SerializedName;
+import io.reactivex.rxjava3.annotations.Experimental;
 import io.reactivex.rxjava3.annotations.NonNull;
 
 /**
  * @see <a href="https://api-docs.aevo.xyz/reference/poststrategywithdraw">POST /strategy/withdraw</a>
  */
 @SuppressWarnings("unused")
+@Experimental
 public class StrategyWithdrawBody extends WithdrawBody {
 
     @SerializedName("label")

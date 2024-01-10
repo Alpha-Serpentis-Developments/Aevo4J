@@ -18,7 +18,6 @@ public class CreateRFQListener extends PrivateListener<CreatedRFQ> {
             @NonNull String amount
     ) {
         super(
-                WebSocketOperations.CREATE_RFQ.getOperation(),
                 apiKey,
                 apiSecret,
                 isTestnet,

@@ -18,6 +18,7 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.SettlementHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Statistics;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Success;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Time;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.YieldVault;
 import dev.alphaserpentis.web3.aevo4j.exception.AevoRestException;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.annotations.Nullable;
@@ -468,6 +469,18 @@ public class PublicService extends AbstractService<PublicEndpoints> {
     public Time getTime() throws AevoRestException {
         return execute(
                 getApi().getTime(),
+                isAutoRetryAfterRatelimit()
+        );
+    }
+
+    /**
+     * Returns the yield vault information
+     * @return {@link YieldVault}
+     * @see <a href="https://api-docs.aevo.xyz/reference/getyieldvault">Aevo - GET Yield Vault</a>
+     */
+    public YieldVault getYieldVault() throws AevoRestException {
+        return execute(
+                getApi().getYieldVault(),
                 isAutoRetryAfterRatelimit()
         );
     }

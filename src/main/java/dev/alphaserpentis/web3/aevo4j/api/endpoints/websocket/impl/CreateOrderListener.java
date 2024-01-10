@@ -29,7 +29,6 @@ public class CreateOrderListener extends PrivateListener<CreatedOrder> {
             @Nullable Boolean mmp
     ) {
         super(
-                WebSocketOperations.CREATE_ORDER.getOperation(),
                 apiKey,
                 apiSecret,
                 isTestnet,
@@ -65,7 +64,6 @@ public class CreateOrderListener extends PrivateListener<CreatedOrder> {
             @NonNull SignedOrder signedOrder
     ) {
         super(
-                WebSocketOperations.CREATE_ORDER.getOperation(),
                 apiKey,
                 apiSecret,
                 isTestnet,

@@ -1,11 +1,23 @@
 package dev.alphaserpentis.web3.aevo4j.api.endpoints.rest;
 
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.AccountBody;
+import dev.alphaserpentis.web3.aevo4j.data.response.common.Index;
 import dev.alphaserpentis.web3.aevo4j.data.response.common.Option;
 import dev.alphaserpentis.web3.aevo4j.data.response.common.Orderbook;
-import dev.alphaserpentis.web3.aevo4j.data.response.common.Index;
-import dev.alphaserpentis.web3.aevo4j.data.response.rest.*;
 import dev.alphaserpentis.web3.aevo4j.data.response.common.Trade;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.CheckReferral;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.CoinGeckoStats;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Funding;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.FundingHistory;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.IndexHistory;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.InstrumentInfo;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.MarkHistory;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Markets;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.SettlementHistory;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Statistics;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Success;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Time;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.YieldVault;
 import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -135,6 +147,10 @@ public interface PublicEndpoints {
     @Headers("Content-Type: application/json")
     @GET("time")
     Single<Time> getTime();
+
+    @Headers("Content-Type: application/json")
+    @GET("yield-vault")
+    Single<YieldVault> getYieldVault();
 
     @Headers("Content-Type: application/json")
     @GET("options-history")
