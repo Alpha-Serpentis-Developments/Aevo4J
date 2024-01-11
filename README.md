@@ -14,7 +14,7 @@ Aevo is a decentralized derivatives exchange built on Ethereum.
 ## Features
 - Full coverage of the REST APIs and WebSockets
 - Automatic deserialization of responses into Java objects
-- Automatic authentication for private endpoints (REST APIs and WebSockets), if needed
+- Automatic authentication for private endpoints (REST APIs and WebSockets)
 - Orderbook checksum validator
 - Built-in order-signing for placing/editing orders
 
@@ -27,13 +27,13 @@ Aevo is a decentralized derivatives exchange built on Ethereum.
 <dependency>
     <groupId>dev.alphaserpentis.web3</groupId>
     <artifactId>aevo4j</artifactId>
-    <version>1.1.1</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 
 #### Gradle
 ```groovy
-implementation 'dev.alphaserpentis.web3:aevo4j:1.1.1'
+implementation 'dev.alphaserpentis.web3:aevo4j:1.2.0'
 ```
 
 - - -
@@ -89,12 +89,7 @@ Alternatively, you can obtain the needed websockets from this table below:
 | SUBSCRIBE Positions       | [`PositionsListener`](src/main/java/dev/alphaserpentis/web3/aevo4j/api/endpoints/websocket/impl/PositionsListener.java)             | Private  |
 
 ### Authentication
-To use the private web sockets, it requires that they're authenticated as well. This can be done by either:
-
-- Authorizing per Request
-- Authorizing on Connect
-
-This is assigned when either instantiating directly or via the `PrivateWebSockets` class under `authorizeOnConnect`.
+Requests using private websockets are automatically authenticated by the library.
 
 - - -
 ## Order Signing

@@ -2,6 +2,8 @@ package dev.alphaserpentis.web3.aevo4j.data.response.common;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Map;
+
 @SuppressWarnings("unused")
 public class Position {
     @SerializedName("instrument_id")
@@ -34,6 +36,31 @@ public class Position {
     private double isolatedMargin;
     @SerializedName("leverage")
     private double leverage;
+    @SerializedName("triggers")
+    private Map<String, Trigger> triggers;
+
+    public static class Trigger {
+        @SerializedName("order_id")
+        private String orderId;
+        @SerializedName("trigger")
+        private double trigger;
+
+        public String getOrderId() {
+            return orderId;
+        }
+
+        public double getTrigger() {
+            return trigger;
+        }
+
+        @Override
+        public String toString() {
+            return "Trigger{" +
+                    "orderId='" + orderId + '\'' +
+                    ", trigger=" + trigger +
+                    '}';
+        }
+    }
 
     public long getInstrumentId() {
         return instrumentId;

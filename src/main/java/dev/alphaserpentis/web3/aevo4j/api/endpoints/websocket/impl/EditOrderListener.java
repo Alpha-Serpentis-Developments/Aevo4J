@@ -14,8 +14,8 @@ public class EditOrderListener extends PrivateListener<EditedOrder> {
     public EditOrderListener(
             @NonNull String apiKey,
             @NonNull String apiSecret,
-            boolean authorizeOnConnect,
             boolean isTestnet,
+            @NonNull String orderId,
             long instrumentId,
             @NonNull String maker,
             boolean isBuy,
@@ -29,11 +29,9 @@ public class EditOrderListener extends PrivateListener<EditedOrder> {
             @Nullable Boolean mmp
     ) {
         super(
-                WebSocketOperations.EDIT_ORDER.getOperation(),
                 apiKey,
                 apiSecret,
                 isTestnet,
-                authorizeOnConnect,
                 EditedOrder.class,
                 null
         );
@@ -51,6 +49,7 @@ public class EditOrderListener extends PrivateListener<EditedOrder> {
                                 Objects.requireNonNullElse(timestamp, Instant.now().getEpochSecond()),
                                 signature
                         )
+                                .orderId(orderId)
                                 .postOnly(postOnly)
                                 .timeInForce(timeInForce)
                                 .mmp(mmp)
@@ -62,16 +61,13 @@ public class EditOrderListener extends PrivateListener<EditedOrder> {
     public EditOrderListener(
             @NonNull String apiKey,
             @NonNull String apiSecret,
-            boolean authorizeOnConnect,
             boolean isTestnet,
             @NonNull SignedOrder signedOrder
     ) {
         super(
-                WebSocketOperations.EDIT_ORDER.getOperation(),
                 apiKey,
                 apiSecret,
                 isTestnet,
-                authorizeOnConnect,
                 EditedOrder.class,
                 null
         );

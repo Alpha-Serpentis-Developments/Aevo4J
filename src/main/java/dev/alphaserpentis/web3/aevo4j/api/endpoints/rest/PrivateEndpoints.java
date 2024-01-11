@@ -14,7 +14,10 @@ import dev.alphaserpentis.web3.aevo4j.data.request.rest.RFQsBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.RegisterBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.ResetMmpBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.SigningKeyBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.StratInitWithdrawBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.StratPendingTxsBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.StrategyWithdrawBody;
+import dev.alphaserpentis.web3.aevo4j.data.request.rest.SwapBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.TransferBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.UpdateMarginBody;
 import dev.alphaserpentis.web3.aevo4j.data.request.rest.WithdrawBody;
@@ -40,9 +43,13 @@ import dev.alphaserpentis.web3.aevo4j.data.response.rest.RFQBlocks;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralRewardsHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.ReferralStatistics;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.StratPendingTX;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.Success;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.Swap;
+import dev.alphaserpentis.web3.aevo4j.data.response.rest.SwapPreview;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.TradeHistory;
 import dev.alphaserpentis.web3.aevo4j.data.response.rest.TransactionHistory;
+import io.reactivex.rxjava3.annotations.Experimental;
 import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -221,6 +228,15 @@ public interface PrivateEndpoints {
     );
 
     @Headers("Content-Type: application/json")
+    @POST("account/margin-type")
+    Single<?> postMarginType(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY") String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret
+    );
+
+    @Headers("Content-Type: application/json")
     @POST("account/leverage")
     Single<Success> postAccountLeverage(
             @Header("AEVO-TIMESTAMP") String aevoTimestamp,
@@ -249,6 +265,7 @@ public interface PrivateEndpoints {
             @Body WithdrawBody body
     );
 
+    @Experimental
     @Headers("Content-Type: application/json")
     @POST("strategy/withdraw")
     Single<Success> postStrategyWithdraw(
@@ -257,6 +274,27 @@ public interface PrivateEndpoints {
             @Header("AEVO-KEY") String aevoKey,
             @Header("AEVO-SECRET") String aevoSecret,
             @Body StrategyWithdrawBody body
+    );
+
+    @Headers("Content-Type: application/json")
+    @POST("strategy/initiate-withdraw")
+    Single<Success> postStrategyInitiateWithdraw(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body StratInitWithdrawBody body
+    );
+
+    @Experimental
+    @Headers("Content-Type: application/json")
+    @POST("strategy/pending-transactions")
+    Single<StratPendingTX> postStrategyPendingTransactions(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body StratPendingTxsBody body
     );
 
     @Headers("Content-Type: application/json")
@@ -542,5 +580,25 @@ public interface PrivateEndpoints {
             @Header("AEVO-SECRET") String aevoSecret,
             @Path("quote_id") String quoteId,
             @Body QuotesBody body
+    );
+
+    @Headers("Content-Type: application/json")
+    @POST("swap")
+    Single<Swap> postSwap(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body SwapBody body
+    );
+
+    @Headers("Content-Type: application/json")
+    @POST("swap/preview")
+    Single<SwapPreview> postSwapPreview(
+            @Header("AEVO-TIMESTAMP") String aevoTimestamp,
+            @Header("AEVO-SIGNATURE") String aevoSignature,
+            @Header("AEVO-KEY")  String aevoKey,
+            @Header("AEVO-SECRET") String aevoSecret,
+            @Body SwapBody body
     );
 }

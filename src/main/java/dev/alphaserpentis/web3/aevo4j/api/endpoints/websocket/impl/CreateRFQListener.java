@@ -13,17 +13,14 @@ public class CreateRFQListener extends PrivateListener<CreatedRFQ> {
     public CreateRFQListener(
             @NonNull String apiKey,
             @NonNull String apiSecret,
-            boolean authorizeOnConnect,
             boolean isTestnet,
             long instrumentId,
             @NonNull String amount
     ) {
         super(
-                WebSocketOperations.CREATE_RFQ.getOperation(),
                 apiKey,
                 apiSecret,
                 isTestnet,
-                authorizeOnConnect,
                 CreatedRFQ.class,
                 null
         );
